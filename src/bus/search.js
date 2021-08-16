@@ -7,6 +7,7 @@ import Tabledata from '../user/tabledata';
 import bushistoryjson from '../bushistory.json'
 import { element } from 'prop-types';
 let date
+let bushistorydata =bushistoryjson
 class Search extends React.Component{
     constructor(){
         super();
@@ -71,10 +72,17 @@ class Search extends React.Component{
         const tovalue= this.state.tovalue;
         const userpass = this.props.userpass
         const usermobile = this.props.usermobile
-        const id = usermobile
-        const userid =id+1
-        console.log(userpass)
-        console.log(usermobile)
+        
+        let previd ,prevuserid
+        bushistorydata.userbusbooking.filter((element)=>{
+            previd=parseInt(element.id)
+            prevuserid=element.userid
+
+        })
+        const id = previd+1
+        const userid =prevuserid+1
+        // console.log(userpass)
+        // console.log(usermobile)
        
         return(
           <div>
@@ -97,6 +105,7 @@ class Search extends React.Component{
           {this.state.button ? <Tabledata id ={id} userid={userid} date={date} usermobile={usermobile} userpass={userpass} value={value} tovalue={tovalue}/>:null}
         </div>
         )
+     
     }
 }
 

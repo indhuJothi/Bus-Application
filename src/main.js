@@ -28,7 +28,7 @@ class Page extends React.Component{
         return(
             <>
              <RouteTable isuserlogin={isuserlogin.bind(this)} />
-             <Main username={userloggedin} />
+             {/* <Main username={userloggedin} /> */}
             
             
             </>

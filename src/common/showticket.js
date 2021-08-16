@@ -111,7 +111,7 @@ console.log(selectseats)
                       <label for='name'>Passenger Name:<input class='inputname'  type='text' name='name' onChange={this.handlechange}/></label>
                       <div className="radio">
           <label>
-            <input
+            <input  class='radio'
               type="radio"
               value="Male"
               checked={this.state.selectedOption === "Male"}
@@ -119,8 +119,8 @@ console.log(selectseats)
             />
             Male
           </label>
-          <label>
-            <input
+          <label >
+            <input   class='radio'
               type="radio"
               value="Female"
               checked={this.state.selectedOption === "Female"}
@@ -143,7 +143,7 @@ console.log(selectseats)
     <Link to='/'></Link>
   <Link to='/ticket'/>
  <Route path='/'><Redirect to='/ticket'></Redirect></Route>
-   <Route path="/ticket" render={() => <Ticket fare={fare}/>} /></Router> : null}
+   <Route path="/ticket" render={() => <Ticket fare={amnt}/>} /></Router> : null}
             </div>
         )
     }

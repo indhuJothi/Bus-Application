@@ -14,17 +14,24 @@ import ShowTicket from './showticket';
 import Menu from './route';
 import BookTicket from './bookticket';
 import Table from './newtable';
+import { usercontext } from '../context';
 
 let data,logintrue
+let user, pas
+
+
+
 class RouteTable extends Component {
 
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
 		{
 			this.state={
         user:" ",
-        pass:" ",
-        getvalue:false
+        pas:" ",
+        username:" ",
+        getvalue:false,
+        useremail:" "
       }
 			
 		}
@@ -32,18 +39,30 @@ class RouteTable extends Component {
        
         this.isuserlogin=this.isuserlogin.bind(this)
         this.isuserpass = this.isuserpass.bind(this)
+        this.isusername = this.isusername.bind(this)
+        this.isuseremail=this.isuseremail.bind(this)
 
 	}
+  isusername(val)
+  {
+    this.setState({
+      username:val
+    })
+  }
 
+isuseremail(val)
+{
+  this.setState({
+    useremail:val
+  })
+}
   isuserlogin(val)
   {
      this.setState({
        user:val
-       
-     })
-     console.log(val)
+       })
     
-
+     console.log(val)
   }
   isuserpass(val)
   {
@@ -53,7 +72,8 @@ class RouteTable extends Component {
     })
     console.log(val)
   }
-    givetabledatas(val)
+   
+  givetabledatas(val)
     {
         data = val
     }
@@ -62,15 +82,15 @@ render() {
    let toprint = this.props.isuserlogin
    let  isuserlogin = this.isuserlogin
    let isuserpass=this.isuserpass
+   let isusername=this.isusername
+   let isuseremail=this.isuseremail
    let getvalue = this.state.getvalue
-   let user = this.state.user
-   let pas = this.state.pas
-
-  
- 
- 
- 
-	return (
+   user = this.state.user
+   pas = this.state.pas
+   let username=this.state.username
+   let useremail=this.state.useremail
+console.log(username)
+  return (
         <div>
            { getvalue ? toprint(true): false }
             <div>
@@ -83,10 +103,13 @@ render() {
            <Link class='link' to='/ticket-book'></Link>
            <Link class='link' to='/ticket'/>
            <Route exact path='/'  ><Redirect to='/login'/></Route>
-           <Route path="/login" render={() => <App isuserlogin={isuserlogin.bind(this)} isuserpass={isuserpass.bind(this)}  />} />
- 
-           <Route path="/search" render={() => <Menu usermobile={user} userpass={pas} />} />
-           <Route path="/book-ticket" render={() => <Search usermobile={user} userpass={pas} />} />
+           <Route path="/login" render={() => <App isuseremail={isuseremail.bind(this)} isusername={isusername.bind(this)} isuserlogin={isuserlogin.bind(this)} isuserpass={isuserpass.bind(this)}  />} />
+            
+           <Route path="/search" render={() => 
+            
+            <Menu usermobile={user} useremail={useremail} userpass={pas} username={username}  />
+            } />
+           <Route path="/book-ticket" render={() => <Search username={username} usermobile={user} userpass={pas} />} />
            <Route path='/ticket'render={() => <Ticket usermobile={user} userpass={pas} />}/>
             
             </div>
@@ -98,5 +121,7 @@ render() {
 );
 }
 }
+
+
 
 export default RouteTable

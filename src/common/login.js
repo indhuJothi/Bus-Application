@@ -4,9 +4,12 @@ import './logreg.css'
 import validatelogin  from '../service/service' ;
 import { getpassword } from "../service/service";
 import { getmobile } from "../service/service";
+import { getusername } from "../service/service";
+import { getuseremail } from "../service/service";
 import { Link, Redirect, Route, Router, Switch } from "react-router-dom";
 import Search from "../bus/search";
 // let boolean
+let username,useremail
  export class Login extends React.Component {
   constructor(props) {
    
@@ -19,7 +22,9 @@ import Search from "../bus/search";
       showapp : this.props.prop,
       res : false,
       mobileerr:"",
-      passerr:""
+      passerr:"",
+      username:" ",
+      useremail:" "
       
      
     }
@@ -47,13 +52,15 @@ import Search from "../bus/search";
             e.preventDefault()
            
          result= validatelogin (this.state.mobile,this.state.password)
-        // console.log(result)
+       
+       
       if(result){
          this.setState(
              {
                boolean:true,
                logform:false,
                res : true,
+               
                
              }
             
@@ -62,6 +69,8 @@ import Search from "../bus/search";
        
           }
         password =getpassword(this.state.mobile,this.state.password)
+      
+       
         if(password!=this.state.password)
         {
             this.setState(
@@ -102,15 +111,20 @@ import Search from "../bus/search";
     let hideapp = this.props.prop
     let getuser = this.props.getuser
     let getuserpass=this.props.getuserpass
+    username =getusername(this.state.mobile)
+    useremail=getuseremail(this.state.mobile)
+    console.log(useremail)
     let res = this.state.res
    let isuserlogin=this.props.isuserlogin
+
     return (
 
      <div>
     {res ? hideapp(false): null}
-    {res?getuser(this.state.mobile):null}
+    {res?getuser(this.state.mobile,username,useremail):null}
     {res?getuserpass(this.state.password):null}
-    {/* {res?isuserlogin(true):null} */}
+    
+ 
     <form onSubmit={this.submit}>
       <div className="base-container">
         <div className="formheader">Login</div>

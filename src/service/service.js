@@ -73,6 +73,26 @@ export function getemail(mobilenum,valpassword,email){
         }  ) 
       return jsonemail
    }
+   export function getusername(mobilenum){
+      let username
+      jsondata.user.filter((element)=>{
+         if(element.mobile===parseInt(mobilenum))
+         {
+            username = element.name
+         }
+      })
+      return username
+   }
+   export function getuseremail(mobilenum){
+      let useremail
+      jsondata.user.filter((element)=>{
+         if(element.mobile===parseInt(mobilenum))
+         {
+            useremail=element.email
+         }
+      })
+      return useremail
+   }
 export function getbusdetails(from,to){
       let busdatas=[]
       busjson.bus.filter((element)=>{

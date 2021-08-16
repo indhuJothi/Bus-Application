@@ -32,11 +32,11 @@ class Ticket extends React.Component{
               
           })}
          Booking Details
-         <p>Userbookingid:{userbookingid}</p>
-         <p>Name:{name}</p>
-         <p>Mobile{mobile}</p>
-         <p>Seatno:{stno}</p>
-         <p>Fare{fare}</p>
+         <p>Userbookingid: {userbookingid}</p>
+         <p>Name: {name}</p>
+         <p>Mobile: {mobile}</p>
+         <p>Seatno: {stno}</p>
+         <p>Fare: {fare}</p>
          <button onClick={this.submit} > proceed to pay</button>
          </p>:null}
       

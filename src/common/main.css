@@ -34,7 +34,15 @@
 }
 
 .signuplogo{
-    width: 50px;
+    width: 40px;
     position: relative;
 }
 
+.username{
+    color: black;
+    size: 1px;
+}
+
+.profile{
+    margin: 200px 230px;
+}

@@ -3,11 +3,14 @@ import "./logreg.css";
 import {Signup } from "./index";
 import { Login } from "./login";
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+import { usercontext } from "../context";
 import Menu from "../bus/search";
 
-
+let mobileno,pass,username
 class App extends React.Component{
+   
   constructor(props)
+  
   {
     super(props);
     {
@@ -15,7 +18,10 @@ class App extends React.Component{
        isLogin : true,
        hideapp:true,
        mobileno:" ",
-       pass:" "
+       pass:" ",
+       username:" ",
+       useremail:" "
+      
        }
     this.handle =this.handle.bind(this)
     this.handleSignup=this.handleSignup.bind(this)
@@ -24,9 +30,11 @@ class App extends React.Component{
     this.getuserpass=this.getuserpass.bind(this)
    
    
+   
   }
  
   }
+
   showapp(value){
     this.setState(
       {
@@ -34,11 +42,17 @@ class App extends React.Component{
       }
     )
   }
-  getusermobile(val){
+  getusermobile(val,val1,val3){
     this.setState({
-      mobileno:val
+      mobileno:val,
+      username :val1,
+      useremail:val3
+      
     })
+   
     
+    console.log(username)
+    console.log(this.state.useremail)
   }
   getuserpass(val){
     this.setState({
@@ -64,7 +78,14 @@ class App extends React.Component{
       }
     )
   }
-
+componentDidMount()
+{
+  this.setState({
+  user:{
+     userid: this.state.mobile,
+     pass :this.state.pass
+  }})
+}
 
   render(){
     const isLogin = this.state.isLogin
@@ -72,10 +93,17 @@ class App extends React.Component{
     const hideapp = this.state.hideapp
     const isuserlogin= this.props.isuserlogin
     const isuserpass = this.props.isuserpass
+    const isusername=this.props.isusername
+    const isuseremail=this.props.isuseremail
     const getusermobile = this.getusermobile
     const getuserpass= this.getuserpass
-    const mobileno = this.state.mobileno
-    const pass = this.state.pass
+
+    username=this.state.username
+    mobileno = this.state.mobileno
+    pass =this.state.pass
+    let useremail=this.state.useremail
+    
+   
 
   
 
@@ -88,28 +116,24 @@ class App extends React.Component{
      <button onClick ={this.handleSignup} class="button">Signup</button>
      <div >
      { isLogin? <Login prop={showapp.bind(this)} getuser={getusermobile.bind(this)} getuserpass={this.getuserpass.bind(this)}/>:<Signup/>}
-     {/* <Router>
-       <ul>
-         <li><Link to='/signup'>Signup </Link> </li> </ul>
-       <Switch><Route exact path='/signup' component={Signup}></Route></Switch>
-       </Router> */}
-       {/* <a href={<Signup/>}>Signup</a> */}
-       {/* {isSignup ?<Signup/>: <Login/>} */}
-     {hideapp? null : isuserlogin(mobileno,pass)}
+      
    
      </div>
      </div> 
      {hideapp ? null : 
+  
      <Redirect to='/search'></Redirect>}
- 
+   
    
      {hideapp? null:isuserlogin(mobileno)}
      {hideapp? null:isuserpass(pass)}
-     
+     {hideapp? null:isusername(username)}
+     {hideapp? null:isuseremail(useremail)}
+    
       </div>
    
 
-      
+
      
     )
   }
