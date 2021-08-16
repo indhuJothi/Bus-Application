@@ -1,0 +1,24 @@
+{
+    "user":[
+        {
+            "email" : "indhu99.p@gmail.com",
+            "mobile": 7339467878,
+            "password":"indhu@99"
+        },
+        {
+            "email" : "anitha@gmail.com",
+            "mobile": 7339467979,
+            "password":"indhu@99"
+        },
+        {
+            "email" : "charanya@gmail.com",
+            "mobile": 7339467879,
+            "password":"indhu@99"
+        },
+        {
+            "email" : "snehapriya.com",
+            "mobile": 7339467880,
+            "password":"indhu@99"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+.finalticket{
+    width: 380px;
+    background-color:honeydew;
+    margin: 100px 450px;
+  
+
+
+}
+.passengerform{
+    
+    border: 1px solid grey;
+    padding: 2px;
+}
+
+.radio{
+    font-size: 1px;
+}
+.inputname{
+    margin: 8px 15px;
+    width: 20px;
+    text-align: center;
+    justify-content: center;
+
+}
+.seatno{
+    font-size: large;
+    color: black;
+    font-weight: bold;
+    margin-left: 60%;
+    
+}
+
+.submit{
+    margin:6px 50px;
+    width:2%;
+    padding: 0px 2px;
+    background-color:grey;
+}
