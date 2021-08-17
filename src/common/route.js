@@ -1,17 +1,15 @@
-import React, { Component, useContext } from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
-import App from "./App";
 import Search from '../bus/search'
 import Historytable from '../user/historytable';
 import './route.css'
 import Main from './main';
-import Ticket from './ticket';
 import { usercontext } from '../context'
 
-
 class Menu extends Component {
-	
-	constructor(){
+	static contextType = usercontext
+	constructor()
+	{
 		super()
 		{
 			this.state={
@@ -19,77 +17,52 @@ class Menu extends Component {
 				isshowsearch:true
 			 }
 			this.hide= this.hide.bind(this)
-			}
-			// this.isporfile=this.isprofile.bind(this)
+		}
 	}
-	hide(){
+   hide(){
 		this.setState({
 			center:false
 		})
 	}
-	// isprofile(val)
-	// {
-    //    let res =val
-	//    if(res===false)
-
-	//    {
-    //       this.setState({
-	// 		  isshowsearch:false
-	// 	  })
-	//    }
-	// }
-render() {
 	
-	let prop = this.props.value
+  render() {
 	let usermobile= this.props.usermobile
 	let userpass= this.props.userpass
 	let username =this.props.username
-	let useremail=this.props.useremail
-	// let isprofile=this.isprofile
-	// let isshowsearch=this.state.isshowsearch
-	
-	let userdet ={
+	let useremail=this.props.useremail	
+    let userdet ={
 		user :username,
 		mobile:usermobile,
 		password :userpass,
 		email : useremail
-	
-	}
+        }
 	console.log(userdet)
-
-	console.log(usermobile)
+    console.log(usermobile)
 	console.log(userpass)
 	console.log(username)
-	
-	return (
-    
-        <div>
-
-            <div><div className="App">
-	        <Router>
-	        <ul >
-                    <li class='li'><Link  class='link' to='/'></Link></li>
-                    <li class='li'><Link class='link' to='/book-ticket'>Bookticket</Link></li>
-					<li class='li'><Link  class='link' to='/book-history'>User History</Link></li>
-             </ul>
-                <Switch>
-                <Route exact path='/'></Route>
-				<Route path="/book-ticket" render={() => <Search usermobile={usermobile} userpass={userpass} />} />
-				<Route exact path='/book-history' component={Historytable}></Route>
-				</Switch>
-				</Router>
-			
-			</div>
-			
-    </div>
+  return (
+	<div>
+      <div>
+	  <div className="App">
+	<Router>
+	   <ul >
+         <li class='li'><Link class='link' to='/book-ticket'>Bookticket</Link></li>
+		 <li class='li'><Link  class='link' to='/book-history'>User History</Link></li>
+        </ul>
+        <Switch>
+            <Route exact path="/book-ticket" render={() => 
+			   <usercontext.Provider value={userdet} ><Search/> </usercontext.Provider>} />
+			<Route exact path='/book-history' component={Historytable}></Route>
+		</Switch>
+	 </Router>		
+		</div>
+   </div>
 	<usercontext.Provider value={userdet} >
-		 <Main  username={username} userpass={userpass} useremail={useremail} usermobile={usermobile}/>	
-		
+	 <Main/>		
 	</usercontext.Provider>
-
-    </div>
-);
-}
+  </div>
+  );
+ }
 }
 
 export default Menu

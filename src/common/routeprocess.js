@@ -3,24 +3,13 @@ import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-ro
 import App from "./App";
 import Search from '../bus/search'
 import Ticket from './ticket';
-import Historytable from '../user/historytable';
-
-// import './route.css'
-
-import Main from './main';
-
-import Tabledata from '../user/tabledata';
-import ShowTicket from './showticket';
 import Menu from './route';
-import BookTicket from './bookticket';
-import Table from './newtable';
+import Tabledata from '../user/tabledata';
 import { usercontext } from '../context';
-
-let data,logintrue
-let user, pas
+import Profile from './userprofile';
 
 
-
+let user, pas,data
 class RouteTable extends Component {
 
 	constructor(props){
@@ -89,18 +78,24 @@ render() {
    pas = this.state.pas
    let username=this.state.username
    let useremail=this.state.useremail
+   let userdet ={
+		user :username,
+		mobile:user,
+		password :pas,
+		email : useremail
+        }
 console.log(username)
   return (
-        <div>
-           { getvalue ? toprint(true): false }
+ <div>
+     { getvalue ? toprint(true): false }
             <div>
-	      <Router>
-		<div>
+	   <Router>
+		    <div>
            <Link class='link' to="/" onClick={this.hide}></Link>
 		   <Link class='link' to="/login" onClick={this.hide}></Link>
            <Link class='link' to='/search'></Link>
-           <Link class='link' to='/book-seat'></Link>
-           <Link class='link' to='/ticket-book'></Link>
+           <Link class='link' to='/bookticket'></Link>
+           <Link class="profile" to="/profile"></Link>
            <Link class='link' to='/ticket'/>
            <Route exact path='/'  ><Redirect to='/login'/></Route>
            <Route path="/login" render={() => <App isuseremail={isuseremail.bind(this)} isusername={isusername.bind(this)} isuserlogin={isuserlogin.bind(this)} isuserpass={isuserpass.bind(this)}  />} />
@@ -109,14 +104,16 @@ console.log(username)
             
             <Menu usermobile={user} useremail={useremail} userpass={pas} username={username}  />
             } />
-           <Route path="/book-ticket" render={() => <Search username={username} usermobile={user} userpass={pas} />} />
-           <Route path='/ticket'render={() => <Ticket usermobile={user} userpass={pas} />}/>
+           <Route path="/bookticket" render={() => <usercontext.Provider value={userdet}><Search/></usercontext.Provider>} />
+           <Route path="/tabledata" render={()=><Tabledata/>}/>
+           <Route path="/profile" render={()=><usercontext.Provider value={userdet}><Profile/></usercontext.Provider>}/>
+           <Route path='/ticket'render={() => <Ticket />}/>
             
             </div>
-	</Router>
+	     </Router>
 
 
-    </div>
+     </div>
     </div>
 );
 }

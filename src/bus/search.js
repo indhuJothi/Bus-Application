@@ -2,13 +2,14 @@ import React from 'react'
 import Item from './listitems';
 import To from './to';
 import './search.css'
-// import TravelTable from './traveltabel';
 import Tabledata from '../user/tabledata';
 import bushistoryjson from '../bushistory.json'
-import { element } from 'prop-types';
+import {usercontext} from '../context'
 let date
 let bushistorydata =bushistoryjson
+let context
 class Search extends React.Component{
+    static contextType = usercontext
     constructor(){
         super();
         this.state={
@@ -32,12 +33,9 @@ class Search extends React.Component{
      this.setState ({
          
          value:e.target.value
-     
-        
-     })
-     
-
+    })
     }
+
     ShowtoValue(e)
     {
         this.setState({
@@ -47,7 +45,7 @@ class Search extends React.Component{
    
     date(e){
         this.setState({
-            // date :
+           
            visible : true
            
         })
@@ -67,12 +65,24 @@ class Search extends React.Component{
 
 
 
-    render(){   
+    render(){ 
+        context = this.context
+        let name=context.user  
         const value = this.state.value;
         const tovalue= this.state.tovalue;
-        const userpass = this.props.userpass
-        const usermobile = this.props.usermobile
-        
+        console.log(name)
+        let username = context.user
+        console.log(username)
+        let useremail=context.email
+        console.log(useremail)
+        let usermobile = context.mobile;
+        let userpass = context.password;
+        let userdet ={
+          user :username,
+          mobile:usermobile,
+          password :userpass,
+          email : useremail
+              }
         let previd ,prevuserid
         bushistorydata.userbusbooking.filter((element)=>{
             previd=parseInt(element.id)
@@ -81,32 +91,30 @@ class Search extends React.Component{
         })
         const id = previd+1
         const userid =prevuserid+1
-        // console.log(userpass)
-        // console.log(usermobile)
-       
-        return(
+    return(
           <div>
             
          {this.state.showsearch?<div class='searchContainer'>
-              <div class='FromCol'>
-                
-              <label > From <select  class='From'  value= {this.state.value} onChange={this.showSource}>
-                            <Item/>
-                     </select> 
-              </label> 
-                
-              <label> To <select   class='From' value= {this.state.tovalue} onChange={this.ShowtoValue}>
+        <div class='FromCol'>
+         <label > From <select  class='From'  value= {this.state.value} onChange={this.showSource}>
+               <Item/>
+            </select> 
+       </label> 
+      <label> To <select   class='From' value= {this.state.tovalue} onChange={this.ShowtoValue}>
                          <To/>
-                     </select> 
-             </label>
-            <label>Date<input type='date' class='frominput' placeholder = "Date" onChange={this.dateChange}></input> 
-           </label>  <button class='buttonclass' onClick={this.showTable}>Search</button></div>
-            </div>: null }
-          {this.state.button ? <Tabledata id ={id} userid={userid} date={date} usermobile={usermobile} userpass={userpass} value={value} tovalue={tovalue}/>:null}
-        </div>
-        )
-     
-    }
+       </select> 
+       </label>
+       <label>Date<input type='date' class='frominput' placeholder = "Date" onChange={this.dateChange}></input> 
+      </label>  <button class='buttonclass' onClick={this.showTable}>Search</button></div>
+       </div>: null }
+    {this.state.button ?
+        <usercontext.Provider value={context}>
+        <Tabledata id ={id} userid={userid} date={date} value={value} tovalue={tovalue}/>
+        </usercontext.Provider>:null}
+</div>
+   )
+  }
 }
+
 
 export default Search

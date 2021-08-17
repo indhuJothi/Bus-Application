@@ -2,11 +2,8 @@ import React from "react";
 import './logreg.css'
 import data from '../user.json'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
-import App from '../common/App'
-import { Login } from "./login";
-import Loginpage from "./loginpage";
+
 let pushdata
-let email,mobile,password
  export class Signup extends React.Component {
   
   constructor(props) {
@@ -94,16 +91,14 @@ let email,mobile,password
      }
      if((emailres) || (mobileres) ||(passwordres) ||(confirmpassres) === false)
      {
-        //  data.user.push(pushdata)
+        
          this.setState({
            res:false
          })
 
          alert("Registered successfully you can now login")
       
-        
-        
-     }
+    }
      else {
        alert("No")
      }
@@ -123,11 +118,11 @@ let email,mobile,password
    }
     
   render() {
+    let res=this.state.res
     console.log(data)
     return (
-      <div>
-       
-       {this.state.res? <form onSubmit={this.handlesubmit}>
+   <div>    
+  <form onSubmit={this.handlesubmit}>
       <div className="base-container">
         <div className="formheader">Signup</div>
           <div className="form">
@@ -156,15 +151,8 @@ let email,mobile,password
           <input type="submit" class="submitbtn"></input>
         </div>
       </div>
-      </form> :null}
-      {/* {this.state.res? null :
-        <Router>
-        <Link to='/'></Link>
-      <Link to='/login'/>
-     <Route path='/'><Redirect to='/login'></Redirect></Route>
-       <Route path="/login" render={() => <Login/>} /></Router>}  */}
-   
-      {/* {res ? <Loginpage/>:null } */}
+      </form> 
+     {res ? <Redirect to="/login"></Redirect>:null }
       </div>
     );
   }

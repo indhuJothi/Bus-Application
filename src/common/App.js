@@ -3,15 +3,14 @@ import "./logreg.css";
 import {Signup } from "./index";
 import { Login } from "./login";
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
-import { usercontext } from "../context";
-import Menu from "../bus/search";
 import logo from '../signlogo.jpg'
 import "./main.css"
 
+
 let mobileno,pass,username
 class App extends React.Component{
-   
-  constructor(props)
+  
+ constructor(props)
   
   {
     super(props);
@@ -30,33 +29,29 @@ class App extends React.Component{
     this.showapp = this.showapp.bind(this)
     this.getusermobile=this.getusermobile.bind(this)
     this.getuserpass=this.getuserpass.bind(this)
-   
-   
-   
   }
  
-  }
+}
 
-  showapp(value){
+  showapp(value)
+  {
     this.setState(
       {
       hideapp: value
       }
     )
   }
-  getusermobile(val,val1,val3){
+  getusermobile(val,val1,val3)
+  {
     this.setState({
       mobileno:val,
       username :val1,
       useremail:val3
       
     })
-   
-    
-    console.log(username)
-    console.log(this.state.useremail)
   }
-  getuserpass(val){
+  getuserpass(val)
+  {
     this.setState({
       pass:val
     })
@@ -72,7 +67,8 @@ class App extends React.Component{
          }
     )
   }
-  handleSignup(e){
+  handleSignup(e)
+  {
     e.preventDefault();
     this.setState(
       {
@@ -88,7 +84,6 @@ componentDidMount()
      pass :this.state.pass
   }})
 }
-
   render(){
     const isLogin = this.state.isLogin
     const showapp = this.showapp
@@ -99,59 +94,39 @@ componentDidMount()
     const isuseremail=this.props.isuseremail
     const getusermobile = this.getusermobile
     const getuserpass= this.getuserpass
-
     username=this.state.username
     mobileno = this.state.mobileno
     pass =this.state.pass
     let useremail=this.state.useremail
     
-   
-
-  
-
-     return(
-    
+ return(   
    <div>
-      <div class="body">
-               
-               <div class='header'>   
-               <span class='apptitle'>Bus Booking App</span> 
-              
-               </div> 
-                   
-                    <a class='logobut' >
-                       <button>
-                       <img src={logo}   class='signuplogo' ></img></button>
-                  
-                           <span class="username"></span>
-                             
-                            
-                       </a>
-                       </div>
+      <div class="body"> 
+        <div class='header'>   
+          <span class='apptitle'>Bus Booking App</span> 
+             </div>                  
+               <a class='logobut' >
+                 <button>
+                  <img src={logo}   class='signuplogo' ></img></button>
+                  <span class="username"></span> 
+              </a> 
+         </div>               
      <div class='MainContainer center'>
      <button onClick ={this.handle} class="button">Login</button>
      <button onClick ={this.handleSignup} class="button">Signup</button>
      <div >
      { isLogin? <Login prop={showapp.bind(this)} getuser={getusermobile.bind(this)} getuserpass={this.getuserpass.bind(this)}/>:<Signup/>}
-      
-   
+
      </div>
      </div> 
-     {hideapp ? null : 
-  
-     <Redirect to='/search'></Redirect>}
-   
-   
      {hideapp? null:isuserlogin(mobileno)}
      {hideapp? null:isuserpass(pass)}
      {hideapp? null:isusername(username)}
      {hideapp? null:isuseremail(useremail)}
-    
+     {hideapp ? null : 
+     <Redirect to='/search'></Redirect>}
       </div>
-   
-
-
-     
+      
     )
   }
 } 

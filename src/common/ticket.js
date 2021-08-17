@@ -1,7 +1,6 @@
 import React from "react"
 import userhistory from '../userhistory.json'
-import './ticket.css'
-import  Menu from './route'
+
 let userhitoryjson = userhistory
 let userbookingid,name,mobile,stno
 class Ticket extends React.Component{

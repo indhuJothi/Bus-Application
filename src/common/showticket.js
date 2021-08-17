@@ -2,20 +2,17 @@ import React from 'react'
 import './showticket.css'
 import userhitory from '../userhistory.json'
 import bushistory from '../bushistory.json'
-import {getfinaldata} from '../service/service'
 import Ticket from './ticket'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
-const  users ={
-    user:[
+import { usercontext } from '../context'
 
-    ]   
-}
 let userhitoryjson= userhitory
 let bushistoryjson = bushistory
 let userpushdetails,bushistorypushdetails
 console.log(userhitoryjson)
-let pushdetails
+
 class ShowTicket extends React.Component{
+  static contextType = usercontext
    constructor(props){
        super(props)
        { 
@@ -41,8 +38,6 @@ class ShowTicket extends React.Component{
          [age]:event.target.value,
         
         }
-         
-       
     )
  }
  onValueChange(event) {
@@ -65,25 +60,23 @@ class ShowTicket extends React.Component{
        bushistoryjson.userbusbooking.push(bushistorypushdetails)
        console.log(bushistoryjson)
      
-   }
-
-
+      }
     render(){
+    let context = this.context
     const seats = this.props.value
     const fare = this.props.fare
     const selectseats = this.props.value.length
+    let usermobile = context.mobile
     console.log(seats)
-    const usermobile = this.props.usermobile
     let id=this.props.id
     let userid=this.props.userid
     let data =this.props.data
     let amnt=selectseats*fare
     let date=this.props.date
     let busno=this.props.busno
-    
-    
+  
     userpushdetails= { 
-        userbusbookingid:id,
+          userbusbookingid:id,
            name :this.state.name,
            mobile:usermobile,
            seatnumber:seats.map(elem=> {return elem})
@@ -101,15 +94,14 @@ class ShowTicket extends React.Component{
        }
 console.log(selectseats)
   return(
-      <div class='finalticket'>
-          {  this.state.isbool?null:   <form class='passengerform' onSubmit={this.booked}>
-          
-                    <label><span class='seatno'>Seat No:{seats.map(element => {
+      <div >
+          {  this.state.isbool?null:  
+          <div class='finaltick'><form class='passengerform' onSubmit={this.booked}>
+           <label><span class='seatno'>Seat No:{seats.map(element => {
                          return element+" "
-                           
-                    })}</span><br/>
-                      <label for='name'>Passenger Name:<input class='inputname'  type='text' name='name' onChange={this.handlechange}/></label>
-                      <div className="radio">
+                   })}</span><br/>
+          <label for='name'>Passenger Name:<input class='inputname'  type='text' name='name' onChange={this.handlechange}/></label>
+         <div className="radio">
           <label>
             <input  class='radio'
               type="radio"
@@ -129,34 +121,21 @@ console.log(selectseats)
             Female
           </label>
         </div>
-                      <label for='age'>Age<input type='text' name='age' onChange={this.handlechange}  class='inputname' /></label>
-                      </label>
+       <label for='age'>Age<input type='text' name='age' onChange={this.handlechange}  class='inputname' /></label>
+      </label>
                    
-               TotalFare:{selectseats*fare} 
+      TotalFare:{selectseats*fare} 
         
-                 <input type='submit'  class='submit'/>
-              </form>}
-
-   {/* <Redirect to='/ticket'></Redirect>s */}
-   {this.state.isbool? 
-   <Router>
-    <Link to='/'></Link>
-  <Link to='/ticket'/>
- <Route path='/'><Redirect to='/ticket'></Redirect></Route>
-   <Route path="/ticket" render={() => <Ticket fare={amnt}/>} /></Router> : null}
-            </div>
+      <input type='submit'  class='submit'/>
+      </form></div> }
+  {this.state.isbool? 
+     <Router>
+      <Link to='/'></Link>
+      <Link to='/ticket'/>
+      <Route path='/'><Redirect to='/ticket'></Redirect></Route>
+      <Route path="/ticket" render={() => <Ticket fare={amnt}/>} /></Router> : null}
+        </div>
         )
     }
 }
-// class Ticket extends React.Component{
-
-//     render()
-//     {    let getdata=getfinaldata()
-//         return(
-//          <p>
-//             {getdata}
-//          </p>
-//         )
-//     }
-// }
 export default ShowTicket

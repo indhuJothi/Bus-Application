@@ -45,8 +45,6 @@ this.setState({
   let seats,fare
   let id=this.props.id
   let userid=this.props.userid
-  let usermobile = this.props.usermobile
-  let userpass = this.props.userpass
   let date= this.props.date
   let busno 
   console.log(date)
@@ -54,8 +52,7 @@ this.setState({
            seats= element.NoOfSeats
            fare =element.fare
            busno=element.busno
-
-           return data
+            return data
   })
   console.log(busno)
   console.log(seats)
@@ -75,28 +72,28 @@ this.setState({
         return <label class="main"><input type="checkbox" value={element+1} onClick={this.getvalue}/><span class="checkmark">{element+1}</span></label>
        else
         return<label class="main"><input type="checkbox" checked="checked" value={element+1} onClick={this.getvalue}/><span class="checkmark">{element+1}</span></label>
-        
-      }
- 
-          )}
-           <button type='submit' class="seatbutton"  onClick={this.validate}>Book Seats</button>
-           </div> : null}
-      {this.state.showticket? <Router>
-    <Link to='/'></Link>
-  <Link to='/show-ticket'/>
- <Route path='/'><Redirect to='/show-ticket'></Redirect></Route>
-   <Route path="/show-ticket" render={() => <ShowTicket 
-   busno={busno} 
-   data={data} 
-   date={date} 
-   usermobile={usermobile} 
-   userpass={userpass} 
-   fare={fare}
-    value={arr}
-    id={id} 
-    userid={userid}/>} /></Router> : null}
-      
-       </div>)}}
+        }
+     )}
+        <button type='submit' class="seatbutton"  onClick={this.validate}>Book Seats</button>
+        </div> : null}
+        {this.state.showticket? <Router>
+        <Link to='/'></Link>
+        <Link to='/show-ticket'/>
+        <Route path='/'><Redirect to='/show-ticket'></Redirect></Route>
+        <Route path="/show-ticket" render={() => <ShowTicket 
+        busno={busno} 
+        data={data} 
+        date={date} 
+        fare={fare}
+        value={arr}
+        id={id} 
+        userid={userid}/>
+        } />
+        </Router> : null}
+     </div>
+   )
+  }
+}
     
 
 

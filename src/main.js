@@ -1,7 +1,6 @@
 import React from 'react'
-import Main from './common/main'
-import Menu from './common/route'
 import RouteTable from './common/routeprocess'
+
 let userloggedin 
 class Page extends React.Component{
     constructor(props)
@@ -24,13 +23,10 @@ class Page extends React.Component{
     render(){
 
         let isuserlogin = this.isuserlogin
-        let userloggedin = this.state.userloggedin
+     
         return(
             <>
              <RouteTable isuserlogin={isuserlogin.bind(this)} />
-             {/* <Main username={userloggedin} /> */}
-            
-            
             </>
         )
     }

@@ -10,14 +10,9 @@ class To extends Component {
   render() {
     return (
       <React.Fragment>
-        
-          {/* {this.state.listitems.map(listitem => (
-            <li class="fromListItems" value={listitem} >{listitem}</li>
-          ))} */}
-          {Tolist.map((to) => (
-          
-          <option  value={to.value}> {to===' '? " " : to}</option>
-                ))} 
+        {Tolist.map((to) => (
+        <option  value={to.value}> {to===' '? " " : to}</option>
+         ))} 
       </React.Fragment>
     );
   }

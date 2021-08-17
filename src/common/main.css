@@ -1,5 +1,5 @@
 .body{
-  /* background-color: #333; */
+ 
   position: fixed; 
   top: 0; 
   text-align: center;
@@ -13,7 +13,8 @@
     position:absolute;
     height:55px;
     text-align: center;
-    justify-content: center;    overflow: hidden;
+    justify-content: center;    
+    overflow: hidden;
 }
 .apptitle{
     
