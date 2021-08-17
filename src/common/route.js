@@ -15,16 +15,29 @@ class Menu extends Component {
 		super()
 		{
 			this.state={
-				center : true
+				center : true,
+				isshowsearch:true
 			 }
 			this.hide= this.hide.bind(this)
 			}
+			// this.isporfile=this.isprofile.bind(this)
 	}
 	hide(){
 		this.setState({
 			center:false
 		})
 	}
+	// isprofile(val)
+	// {
+    //    let res =val
+	//    if(res===false)
+
+	//    {
+    //       this.setState({
+	// 		  isshowsearch:false
+	// 	  })
+	//    }
+	// }
 render() {
 	
 	let prop = this.props.value
@@ -32,6 +45,8 @@ render() {
 	let userpass= this.props.userpass
 	let username =this.props.username
 	let useremail=this.props.useremail
+	// let isprofile=this.isprofile
+	// let isshowsearch=this.state.isshowsearch
 	
 	let userdet ={
 		user :username,
@@ -50,13 +65,8 @@ render() {
     
         <div>
 
-				
-					 
-            	<Search  usermobile={usermobile} userpass={userpass} />
             <div><div className="App">
 	        <Router>
-
-			
 	        <ul >
                     <li class='li'><Link  class='link' to='/'></Link></li>
                     <li class='li'><Link class='link' to='/book-ticket'>Bookticket</Link></li>
@@ -66,17 +76,17 @@ render() {
                 <Route exact path='/'></Route>
 				<Route path="/book-ticket" render={() => <Search usermobile={usermobile} userpass={userpass} />} />
 				<Route exact path='/book-history' component={Historytable}></Route>
+				</Switch>
+				</Router>
 			
-                </Switch>
-				
-            </Router>
 			</div>
-
+			
     </div>
 	<usercontext.Provider value={userdet} >
-		 <Main />	
+		 <Main  username={username} userpass={userpass} useremail={useremail} usermobile={usermobile}/>	
 		
 	</usercontext.Provider>
+
     </div>
 );
 }

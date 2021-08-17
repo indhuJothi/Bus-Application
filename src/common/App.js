@@ -5,6 +5,8 @@ import { Login } from "./login";
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 import { usercontext } from "../context";
 import Menu from "../bus/search";
+import logo from '../signlogo.jpg'
+import "./main.css"
 
 let mobileno,pass,username
 class App extends React.Component{
@@ -110,8 +112,23 @@ componentDidMount()
      return(
     
    <div>
-
- <div class='MainContainer center'>
+      <div class="body">
+               
+               <div class='header'>   
+               <span class='apptitle'>Bus Booking App</span> 
+              
+               </div> 
+                   
+                    <a class='logobut' >
+                       <button>
+                       <img src={logo}   class='signuplogo' ></img></button>
+                  
+                           <span class="username"></span>
+                             
+                            
+                       </a>
+                       </div>
+     <div class='MainContainer center'>
      <button onClick ={this.handle} class="button">Login</button>
      <button onClick ={this.handleSignup} class="button">Signup</button>
      <div >

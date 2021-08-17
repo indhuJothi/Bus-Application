@@ -115,7 +115,8 @@ let email,mobile,password
     pushdata = {
       email: this.state.email,
       mobile:parseInt(this.state.mobile),
-      password:this.state.password
+      password:this.state.password,
+      name:"Jothi"
     }
      data.user.push(pushdata)
      console.log(data)
@@ -123,11 +124,6 @@ let email,mobile,password
     
   render() {
     console.log(data)
-  
-    // let emailerr = this.state.emailerr
-    // let mobileerr = this.state.mobileerr
-    // let passerr = this.state.passerr
-    // let confirmpasserr = this.state.confirmPasserr
     return (
       <div>
        

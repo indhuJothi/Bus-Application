@@ -8,6 +8,8 @@ import Historytable from '../user/historytable';
 import Search from '../bus/search';
 import { usercontext } from '../context';
 import Profile from './userprofile'
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 
 function Main(props){
     // constructor(props){
@@ -45,39 +47,66 @@ function Main(props){
     //         tr:true
     //     })
     // }
+
     // render(){
         let context = useContext(usercontext)
-        let user= props.user
-        console.log(user)
-        console.log(context)
-        // let tr = state.tr
+        let usermobile= props.usermobile
+        let userpass= props.userpass
+        let username =props.username
+        let useremail=props.useremail
+        let isprofile=props.isprofile
+        // console.log(username)
+        // console.log(context)
+       
         let pass = props.pass
         let show =props.getvalue
-        console.log(context.user)
-        let profile =false
-        function showprofile()
-        {
-        return <Profile/>
+        // console.log(context.user)
+        let prof =false
+        let userdet ={
+            user :context.user,
+            mobile:context.mobile,
+            password: context.password,
+            email :context.email
+        
         }
-        console.log(profile)
+      
+        const[showprofile,setshowprofile] = useState(false)
+        const[showsearch,setshowsearch] =useState(false)
+         
+      
         return(
 
-         
+         <div>
             <div class="body">
                
             <div class='header'>   
             <span class='apptitle'>Bus Booking App</span> 
+           
             </div> 
                 
                  <a class='logobut' >
-                    <button onClick={showprofile}>
-                    <img src={logo}   class='signuplogo' ></img></button> 
+                    <button onClick={()=>setshowprofile(!showprofile)}>
+                    <img src={logo}   class='signuplogo' ></img></button>
+               
                         <span class="username">{context.user}</span>
                           
+                         
                     </a>
                     <div class='profile'>
-                              
-                    </div>          
+                            {
+                            showprofile?
+                            <Router>
+                                <Link to='/'></Link>
+                                <Link to='/profile'/>
+                               <Route path='/'><Redirect to='/profile'></Redirect></Route>
+                                 <Route path="/profile" render={() => <Profile username={username} userpass={userpass} useremail={useremail} usermobile={usermobile}/>} /></Router> : null}
+                               
+                    </div>   
+              </div>
+                {showprofile?null:<Router>
+                                <Link to='/'></Link>
+                                <Link to='/book-ticket'/>
+                               <Route path='/'><Redirect to='/book-ticket'></Redirect></Route><Search username={username} userpass={userpass} useremail={useremail} usermobile={usermobile}/></Router>}
               </div>
          
         )}
