@@ -1,7 +1,6 @@
 .base-container {
     width: 50%;
     margin: auto 60px;
-    /* left: 00px; */
     text-align: center;
 }
 .formheader 
@@ -10,12 +9,6 @@
       font-family: "Open Sans", sans-serif;
     }
   
-/* .content {
-    display: flex;
-      flex-direction: column;
-    } */
-  
-
 .form {
      
       margin-top: 2em;
@@ -44,16 +37,10 @@
             border: 0;
             border-radius: 4px;
             margin-bottom: 31px;
-            transition: all 250ms ease-in-out;
-            /* text-align: center; */
-            justify-content: center;          }
-/*        
-.footer {
-      width: 1px;
-     
-    } */
-    .MainContainer
-    {
+            justify-content: center;         
+           }
+.MainContainer
+  {
      margin: 100px 450px;
     position: absolute;
     background-color:transparent;
@@ -64,7 +51,7 @@
     border-radius: 6px;
     width: 20%;
     }
-    .center{
+  .center{
       text-align: center;
     }
   .button{
