@@ -100,7 +100,7 @@ let pushdata
       
     }
      else {
-       alert("No")
+       alert("Enter the details correctly")
      }
     
    

@@ -53,7 +53,7 @@ class ShowTicket extends React.Component{
            isbool : true
        })
      
-       alert("Hi")
+      //  alert("Hi")
        console.log(this.state.selectedoption)
        userhitoryjson.buspassanger.push(userpushdetails)
        console.log(userhitoryjson)
