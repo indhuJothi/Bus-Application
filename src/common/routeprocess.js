@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
-import App from "./App";
-import Search from '../bus/search'
+import App from "./UserLogin/App";
+import Search from '../bus/Search/search'
 import Ticket from './ticket';
 import Menu from './route';
-import Tabledata from '../user/tabledata';
-import { usercontext } from '../context';
+import TableData from '../bus/busPage/buslistTable';
+import { userContext } from '../context';
 import Profile from './userprofile';
 
 
@@ -68,48 +68,44 @@ isuseremail(val)
     }
    
 render() {
+  
+   let  isuserLogin = this.isuserlogin
+   let isuserPass=this.isuserpass
+   let isuserName=this.isusername
+   let isuserEmail=this.isuseremail
+   let getValue = this.state.getvalue
    let toprint = this.props.isuserlogin
-   let  isuserlogin = this.isuserlogin
-   let isuserpass=this.isuserpass
-   let isusername=this.isusername
-   let isuseremail=this.isuseremail
-   let getvalue = this.state.getvalue
    user = this.state.user
    pas = this.state.pas
-   let username=this.state.username
-   let useremail=this.state.useremail
-   let userdet ={
-		user :username,
+   let userName=this.state.username
+   let userEmail=this.state.useremail
+   let userDet ={
+		user :userName,
 		mobile:user,
 		password :pas,
-		email : useremail
+		email : userEmail
         }
-console.log(username)
+console.log(userName)
   return (
  <div>
-     { getvalue ? toprint(true): false }
+     { getValue ? toprint(true): false }
             <div>
 	   <Router>
-		    <div>
-           <Link class='link' to="/" onClick={this.hide}></Link>
-		   <Link class='link' to="/login" onClick={this.hide}></Link>
-           <Link class='link' to='/search'></Link>
-           <Link class='link' to='/bookticket'></Link>
-           <Link class="profile" to="/profile"></Link>
-           <Link class='link' to='/ticket'/>
+		   
+      
            <Route exact path='/'  ><Redirect to='/login'/></Route>
-           <Route path="/login" render={() => <App isuseremail={isuseremail.bind(this)} isusername={isusername.bind(this)} isuserlogin={isuserlogin.bind(this)} isuserpass={isuserpass.bind(this)}  />} />
+           <Route path="/login" render={() => <App isuseremail={isuserEmail.bind(this)} isusername={isuserName.bind(this)} isuserlogin={isuserLogin.bind(this)} isuserpass={isuserPass.bind(this)}  />} />
             
            <Route path="/search" render={() => 
             
-            <Menu usermobile={user} useremail={useremail} userpass={pas} username={username}  />
+            <Menu usermobile={user} useremail={userEmail} userpass={pas} username={userName}  />
             } />
-           <Route path="/bookticket" render={() => <usercontext.Provider value={userdet}><Search/></usercontext.Provider>} />
-           <Route path="/tabledata" render={()=><Tabledata/>}/>
-           <Route path="/profile" render={()=><usercontext.Provider value={userdet}><Profile/></usercontext.Provider>}/>
+           <Route path="/bookticket" render={() => <userContext.Provider value={userDet}><Search/></userContext.Provider>} />
+           <Route path="/tabledata" render={()=><TableData/>}/>
+           <Route path="/profile" render={()=><userContext.Provider value={userDet}><Profile/></userContext.Provider>}/>
            <Route path='/ticket'render={() => <Ticket />}/>
             
-            </div>
+         
 	     </Router>
 
 

@@ -1,12 +1,11 @@
-
 import React from "react";
 import './logreg.css'
-import validatelogin  from '../service/service' ;
-import { getpassword } from "../service/service";
-import { getmobile } from "../service/service";
-import { getusername } from "../service/service";
-import { getuseremail } from "../service/service";
-let username,useremail
+import validateLogin  from '../service/service' ;
+import { getPassword } from "../service/service";
+import { getMobile } from "../service/service";
+import { getUsername } from "../service/service";
+import { getUseremail } from "../service/service";
+let userName,userEmail
 export class Login extends React.Component {
   constructor(props) {
    super(props);
@@ -38,7 +37,7 @@ export class Login extends React.Component {
   submit(e){
       let result,password,mobile
        e.preventDefault()
-      result= validatelogin (this.state.mobile,this.state.password)
+      result= validateLogin (this.state.mobile,this.state.password)
       if(result)
       {
        this.setState(
@@ -49,7 +48,7 @@ export class Login extends React.Component {
         localStorage.setItem('document',JSON.stringify([this.state.mobile,this.state.password]));
        
        }
-      password =getpassword(this.state.mobile,this.state.password)
+      password =getPassword(this.state.mobile,this.state.password)
       if(password!=this.state.password)
         {
            this.setState(
@@ -58,7 +57,7 @@ export class Login extends React.Component {
               }
             )
         }
-        mobile = getmobile(this.state.mobile,this.state.password)
+        mobile = getMobile(this.state.mobile,this.state.password)
         if(mobile!=this.state.mobile){
           this.setState(
             {
@@ -93,15 +92,15 @@ export class Login extends React.Component {
  let hideapp = this.props.prop
  let getuser = this.props.getuser
  let getuserpass=this.props.getuserpass
- username =getusername(this.state.mobile)
- useremail=getuseremail(this.state.mobile)
- console.log(useremail)
+ userName =getUsername(this.state.mobile)
+ userEmail=getUseremail(this.state.mobile)
+ 
 let res = this.state.res
   
 return (
     <div>
     {res ? hideapp(false): null}
-    {res?getuser(this.state.mobile,username,useremail):null}
+    {res?getuser(this.state.mobile,userName,userEmail):null}
     {res?getuserpass(this.state.password):null}
     <form onSubmit={this.submit}>
       <div className="base-container">

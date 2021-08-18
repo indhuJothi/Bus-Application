@@ -2,14 +2,14 @@ import React from 'react'
 import Item from './listitems';
 import To from './to';
 import './search.css'
-import Tabledata from '../user/tabledata';
-import bushistoryjson from '../bushistory.json'
-import {usercontext} from '../context'
+import TableData from '../busPage/buslistTable';
+import bushistoryjson from '../../busHistory.json'
+import {userContext} from '../../context'
 let date
 let bushistorydata =bushistoryjson
 let context
 class Search extends React.Component{
-    static contextType = usercontext
+    static contextType = userContext
     constructor(){
         super();
         this.state={
@@ -67,30 +67,25 @@ class Search extends React.Component{
 
     render(){ 
         context = this.context
-        let name=context.user  
+        // let name=context.user  
         const value = this.state.value;
-        const tovalue= this.state.tovalue;
-        console.log(name)
-        let username = context.user
-        console.log(username)
-        let useremail=context.email
-        console.log(useremail)
-        let usermobile = context.mobile;
-        let userpass = context.password;
-        let userdet ={
-          user :username,
-          mobile:usermobile,
-          password :userpass,
-          email : useremail
-              }
+        const toValue= this.state.tovalue;
+        // console.log(name)
+        // let userName = context.user
+        // console.log(userName)
+        // let userEmail=context.email
+        // console.log(userEmail)
+        // let userMobile = context.mobile;
+        // let userPass = context.password;
         let previd ,prevuserid
         bushistorydata.userbusbooking.filter((element)=>{
             previd=parseInt(element.id)
             prevuserid=element.userid
 
         })
-        const id = previd+1
+        const id = previd +1
         const userid =prevuserid+1
+        console.log(id,userid)
     return(
           <div>
             
@@ -108,9 +103,9 @@ class Search extends React.Component{
       </label>  <button class='buttonclass' onClick={this.showTable}>Search</button></div>
        </div>: null }
     {this.state.button ?
-        <usercontext.Provider value={context}>
-        <Tabledata id ={id} userid={userid} date={date} value={value} tovalue={tovalue}/>
-        </usercontext.Provider>:null}
+        <userContext.Provider value={context}>
+        <TableData id ={id} userid={userid} date={date} value={value} tovalue={toValue}/>
+        </userContext.Provider>:null}
 </div>
    )
   }

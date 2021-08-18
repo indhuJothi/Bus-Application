@@ -2,12 +2,12 @@ import React from 'react';
 import '../index.css'
 import logo from'../signlogo.jpg'
 import './main.css'
-import Search from '../bus/search';
-import { usercontext } from '../context';
+import Search from '../bus/Search/search';
+import { userContext } from '../context';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 
 class Main extends React.Component{
- static contextType = usercontext
+ static contextType = userContext
   constructor()
      {
          super()
@@ -17,10 +17,10 @@ class Main extends React.Component{
                 showsearch:false
             }
          }
-         this.setshowprofile=this.setshowprofile.bind(this)
+         this.setshowProfile=this.setshowProfile.bind(this)
          this.show=this.show.bind(this)
      }
-  setshowprofile()
+  setshowProfile()
   {
     let res=  !this.state.showprofile
     this.setState({
@@ -39,8 +39,8 @@ class Main extends React.Component{
 
   render(){
       let context = this.context
-      let setshowprofile= this.setshowprofile
-      let showprofile=this.state.showprofile
+      let setshowProfile= this.setshowProfile
+      let showProfile=this.state.showprofile
     
 return(
         <div>
@@ -49,12 +49,12 @@ return(
              <span class='apptitle'>Bus Booking App</span> 
                </div> 
                  <a class='logobut' >
-                   <button onClick={setshowprofile}>
+                   <button onClick={setshowProfile}>
                      <img src={logo}   class='signuplogo' ></img>
                     </button>
                     <span class="username">{context.user}</span>
                  </a>
-                <div class='profile'>{showprofile? <Redirect to='/profile'></Redirect>: null}
+                <div class='profile'>{showProfile? <Redirect to='/profile'></Redirect>: null}
           </div>   
         </div>
          <Route to='/book-ticket'><Search/></Route>

@@ -1,14 +1,14 @@
-import data from '../user.json'
-import busdata from '../bus.json'
-import bushistory from '../bushistory.json'
-import userhistory from '../userhistory.json'
+import data from '../../user.json'
+import busdata from '../../bus.json'
+import bushistory from '../../busHistory.json'
+import userhistory from '../../userHistory.json'
 let jsondata = data
 let busjson = busdata
 let bushistoryjson = bushistory
-let userhitoryjson=userhistory
+let userhistoryjson=userhistory
 console.log(jsondata)
 console.log(busjson)
-export default function validatelogin(mobilenum,valpassword) 
+export default function validateLogin(mobilenum,valpassword) 
 {
     let returnval
     jsondata.user.filter((element)=>{
@@ -24,7 +24,7 @@ export default function validatelogin(mobilenum,valpassword)
  }
 
 
-export function getpassword(mobilenum,valpassword)
+export function getPassword(mobilenum,valpassword)
 
 {  let jsonpass
  jsondata.user.filter((element)=>{
@@ -35,7 +35,7 @@ if((element.mobile === parseInt(mobilenum) )&& (element.password === valpassword
    return jsonpass
  }
       
-export function getmobile(mobilenum,valpassword)
+export function getMobile(mobilenum,valpassword)
 {
       let jsonmobile
       jsondata.user.filter((element)=>{
@@ -48,7 +48,7 @@ export function getmobile(mobilenum,valpassword)
 }
 
          
-export function getemail(mobilenum,valpassword,email)
+export function getEmail(mobilenum,valpassword,email)
 { 
     let jsonemail
    jsondata.user.filter((element)=>{
@@ -62,7 +62,7 @@ export function getemail(mobilenum,valpassword,email)
 }
 
 
-export function getusername(mobilenum)
+export function getUsername(mobilenum)
 {
       let username
       jsondata.user.filter((element)=>{
@@ -74,7 +74,7 @@ export function getusername(mobilenum)
       return username
 }
 
-export function getuseremail(mobilenum)
+export function getUseremail(mobilenum)
 {
       let useremail
       jsondata.user.filter((element)=>{
@@ -86,7 +86,7 @@ export function getuseremail(mobilenum)
       return useremail
 }
 
-export function getbusdetails(from,to)
+export function getBusdetails(from,to)
 {
       let busdatas=[]
       busjson.bus.filter((element)=>{
@@ -101,14 +101,14 @@ export function getbusdetails(from,to)
 }
       
 
-export function getbushistory()
+export function getBushistory()
 {
       let bushistory 
      return bushistory = bushistoryjson.userbusbooking
 }
 
-export function getfinaldata()
+export function getFinaldata()
 {
       let finaldata
-      return finaldata =userhistory.buspassanger
+      return (finaldata =userhistory.buspassanger)
 }

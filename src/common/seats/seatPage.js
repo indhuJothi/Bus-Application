@@ -1,22 +1,23 @@
 import React from 'react'
-import './bookticket.css'
-import ShowTicket from './showticket'
+import './seatPage.css'
+import TicketForm from '../../bus/TicketForm/ticketForm'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
-class BookTicket extends React.Component{
+
+class SeatList extends React.Component{
 
   constructor(){
     super()
     {
       this.state={
         values:[],
-        showticket :false,
-        letsshow : true
+        showTicket :false,
+        letsShow : true
       }
-      this.getvalue=this.getvalue.bind(this)
+      this.getValue=this.getValue.bind(this)
       this.validate = this.validate.bind(this)
     }
   }
-  getvalue(e){
+  getValue(e){
     const values = this.state.values
     let index
     if (e.target.checked) {
@@ -34,7 +35,7 @@ validate(e){
   e.preventDefault();
 this.setState({
   showticket:true,
-  letsshow:false
+  letsShow:false
 })
 
 }
@@ -46,32 +47,33 @@ this.setState({
   let id=this.props.id
   let userid=this.props.userid
   let date= this.props.date
-  let busno 
+  let busNo 
+  console.log(userid)
   console.log(date)
   let availableSeat =  data.filter(function(element){
            seats= element.NoOfSeats
            fare =element.fare
-           busno=element.busno
+           busNo=element.busno
             return data
   })
-  console.log(busno)
+  console.log(busNo)
   console.log(seats)
-     let seatslength=[]
+     let seatsLength=[]
      for(let i=0;i<seats;i++){
-         seatslength.push(i)
+         seatsLength.push(i)
      }
-     console.log(seatslength)
+     console.log(seatsLength)
      console.log(fare)
     const arr= this.state.values
     return(
       <div>
-    {this.state.letsshow?  <div  class='booktable'>
-      { seatslength.map(element=>{
+    {this.state.letsShow?  <div  class='booktable'>
+      { seatsLength.map(element=>{
         console.log("hi")
         if(element%2==0)
-        return <label class="main"><input type="checkbox" value={element+1} onClick={this.getvalue}/><span class="checkmark">{element+1}</span></label>
+        return <label class="main"><input type="checkbox" value={element+1} onClick={this.getValue}/><span class="checkmark">{element+1}</span></label>
        else
-        return<label class="main"><input type="checkbox" checked="checked" value={element+1} onClick={this.getvalue}/><span class="checkmark">{element+1}</span></label>
+        return<label class="main"><input type="checkbox" checked="checked" value={element+1} onClick={this.getValue}/><span class="checkmark">{element+1}</span></label>
         }
      )}
         <button type='submit' class="seatbutton"  onClick={this.validate}>Book Seats</button>
@@ -80,8 +82,8 @@ this.setState({
         <Link to='/'></Link>
         <Link to='/show-ticket'/>
         <Route path='/'><Redirect to='/show-ticket'></Redirect></Route>
-        <Route path="/show-ticket" render={() => <ShowTicket 
-        busno={busno} 
+        <Route path="/show-ticket" render={() => <TicketForm
+        busno={busNo} 
         data={data} 
         date={date} 
         fare={fare}
@@ -99,4 +101,4 @@ this.setState({
 
 
 
-export default BookTicket
+export default SeatList

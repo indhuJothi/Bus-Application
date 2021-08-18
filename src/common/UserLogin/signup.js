@@ -1,10 +1,10 @@
 import React from "react";
 import './logreg.css'
-import data from '../user.json'
+import data from '../../user.json'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 
-let pushdata
- export class Signup extends React.Component {
+let pushData
+export class SignUp extends React.Component {
   
   constructor(props) {
     
@@ -21,7 +21,7 @@ let pushdata
       res:true
     }
     this.handleChange = this.handleChange.bind(this)
-    this.handlesubmit=this.handlesubmit.bind(this)
+    this.handleSubmit=this.handleSubmit.bind(this)
   }
 
   handleChange(event){
@@ -37,7 +37,7 @@ let pushdata
     })
   }
   
-  handlesubmit(e)
+  handleSubmit(e)
   { 
      e.preventDefault()
     
@@ -45,7 +45,6 @@ let pushdata
       let mobileres=true
       let passwordres=true
       let confirmpassres=true
-
       let emailregex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z.]+$/
       let mobileregex = /^[6-9]\d{9}$/
       let passregex=/^[a-zA-Z0-9@\s]{3,15}$/
@@ -96,24 +95,24 @@ let pushdata
            res:false
          })
 
-         alert("Registered successfully you can now login")
+         alert("Registration Successful!!! you can now login")
       
     }
      else {
-       alert("Enter the details correctly")
+       alert("Please Enter the correct details")
      }
     
    
   }
   componentDidUpdate()
    {
-    pushdata = {
+    pushData = {
       email: this.state.email,
       mobile:parseInt(this.state.mobile),
       password:this.state.password,
       name:"Jothi"
     }
-     data.user.push(pushdata)
+     data.user.push(pushData)
      console.log(data)
    }
     
@@ -122,7 +121,7 @@ let pushdata
     console.log(data)
     return (
    <div>    
-  <form onSubmit={this.handlesubmit}>
+  <form onSubmit={this.handleSubmit}>
       <div className="base-container">
         <div className="formheader">Signup</div>
           <div className="form">

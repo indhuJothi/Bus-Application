@@ -1,18 +1,18 @@
 import React from 'react'
-import './table.css'
+import '../bus/busPage/buslistTable.css'
 import '../common/newtable.css'
 import Table from '../common/newtable';
-import {getbushistory} from '../service/service'
+import {getBushistory} from '../common/service/service'
 
 
 
 let columns = [
   
  
-    {
-      heading: 'UserId',
-      property: 'userid'
-    },
+  {
+    heading: 'UserId',
+    property: 'id'
+  },
     {
       heading: 'BusNo',
       property: 'busno'
@@ -33,9 +33,9 @@ let columns = [
   
   
 
-let data =getbushistory()
+let data =getBushistory()
 console.log(data)
-class Historytable extends React.Component {
+class HistoryTable extends React.Component {
 
   render() {
     return (
@@ -50,6 +50,6 @@ class Historytable extends React.Component {
   }
 }
 
-export default Historytable;
+export default HistoryTable;
 
 

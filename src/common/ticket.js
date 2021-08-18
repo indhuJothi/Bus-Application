@@ -1,8 +1,8 @@
 import React from "react"
-import userhistory from '../userhistory.json'
+import userhistory from '../userHistory.json'
 
-let userhitoryjson = userhistory
-let userbookingid,name,mobile,stno
+let userHistoryjson = userhistory
+let userBookingid,name,mobile,stno
 class Ticket extends React.Component{
     constructor()
     {
@@ -23,15 +23,17 @@ class Ticket extends React.Component{
     {
         let fare =this.props.fare
         return <div>{this.state.isbool?<p class="finaltick">
-          {userhitoryjson.buspassanger.map((elem)=>{
-              userbookingid =elem.userbusbookingid
+          {userHistoryjson.buspassanger.map((elem)=>{
+              userBookingid =elem.userbusbookingid
               name=elem.name
               mobile=elem.mobile
               stno=elem.seatnumber+" "
-              
-          })}
+              console.log(userBookingid)
+          })
+          }
+       
          Booking Details
-         <p>Userbookingid: {userbookingid}</p>
+         <p>Userbookingid:{userBookingid}</p>
          <p>Name: {name}</p>
          <p>Mobile: {mobile}</p>
          <p>Seatno: {stno}</p>

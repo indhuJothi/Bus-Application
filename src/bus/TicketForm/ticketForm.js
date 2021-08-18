@@ -1,18 +1,18 @@
 import React from 'react'
-import './showticket.css'
-import userhitory from '../userhistory.json'
-import bushistory from '../bushistory.json'
-import Ticket from './ticket'
+import './ticketForm.css'
+import userhitory from '../../userHistory.json'
+import bushistory from '../../busHistory.json'
+import Ticket from '../../common/ticket'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
-import { usercontext } from '../context'
+import { userContext } from '../../context'
 
 let userhitoryjson= userhitory
 let bushistoryjson = bushistory
 let userpushdetails,bushistorypushdetails
 console.log(userhitoryjson)
 
-class ShowTicket extends React.Component{
-  static contextType = usercontext
+class TicketForm extends React.Component{
+  static contextType = userContext
    constructor(props){
        super(props)
        { 
@@ -25,10 +25,10 @@ class ShowTicket extends React.Component{
            }
         }
         this.booked=this.booked.bind(this)
-        this.handlechange=this.handlechange.bind(this)
+        this.handleChange=this.handleChange.bind(this)
         this.onValueChange=this.onValueChange.bind(this)
    }
-  handlechange(event){
+  handleChange(event){
       const name = event.target.name
       const age = event.target.age
      
@@ -65,34 +65,35 @@ class ShowTicket extends React.Component{
     let context = this.context
     const seats = this.props.value
     const fare = this.props.fare
-    const selectseats = this.props.value.length
-    let usermobile = context.mobile
+    const selectSeats = this.props.value.length
+    let userMobile = context.mobile
     console.log(seats)
     let id=this.props.id
     let userid=this.props.userid
     let data =this.props.data
-    let amnt=selectseats*fare
+    let amnt=selectSeats*fare
     let date=this.props.date
-    let busno=this.props.busno
-  
+    let busNo=this.props.busno
+    console.log(userid)
     userpushdetails= { 
           userbusbookingid:id,
            name :this.state.name,
-           mobile:usermobile,
+           mobile:userMobile,
            seatnumber:seats.map(elem=> {return elem})
        }
     bushistorypushdetails={
         
             id:id,
-            mobilenumber:usermobile,
-            userid:userid,
-            busno:busno,
+            mobilenumber:userMobile,
+            userId:userid,
+            busno:busNo,
             totalfare:amnt,
-            numberofseats:selectseats,
+            numberofseats:selectSeats,
             date:date
         
        }
-console.log(selectseats)
+       console.log(bushistorypushdetails)
+console.log(selectSeats)
   return(
       <div >
           {  this.state.isbool?null:  
@@ -100,7 +101,7 @@ console.log(selectseats)
            <label><span class='seatno'>Seat No:{seats.map(element => {
                          return element+" "
                    })}</span><br/>
-          <label for='name'>Passenger Name:<input class='inputname'  type='text' name='name' onChange={this.handlechange}/></label>
+          <label for='name'>Passenger Name:<input class='inputname'  type='text' name='name' onChange={this.handleChange}/></label>
          <div className="radio">
           <label>
             <input  class='radio'
@@ -124,7 +125,7 @@ console.log(selectseats)
        <label for='age'>Age<input type='text' name='age' onChange={this.handlechange}  class='inputname' /></label>
       </label>
                    
-      TotalFare:{selectseats*fare} 
+      TotalFare:{selectSeats*fare} 
         
       <input type='submit'  class='submit'/>
       </form></div> }
@@ -138,4 +139,4 @@ console.log(selectseats)
         )
     }
 }
-export default ShowTicket
+export default TicketForm

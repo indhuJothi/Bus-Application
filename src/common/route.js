@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
-import Search from '../bus/search'
-import Historytable from '../user/historytable';
+import Search from '../bus/Search/search'
+import HistoryTable from '../user/userHistory';
 import './route.css'
 import Main from './main';
-import { usercontext } from '../context'
+import { userContext } from '../context'
 
 class Menu extends Component {
-	static contextType = usercontext
+	static contextType = userContext
 	constructor()
 	{
 		super()
@@ -51,15 +51,15 @@ class Menu extends Component {
         </ul>
         <Switch>
             <Route exact path="/book-ticket" render={() => 
-			   <usercontext.Provider value={userdet} ><Search/> </usercontext.Provider>} />
-			<Route exact path='/book-history' component={Historytable}></Route>
+			   <userContext.Provider value={userdet} ><Search/> </userContext.Provider>} />
+			<Route exact path='/book-history' component={HistoryTable}></Route>
 		</Switch>
 	 </Router>		
 		</div>
    </div>
-	<usercontext.Provider value={userdet} >
+	<userContext.Provider value={userdet} >
 	 <Main/>		
-	</usercontext.Provider>
+	</userContext.Provider>
   </div>
   );
  }
