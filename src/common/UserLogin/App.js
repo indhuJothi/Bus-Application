@@ -2,9 +2,11 @@ import React from "react";
 import "./logreg.css";
 import {SignUp } from "./index";
 import { Login } from "./login";
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch, Redirect, withRouter } from 'react-router-dom';
 import logo from '../../signlogo.jpg'
 import "../main.css"
+import SweetAlert from 'react-bootstrap-sweetalert';
+import Main from "../main";
 
 
 let mobileNo,pass,userName
@@ -40,6 +42,7 @@ class App extends React.Component{
       hideapp: value
       }
     )
+   
   }
   getUsermobile(val,val1,val3)
   {
@@ -101,16 +104,8 @@ componentDidMount()
     
  return(   
    <div>
-      <div class="body"> 
-        <div class='header'>   
-          <span class='apptitle'>Bus Booking App</span> 
-             </div>                  
-               <a class='logobut' >
-                 <button>
-                  <img src={logo}   class='signuplogo' ></img></button>
-                  <span class="username"></span> 
-              </a> 
-         </div>               
+   
+     <Main/>
      <div class='MainContainer center'>
      <button onClick ={this.handle} class="button">Login</button>
      <button onClick ={this.handleSignup} class="button">Signup</button>
@@ -119,12 +114,12 @@ componentDidMount()
 
      </div>
      </div> 
-     {hideapp? null:isuserlogin(mobileNo)}
+     {/* {hideapp? null:isuserlogin(mobileNo)}
      {hideapp? null:isuserpass(pass)}
      {hideapp? null:isusername(userName)}
-     {hideapp? null:isuseremail(useremail)}
-     {hideapp ? null : 
-     <Redirect to='/search'></Redirect>}
+     {hideapp? null:isuseremail(useremail)} */}
+     {hideapp ? null:<Redirect to='/search'></Redirect>}
+     
       </div>
       
     )

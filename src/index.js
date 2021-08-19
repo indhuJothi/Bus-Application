@@ -4,9 +4,6 @@ import './index.css';
 import Page from './main';
 
 
-
-
-
 ReactDOM.render(
   <React.StrictMode>
    <Page/>

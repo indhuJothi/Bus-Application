@@ -4,26 +4,27 @@ import To from './to';
 import './search.css'
 import TableData from '../busPage/buslistTable';
 import bushistoryjson from '../../busHistory.json'
-import {userContext} from '../../context'
-let date
+// import {userContext} from '../../context'
+import {busContext} from '../../busContext'
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+// let date
 let bushistorydata =bushistoryjson
-let context
+
 class Search extends React.Component{
-    static contextType = userContext
+   
     constructor(){
         super();
         this.state={
           visible:false,
             value:" ",
-            tovalue: '',
-            date: " ",
+            tovalue:'',
+            dateVal:" ",
             button:false,
             showsearch:true
 
         }
         this.showSource = this.showSource.bind(this)
         this.ShowtoValue= this.ShowtoValue.bind(this)
-        this.date= this.date.bind(this)
         this.dateChange= this.dateChange.bind(this)
         this.showTable = this.showTable.bind(this)
   
@@ -43,15 +44,10 @@ class Search extends React.Component{
         })
     }
    
-    date(e){
-        this.setState({
-           
-           visible : true
-           
-        })
-      }
+ 
     dateChange(e){
-      date = e.target.value
+        this.setState({ dateVal:e.target.value})
+     
     }
 
     showTable(){
@@ -66,17 +62,12 @@ class Search extends React.Component{
 
 
     render(){ 
-        context = this.context
-        // let name=context.user  
+        // context = this.context
+        // let name=context.user
+       
         const value = this.state.value;
         const toValue= this.state.tovalue;
-        // console.log(name)
-        // let userName = context.user
-        // console.log(userName)
-        // let userEmail=context.email
-        // console.log(userEmail)
-        // let userMobile = context.mobile;
-        // let userPass = context.password;
+        const dateVal=this.state.dateVal
         let previd ,prevuserid
         bushistorydata.userbusbooking.filter((element)=>{
             previd=parseInt(element.id)
@@ -85,11 +76,20 @@ class Search extends React.Component{
         })
         const id = previd +1
         const userid =prevuserid+1
+        console.log(value)
         console.log(id,userid)
+        let searchdet = {
+            from :value,
+            to : toValue,
+            date:dateVal,
+            id:id,
+            userid:userid
+        }  
+        console.log(searchdet)
     return(
-          <div>
-            
-         {this.state.showsearch?<div class='searchContainer'>
+          
+          <div>  
+     <div class='searchContainer'>
         <div class='FromCol'>
          <label > From <select  class='From'  value= {this.state.value} onChange={this.showSource}>
                <Item/>
@@ -101,11 +101,10 @@ class Search extends React.Component{
        </label>
        <label>Date<input type='date' class='frominput' placeholder = "Date" onChange={this.dateChange}></input> 
       </label>  <button class='buttonclass' onClick={this.showTable}>Search</button></div>
-       </div>: null }
-    {this.state.button ?
-        <userContext.Provider value={context}>
-        <TableData id ={id} userid={userid} date={date} value={value} tovalue={toValue}/>
-        </userContext.Provider>:null}
+       </div>
+    {this.state.button ? <TableData/>:null}
+    {this.state.button ? localStorage.setItem("searchdetails",JSON.stringify(searchdet)):null}
+         
 </div>
    )
   }

@@ -1,7 +1,6 @@
 import React from 'react'
-import '../bus/busPage/buslistTable.css'
-import '../common/newtable.css'
-import Table from '../common/newtable';
+import Table from '../common/Table/newtable';
+import '../common/Table/newtable.css'
 import {getBushistory} from '../common/service/service'
 
 

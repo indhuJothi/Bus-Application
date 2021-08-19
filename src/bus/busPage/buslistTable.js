@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import Table from '../../common/newtable';
+import Table from '../../common/Table/newtable';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import './buslistTable.css'
 // import '../../common/showticket.css'
 import {getBusdetails} from '../../common/service/service'
 import SeatList from '../../common/seats/seatPage'
-import { userContext } from '../../context';
+// import { userContext } from '../../context';
+import {busContext} from '../../busContext'
+import Menu from '../../common/route';
+import Main from '../../common/main';
 
-let getBusdata 
+
+let getBusdata,context
 let columns = [
   {
     heading: 'Bus Name',
@@ -41,7 +45,7 @@ let columns = [
 
 
 class TableData extends Component {
-  static contextType = userContext
+static contextType = busContext
   constructor(props){
     super(props)
     {this.state={  
@@ -53,39 +57,57 @@ class TableData extends Component {
     }
 }
   bookTicket(e){
+    
     this.setState({
         isbookticket:true,
         showtable :false
     })
-   
+  
+
+
 }
+
   render() {
-      let context = this.context
+      context = this.context
       console.log(context)
-      let from = this.props.value
-      const to = this.props.tovalue
-      const date = this.props.date;
-      let userid=this.props.userid
-      let id=this.props.id
+      let document = JSON.parse(localStorage.getItem("searchdetails"))
+      let from = document.from
+      let to= document.to
+      console.log(from)
+      const date =document.date
+      let userid=document.userid;
+      let id=document.id
       console.log(userid)
+
+      
    getBusdata=[getBusdetails(from,to)]
+let seats,busNo,fare
+var busdata=getBusdata.filter(function(element){
+  seats= element.NoOfSeats
+  busNo=element.busno
+  fare=element.fare
+   return getBusdata
+})
+let busdetails ={
+  seats:seats,
+  busNo:busNo,
+  fare:fare
+}
+  console.log(busdata)
    console.log(from)
    console.log(to)
    console.log(getBusdata)
 return (
       <>
-     {this.state.showtable ?<Table columns={columns} data={getBusdata}/> : null}
-      {this.state.showtable ?
+      <Menu/>
+      <Main/>
+     <Table columns={columns} data={getBusdata}/>
+    
       <button class='mybtn' onClick={this.bookTicket}>Book</button> 
-      : null}
-      {this.state.isbookticket ?<Router>
-        <Link to='/'></Link>
-        <Link to='/book-seat'/>
-        <Route path='/'><Redirect to='/book-seat'></Redirect></Route>
-        <Route path="/book-seat" render={() => 
-        <SeatList id={id} userid={userid} date={date} value={getBusdata}/>
-        } />
-        </Router> : null}
+      
+      {this.state.isbookticket?localStorage.setItem("busdetails",JSON.stringify(busdetails)):null}
+   
+      {this.state.isbookticket ?<Redirect to="book-seat"/> : null}
       </>  
     );
   }

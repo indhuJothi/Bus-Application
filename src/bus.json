@@ -8,7 +8,7 @@
             "to":"Madurai",
             "fare": 150,
             "type": "2s",
-            "NoOfSeats":"16"
+            "NoOfSeats":16
         },
         {
             "busno" : "TN544",
@@ -17,7 +17,7 @@
             "to":"Chennai",
             "fare": 180,
             "type": "sleeper Ac",
-            "NoOfSeats":"12"
+            "NoOfSeats":12
         },
         {
             "busno" : "TN545",
@@ -26,7 +26,7 @@
             "to":"Trichy",
             "fare": 200,
             "type": "sleeper Non-Ac",
-            "NoOfSeats":"14"
+            "NoOfSeats":14
         },
         {
             "busno" : "TN546",
@@ -35,7 +35,7 @@
             "to":"Chennai",
             "fare": 160,
             "type": "2s Ac",
-            "NoOfSeats":"14"
+            "NoOfSeats":14
         }
     ]
 }

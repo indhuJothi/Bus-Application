@@ -35,7 +35,7 @@ export class Login extends React.Component {
   }
 
   submit(e){
-      let result,password,mobile
+      let result,password,mobile,name,email
        e.preventDefault()
       result= validateLogin (this.state.mobile,this.state.password)
       if(result)
@@ -45,10 +45,16 @@ export class Login extends React.Component {
               res : true
               }
           ) 
-        localStorage.setItem('document',JSON.stringify([this.state.mobile,this.state.password]));
        
        }
+       name =getUsername(this.state.mobile)
       password =getPassword(this.state.mobile,this.state.password)
+      email=getUseremail(this.state.mobile)
+      sessionStorage.setItem('mobile',this.state.mobile);
+      sessionStorage.setItem('name',name)
+      sessionStorage.setItem('password',btoa(this.state.password))
+      sessionStorage.setItem('email',(email))
+
       if(password!=this.state.password)
         {
            this.setState(
@@ -68,8 +74,9 @@ export class Login extends React.Component {
       }
   componentDidMount() 
   {
-    this.documentData = JSON.parse(localStorage.getItem('document'));
-      if (localStorage.getItem('document')) 
+    this.documentData = [sessionStorage.getItem('mobile'),sessionStorage.getItem('password')]
+    
+      if (sessionStorage.getItem('document')) 
       {
             this.setState({
                 mobile: this.documentData.mobile,
@@ -113,7 +120,7 @@ return (
             </div>
             <div>
               <label htmlFor="password">Password</label>
-              <input type="text" name="password" placeholder="password" onChange={this.handleChange}  />
+              <input type="password" name="password" placeholder="password" onChange={this.handleChange}  />
               <div class='error'>{this.state.passerr}</div>
             </div>
           </div>

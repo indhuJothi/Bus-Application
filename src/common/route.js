@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch,NavLink, Redirect } from 'react-router-dom';
 import Search from '../bus/Search/search'
 import HistoryTable from '../user/userHistory';
 import './route.css'
-import Main from './main';
 import { userContext } from '../context'
 
 class Menu extends Component {
@@ -46,20 +45,21 @@ class Menu extends Component {
 	  <div className="App">
 	<Router>
 	   <ul >
-         <li class='li'><Link class='link' to='/book-ticket'>Bookticket</Link></li>
-		 <li class='li'><Link  class='link' to='/book-history'>User History</Link></li>
+	   
+     
+		 <li class='li'><NavLink  class='link'   activeStyle={  
+             {color:'red'}  
+          }to='/book-history'>User History</NavLink></li>
         </ul>
         <Switch>
+		
             <Route exact path="/book-ticket" render={() => 
-			   <userContext.Provider value={userdet} ><Search/> </userContext.Provider>} />
+		        <Search/>}/>
 			<Route exact path='/book-history' component={HistoryTable}></Route>
 		</Switch>
 	 </Router>		
 		</div>
    </div>
-	<userContext.Provider value={userdet} >
-	 <Main/>		
-	</userContext.Provider>
   </div>
   );
  }

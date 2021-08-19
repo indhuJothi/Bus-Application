@@ -4,6 +4,8 @@ import data from "../user.json"
 import logo from'../signlogo.jpg'
 import "./userprofile.css"
 import { Redirect } from "react-router-dom"
+import Menu from "./route"
+import Main from "./main"
 
 let datsJson = data
 let contextValue
@@ -79,15 +81,19 @@ class Profile extends React.Component{
     }
    render(){
     contextValue =this.context
-    userName=contextValue.user
-    userEmail=contextValue.email
-    userMobile=contextValue.mobile
-    userPass=contextValue.password
+    console.log(contextValue)
+    userName=sessionStorage.getItem("name")
+    userEmail=sessionStorage.email
+    userMobile=sessionStorage.mobile
+    userPass=atob(sessionStorage.getItem("password"))
     let isinputShow=this.state.isinputshow
     let isupdateData=this.state.isupdatedata
     let isClose =this.state.isclose
     let isUpdate = this.state.isupdate
     return(
+    <div>
+        <Menu/>
+        <Main/>
      <div class="profile">
     { isClose?  <><div class='profilepic'>
           <img class="profilelogo" src={logo}></img>
@@ -111,18 +117,23 @@ class Profile extends React.Component{
                if((this.state.name!==" ") &&(this.state.name!==userName))
                   {
                       element.name=this.state.name
+                      sessionStorage.name=this.state.name
                   }
                 if((this.state.email!==" ")&&(this.state.email!==userEmail))
                   {
                   element.email=this.state.email
+                  sessionStorage.email=this.state.email
+
                  }
                 if((this.state.mobile!==userMobile) &&(this.state.mobile!==" "))
                   { 
                      element.mobile=this.state.mobile
+                     sessionStorage.mobile=this.state.mobile;
                  }
                 if((this.state.pass!==userPass) &&(this.state.pass!==" "))
                   {
                       element.password=this.state.pass
+                      sessionStorage.password=btoa(this.state.password)
                   }
                 changedData= element
               }
@@ -138,7 +149,8 @@ class Profile extends React.Component{
             {isinputShow?<button class="inputbutton" onClick={this.updateUser}>Save</button>:null}</div>
             </>:null}
         {isClose? null:<Redirect to="/search"/> }
-      </div>        
+      </div>  
+      </div>      
 )}}
     
 

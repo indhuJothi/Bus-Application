@@ -2,16 +2,22 @@ import React from 'react'
 import './seatPage.css'
 import TicketForm from '../../bus/TicketForm/ticketForm'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+import { busContext } from '../../busContext';
+import { getBusdetails } from '../service/service';
+import Menu from '../route';
+import Main from '../main';
+import seat from '../../seat.jpg'
 
 class SeatList extends React.Component{
-
+   static contextType = busContext
   constructor(){
     super()
     {
       this.state={
         values:[],
         showTicket :false,
-        letsShow : true
+        letsShow : true,
+        error:" "
       }
       this.getValue=this.getValue.bind(this)
       this.validate = this.validate.bind(this)
@@ -32,32 +38,40 @@ class SeatList extends React.Component{
     console.log(values)
   }
 validate(e){
+  let seatcount = (this.state.values).length
+  if(seatcount<=0)
+  {
+    this.setState({
+      error:"No seats were selected"
+    })
+  }
+  else{
   e.preventDefault();
 this.setState({
   showticket:true,
-  letsShow:false
-})
+  letsShow:false,
+  error:" "
 
+})
+  localStorage.setItem("arr",this.state.values)
+  localStorage.setItem("seatcount",seatcount)
+  console.log(seatcount)
+  }
 }
 
   render()
   {
-  let data =this.props.value
-  let seats,fare
-  let id=this.props.id
-  let userid=this.props.userid
-  let date= this.props.date
-  let busNo 
-  console.log(userid)
-  console.log(date)
-  let availableSeat =  data.filter(function(element){
-           seats= element.NoOfSeats
-           fare =element.fare
-           busNo=element.busno
-            return data
-  })
-  console.log(busNo)
+ 
+ 
+  let fare
+  let busNo   
+  let busdocument =JSON.parse(localStorage.getItem("busdetails"))
+  let seats =(busdocument.seats)
   console.log(seats)
+  console.log(busdocument.busno)
+ 
+  console.log(busNo)
+  
      let seatsLength=[]
      for(let i=0;i<seats;i++){
          seatsLength.push(i)
@@ -67,33 +81,25 @@ this.setState({
     const arr= this.state.values
     return(
       <div>
-    {this.state.letsShow?  <div  class='booktable'>
+        <Main/>
+        <Menu/>
+    <div  class='booktable'>
       { seatsLength.map(element=>{
         console.log("hi")
         if(element%2==0)
-        return <label class="main"><input type="checkbox" value={element+1} onClick={this.getValue}/><span class="checkmark">{element+1}</span></label>
+        return <label class="main"><input type="checkbox" value={element+1} onClick={this.getValue}/><span class="checkmark"><span class="number">{element+1}</span><img src={seat} class="seat" ></img></span></label>
        else
-        return<label class="main"><input type="checkbox" checked="checked" value={element+1} onClick={this.getValue}/><span class="checkmark">{element+1}</span></label>
+        return<label class="main"><input type="checkbox" checked="checked" value={element+1} onClick={this.getValue}/><span class="checkmark"><span class="number">{element+1}</span><img src={seat} class="seat" ></img></span></label>
         }
      )}
+     <p class="err">{this.state.error}</p>
         <button type='submit' class="seatbutton"  onClick={this.validate}>Book Seats</button>
-        </div> : null}
-        {this.state.showticket? <Router>
-        <Link to='/'></Link>
-        <Link to='/show-ticket'/>
-        <Route path='/'><Redirect to='/show-ticket'></Redirect></Route>
-        <Route path="/show-ticket" render={() => <TicketForm
-        busno={busNo} 
-        data={data} 
-        date={date} 
-        fare={fare}
-        value={arr}
-        id={id} 
-        userid={userid}/>
-        } />
-        </Router> : null}
+        </div>
+        
+        {this.state.showticket? <Redirect to="/ticket-form"><TicketForm/></Redirect> : null}
      </div>
    )
+
   }
 }
     

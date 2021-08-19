@@ -1,34 +1,23 @@
  .booktable{
     width :350px;
-    margin-top: 70px;
+    margin-top: 120px;
     margin-left:  500px;
     display: block;
-    background-color: honeydew;
+    background-color:white;
     text-align: center;
     justify-content: center;
     position:absolute;
 }
-/* 
-.myseat{
-    width: 25px;
-    height: 35px;
-
-    background-color:red;
+.number{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 15px;
 }
- .seat{
-    position: absolute;
-    height: 25px;
-    display: inline;
-    width: 25px;
-    background-color:green;
-
- } */
 
 
  .main {
     display: inline-block;
     position: relative;
-    margin: 1px 12px;
+    margin: 1px 30px;
     width: 10%;
     padding-left: 6px;
     cursor: pointer;
@@ -41,7 +30,9 @@ input[type=checkbox] {
     visibility: hidden;
 }
   
-
+.seat{
+    font-size: 3px;
+}
 .checkmark {
     position: absolute;
     top: 0;
@@ -62,4 +53,9 @@ input[type=checkbox] {
 .seatbutton{
     display: block;
     margin: auto 35%;
+}
+
+.err{
+    color: red;
+    font-size: 20px;
 }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './newtable.css'
+
+
 class Table extends Component {
 
 buildTable = (columns,data) => {
@@ -12,7 +14,7 @@ buildTable = (columns,data) => {
  
      columns.forEach (col => {
       headerRow.push(
-        <th>{col.heading}</th>
+        <th class="heading">{col.heading}</th>
       );
     });
 
@@ -34,7 +36,7 @@ buildTable = (columns,data) => {
  return(
       <>
         <thead class='thead'>
-          <tr>{headerRow}</tr>
+          <tr class="trow">{headerRow}</tr>
         </thead>
         <tbody class='tbody'>
           {dataRows}

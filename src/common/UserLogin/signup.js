@@ -2,6 +2,7 @@ import React from "react";
 import './logreg.css'
 import data from '../../user.json'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 let pushData
 export class SignUp extends React.Component {
@@ -18,7 +19,8 @@ export class SignUp extends React.Component {
       passerr:"",
       mobileerr:"",
       confirmpasserr:"",
-      res:true
+      res:true,
+      alert: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit=this.handleSubmit.bind(this)
@@ -91,18 +93,31 @@ export class SignUp extends React.Component {
      if((emailres) || (mobileres) ||(passwordres) ||(confirmpassres) === false)
      {
         
+      const getAlert = () => (
+        <SweetAlert 
+        success
+        // title="!" 
+        onConfirm={() => this.hideAlert()}
+      >
+        You are signed in successfully
+         <p>You can now Login</p>
+      </SweetAlert>
+      );
          this.setState({
-           res:false
-         })
+           res:false,
+           alert: getAlert()
 
-         alert("Registration Successful!!! you can now login")
-      
+         })
+  
     }
-     else {
-       alert("Please Enter the correct details")
-     }
-    
    
+    
+  }
+  hideAlert() {
+    console.log('Hiding alert...');
+    this.setState({
+      alert: null
+    });
   }
   componentDidUpdate()
    {
@@ -126,7 +141,7 @@ export class SignUp extends React.Component {
         <div className="formheader">Signup</div>
           <div className="form">
           <div>
-              <label htmlFor="email">Mobile</label>
+              <label htmlFor="email">Email</label>
               <input type="text" name="email" placeholder="email" onChange={this.handleChange}  />
               <div class='error'>{this.state.emailerr}</div>
             </div>
@@ -137,12 +152,12 @@ export class SignUp extends React.Component {
             </div>
             <div>
               <label htmlFor="password">Password</label>
-              <input type="text" name="password" placeholder="password"  onChange={this.handleChange}  />
+              <input type="password" name="password" placeholder="password"  onChange={this.handleChange}  />
               <div class='error'>{this.state.passerr}</div>
             </div>
             <div>
               <label htmlFor="confirmpassword">Password</label>
-              <input type="text" name="confirmpassword" placeholder="confirm password" onChange={this.handleChange}  />
+              <input type="password" name="confirmpassword" placeholder="confirm password" onChange={this.handleChange}  />
               <div class='error'>{this.state.confirmpasserr}</div>
             </div>
           </div>
@@ -151,7 +166,9 @@ export class SignUp extends React.Component {
         </div>
       </div>
       </form> 
-     {res ? <Redirect to="/login"></Redirect>:null }
+      {this.state.alert}
+   
+     
       </div>
     );
   }

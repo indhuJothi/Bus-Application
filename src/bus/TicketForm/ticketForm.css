@@ -1,7 +1,7 @@
-.finaltick{
+.finalticket{
     width: 380px;
-    background-color:honeydew;
-    margin: 100px 450px;
+    background-color:thistle;
+    margin: 100px 490px;
 
 }
 .passengerform{
@@ -11,10 +11,10 @@
 }
 
 .radio{
-    font-size: 1px;
+    font-size:0px;
 }
 .inputname{
-    margin: 8px 15px;
+    margin: 10px 15px;
     width: 20px;
     text-align: center;
     justify-content: center;

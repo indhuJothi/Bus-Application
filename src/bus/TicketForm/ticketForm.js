@@ -1,10 +1,12 @@
 import React from 'react'
 import './ticketForm.css'
+import '../busPage/buslistTable.css'
 import userhitory from '../../userHistory.json'
 import bushistory from '../../busHistory.json'
-import Ticket from '../../common/ticket'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 import { userContext } from '../../context'
+import Main from '../../common/main'
+import Menu from '../../common/route'
 
 let userhitoryjson= userhitory
 let bushistoryjson = bushistory
@@ -53,7 +55,7 @@ class TicketForm extends React.Component{
            isbool : true
        })
      
-      //  alert("Hi")
+      
        console.log(this.state.selectedoption)
        userhitoryjson.buspassanger.push(userpushdetails)
        console.log(userhitoryjson)
@@ -62,46 +64,53 @@ class TicketForm extends React.Component{
      
       }
     render(){
-    let context = this.context
-    const seats = this.props.value
-    const fare = this.props.fare
-    const selectSeats = this.props.value.length
-    let userMobile = context.mobile
-    console.log(seats)
-    let id=this.props.id
-    let userid=this.props.userid
-    let data =this.props.data
-    let amnt=selectSeats*fare
-    let date=this.props.date
-    let busNo=this.props.busno
-    console.log(userid)
+    let busdetails =JSON.parse(localStorage.getItem("busdetails"))
+    let searchdetails=JSON.parse(localStorage.getItem("searchdetails"))
+    let userMobile = sessionStorage.getItem("mobile")
+    let seatcount = localStorage.getItem("seatcount")
+    console.log(seatcount)
+    
+    let fare =busdetails.fare
+    console.log(fare)
+    let amnt=seatcount*fare
+    let date= searchdetails.date
+    console.log(amnt)
+
+    let userId=searchdetails.userid
+    let id = searchdetails.id
+    let busNo=busdetails.busNo
+    let selectSeats=localStorage.getItem("arr")
+   console.log(userId)
+   
     userpushdetails= { 
-          userbusbookingid:id,
+          userbusbookingid:userId,
            name :this.state.name,
            mobile:userMobile,
-           seatnumber:seats.map(elem=> {return elem})
+         
        }
     bushistorypushdetails={
         
-            id:id,
+            id:userId,
             mobilenumber:userMobile,
-            userId:userid,
+            userId:userId,
             busno:busNo,
             totalfare:amnt,
-            numberofseats:selectSeats,
+            numberofseats:seatcount,
             date:date
         
        }
+       let seatss=localStorage.getItem("arr")
+        console.log(seatss)
        console.log(bushistorypushdetails)
 console.log(selectSeats)
   return(
       <div >
-          {  this.state.isbool?null:  
-          <div class='finaltick'><form class='passengerform' onSubmit={this.booked}>
-           <label><span class='seatno'>Seat No:{seats.map(element => {
-                         return element+" "
-                   })}</span><br/>
-          <label for='name'>Passenger Name:<input class='inputname'  type='text' name='name' onChange={this.handleChange}/></label>
+           <Main/>
+           <Menu/>
+          <div class='finalticket'>
+          <form class='passengerform' onSubmit={this.booked}>
+           <label ><span class='seatno'>Seat No:{selectSeats}</span><br/>
+          <label  for='name'>Passenger Name:<input class='inputname'  type='text' name='name' onChange={this.handleChange}/></label>
          <div className="radio">
           <label>
             <input  class='radio'
@@ -125,17 +134,13 @@ console.log(selectSeats)
        <label for='age'>Age<input type='text' name='age' onChange={this.handlechange}  class='inputname' /></label>
       </label>
                    
-      TotalFare:{selectSeats*fare} 
+       TotalFare:{amnt}
         
       <input type='submit'  class='submit'/>
-      </form></div> }
-  {this.state.isbool? 
-     <Router>
-      <Link to='/'></Link>
-      <Link to='/ticket'/>
-      <Route path='/'><Redirect to='/ticket'></Redirect></Route>
-      <Route path="/ticket" render={() => <Ticket fare={amnt}/>} /></Router> : null}
-        </div>
+      </form>
+      </div> 
+       {this.state.isbool? <Redirect to="/ticket"/>: null}
+     </div>
         )
     }
 }
