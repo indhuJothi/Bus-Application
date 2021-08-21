@@ -59,7 +59,7 @@ class SeatList extends React.Component {
       localStorage.setItem("seatcount", seatcount);
       console.log(seatcount);
       const { history } = this.props;
-      if(history) history.push('/ticket-form');
+      if (history) history.push("/ticket-form");
     }
   }
 
@@ -86,8 +86,9 @@ class SeatList extends React.Component {
         <Main />
         <Menu />
         <div class="booktable">
-          {seatsLength.map((element) => {
+          {seatsLength.map((element, index) => {
             console.log("hi");
+
             if (element % 2 == 0)
               return (
                 <label class="main">

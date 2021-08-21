@@ -5,6 +5,7 @@ import "./search.css";
 import TableData from "../busPage/buslistTable";
 import bushistoryjson from "../../busHistory.json";
 import { getBusdetails } from "../../common/service/service";
+import Swal from "sweetalert2";
 import { useHistory } from "react-router";
 import { withRouter } from "react-router";
 import bus from "../../bus.json";
@@ -18,14 +19,15 @@ import {
   Redirect,
 } from "react-router-dom";
 import { userContext } from "../../context";
+import context from "react-bootstrap/esm/AccordionContext";
 // let date
 let bushistorydata = bushistoryjson;
 
 class Search extends React.Component {
-  //    static contextType = userContext
+  static contextType = userContext;
   constructor() {
     super();
-   
+
     this.state = {
       visible: false,
       value: " ",
@@ -55,14 +57,35 @@ class Search extends React.Component {
     this.setState({ dateVal: e.target.value });
   }
 
-  showTable() {
-    this.setState({
-      button: true,
-      showsearch: false,
-    });
+  showTable(e) {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+    //  console.log(dateVal)
+    today = yyyy + "-" + mm + "-" + dd;
+    if (this.state.dateVal < today) {
+      e.preventDefault();
+      // alert("Hi")
+      this.setState({ button: false });
+      Swal.fire({
+        icon: "warning",
+        title: "Oops...",
+        text: "You have entered the expired date!!",
+      });
+    } else {
+      this.setState({
+        button: true,
+        showsearch: false,
+      });
+    }
   }
 
   render() {
+    const contextType = this.context;
+    console.log(contextType);
+    console.log(contextType.password);
+    console.log(contextType.username);
     const value = this.state.value;
     const toValue = this.state.tovalue;
     const dateVal = this.state.dateVal;
@@ -105,15 +128,11 @@ class Search extends React.Component {
       date: dateVal,
       type: type,
     };
-    var today = new Date();
-   var dd = String(today.getDate()).padStart(2, '0');
-   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-    console.log(dateVal)
-    today = yyyy +"-"+ mm +"-"+ dd;
-    console.log(today)
+   
+
     console.log(getBusdata);
     console.log(searchdet);
+
     return (
       <div>
         <div class="searchContainer">

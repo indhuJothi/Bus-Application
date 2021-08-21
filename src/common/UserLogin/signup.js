@@ -17,10 +17,12 @@ export class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      username:" ",
       email: "",
       mobile: "",
       password: " ",
       confirmpassword: " ",
+      usernameErr:" ",
       emailerr: "",
       passerr: "",
       mobileerr: "",
@@ -33,11 +35,13 @@ export class SignUp extends React.Component {
   }
 
   handleChange(event) {
+    const username=event.target.username
     const mobile = event.target.name;
     const password = event.target.password;
     const email = event.target.email;
     const confirmpassword = event.target.confirmpassword;
     this.setState({
+      [username]:event.target.value,
       [email]: event.target.value,
       [mobile]: event.target.value,
       [password]: event.target.value,
@@ -52,9 +56,33 @@ export class SignUp extends React.Component {
     let mobileres = true;
     let passwordres = true;
     let confirmpassres = true;
+    let usernameres=true
+    let nameregex = /^[a-zA-Z\s]{3,15}$/
     let emailregex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z.]+$/;
     let mobileregex = /^[6-9]\d{9}$/;
-    let passregex = /^[a-zA-Z0-9@\s]{3,15}$/;
+    let passregex = /^[A-Za-z0-9@\s]{3,15}$/;
+    if(this.state.username===" ")
+    {
+      usernameres = true
+      this.setState({
+        usernameErr:"Please Enter Your User Name"
+      })
+    }
+    else
+    { if(nameregex.test(this.state.name))
+    {
+      usernameres=false
+      this.setState({
+        usernameErr:" "
+      })
+    }
+    else{
+      usernameres=true
+      this.setState({
+        usernameErr:"User Name Must Be between 3-15 Charachters"
+      })
+    }
+  }
 
     if (emailregex.test(this.state.email)) {
       emailres = false;
@@ -111,37 +139,21 @@ export class SignUp extends React.Component {
     } 
     
     
-    if((emailres||mobileres||passwordres||confirmpassres) ===false) {
-      const getAlert = () => (
-        <SweetAlert
-          success
-          title="!"
-          onConfirm={() => this.hideAlert()}
-        >
-          You are signed in successfully
-          <p>You can now Login</p>
-        </SweetAlert>
-      );
-      this.setState({
-        res: false,
-        alert: getAlert(),
+    if((usernameres||emailres||mobileres||passwordres||confirmpassres) ===false) {
+    this.setState({
+        res: false
       });
      
       
     }
   }
-  hideAlert() {
-    console.log("Hiding alert...");
-    this.setState({
-      alert: null,
-    });
-  }
+
   componentDidUpdate() {
     pushData = {
       email: this.state.email,
       mobile: parseInt(this.state.mobile),
       password: this.state.password,
-      name: "Jothi",
+      name: this.state.username,
     };
     data.user.push(pushData);
     console.log(data);
@@ -149,6 +161,8 @@ export class SignUp extends React.Component {
 
   render() {
     let res = this.state.res;
+    let redirectLogin=this.props.redirectLogin
+    
     console.log(data);
     return (
       <div>
@@ -156,12 +170,22 @@ export class SignUp extends React.Component {
           <div className="base-container">
             <div className="formheader">Signup</div>
             <div className="form">
+            <div>
+                <label htmlFor="email">User Name</label>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="UserName"
+                  onChange={this.handleChange}
+                />
+                <div class="error">{this.state.usernameErr}</div>
+              </div>
               <div>
                 <label htmlFor="email">Email</label>
                 <input
                   type="text"
                   name="email"
-                  placeholder="email"
+                  placeholder="xyz@domain.com"
                   onChange={this.handleChange}
                 />
                 <div class="error">{this.state.emailerr}</div>
@@ -181,7 +205,7 @@ export class SignUp extends React.Component {
                 <input
                   type="password"
                   name="password"
-                  placeholder="password"
+                  placeholder="Password"
                   onChange={this.handleChange}
                 />
                 <div class="error">{this.state.passerr}</div>
@@ -203,6 +227,7 @@ export class SignUp extends React.Component {
           </div>
         </form>
         {this.state.alert}
+        {res?null:redirectLogin(true)}
       </div>
     );
   }

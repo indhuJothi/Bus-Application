@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Swal from "sweetalert2";
 import "./newtable.css";
 
 class Table extends Component {
@@ -25,7 +26,7 @@ class Table extends Component {
     console.log(length);
     console.log(columns);
     console.log(data);
-
+   
     columns.forEach((col) => {
       headerRow.push(<th class="heading">{col.heading}</th>);
     });
@@ -39,8 +40,11 @@ class Table extends Component {
         {
           dataRows.push(<td><button onClick={this.showTable.bind(this)}>Book</button></td>)
         }
-        dataRows.push(<td>{item[col.property]}</td>);
-        console.log(dataCells);
+        dataRows.push(
+          item[col.property]===undefined?
+            <td>-</td>:
+          <td>{item[col.property]}</td>);
+           console.log(dataCells);
       });
    
       dataRows.push(
@@ -54,7 +58,7 @@ class Table extends Component {
         <tbody class="tbody">{dataRows}</tbody>
       </>
     );
-  };
+    };
 
   render() {
     const { columns, data } = this.props;

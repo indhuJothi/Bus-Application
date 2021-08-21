@@ -91,6 +91,8 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { useContext } from "react";
+import { userContext } from "../context";
 
 export default function Main() {
   const history = useHistory();
@@ -102,6 +104,7 @@ export default function Main() {
 
   const [login, setlogin] = useState("Logout");
   const [profile, setprofile] = useState(false);
+  let context = useContext(userContext)
   let showProfile = false;
   return (
     <div>
@@ -111,7 +114,7 @@ export default function Main() {
         </div>
         {localStorage.getItem("name") ? (
           <a class="logobut">
-            <span class="username">{localStorage.getItem("name")}</span>
+            <span class="username">{context.username}</span>
             <span class="pro" onClick={() => setprofile(true)}>
               Profile
             </span>

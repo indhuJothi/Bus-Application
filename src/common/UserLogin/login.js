@@ -92,9 +92,6 @@ export class Login extends React.Component {
 
     return (
       <div>
-        {res ? hideapp(false) : null}
-        {res ? getuser(this.state.mobile, userName, userEmail) : null}
-        {res ? getuserpass(this.state.password) : null}
         <form onSubmit={this.submit}>
           <div className="base-container">
             <div className="formheader">Login</div>
@@ -125,6 +122,9 @@ export class Login extends React.Component {
             </div>
           </div>
         </form>
+        {res ? hideapp(false) : null}
+        {res ? getuser(this.state.mobile, userName, userEmail) : null}
+        {res ? getuserpass(this.state.password,userName,userEmail,this.state.mobile) : null}
       </div>
     );
   }

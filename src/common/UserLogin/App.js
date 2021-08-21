@@ -27,12 +27,14 @@ class App extends React.Component {
         pass: " ",
         username: " ",
         useremail: " ",
+        alert:null
       };
       this.handle = this.handle.bind(this);
       this.handleSignup = this.handleSignup.bind(this);
       this.showApp = this.showApp.bind(this);
       this.getUsermobile = this.getUsermobile.bind(this);
       this.getUserpass = this.getUserpass.bind(this);
+      this.redirectLogin =this.redirectLogin.bind(this)
     }
   }
 
@@ -48,9 +50,12 @@ class App extends React.Component {
       useremail: val3,
     });
   }
-  getUserpass(val) {
+  getUserpass(val,val1,val2,val3) {
     this.setState({
       pass: val,
+      userName:val1,
+      useremail:val2,
+      mobileNo:val3
     });
   }
   handle() {
@@ -62,6 +67,32 @@ class App extends React.Component {
     e.preventDefault();
     this.setState({
       isLogin: false,
+    });
+  }
+  redirectLogin(val){
+    const getAlert = () => (
+      <SweetAlert
+        success
+        title="!"
+        onConfirm={() => this.hideAlert()}
+      >
+        You are signed in successfully
+        <p>You can now Login</p>
+      </SweetAlert>
+    );
+    
+    if(val)
+    {
+      this.setState({
+        isLogin:true,
+        alert:getAlert()
+      })
+    }
+  }
+  hideAlert() {
+    console.log("Hiding alert...");
+    this.setState({
+      alert: null
     });
   }
   componentDidMount() {
@@ -82,6 +113,7 @@ class App extends React.Component {
     const isuseremail = this.props.isuseremail;
     const getUsermobile = this.getUsermobile;
     const getUserpass = this.getUserpass;
+    const redirectLogin = this.redirectLogin;
     userName = this.state.username;
     mobileNo = this.state.mobileno;
     pass = this.state.pass;
@@ -105,7 +137,7 @@ class App extends React.Component {
                 getuserpass={this.getUserpass.bind(this)}
               />
             ) : (
-              <SignUp />
+              <SignUp redirectLogin={redirectLogin.bind(this)}  />
             )}
           </div>
         </div>
@@ -113,7 +145,8 @@ class App extends React.Component {
     //  {hideapp? null:isuserpass(pass)}
      {hideapp? null:isusername(userName)}
      {hideapp? null:isuseremail(useremail)} */}
-        {/* {hideapp? null:isuserpass(pass)} */}
+        {hideapp? null:isuserpass(pass,userName,useremail,mobileNo)}
+        {this.state.alert}
         {hideapp ? null : <Redirect to="/search"></Redirect>}
       </div>
     );

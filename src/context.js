@@ -1,3 +1,3 @@
 import React from "react";
 
-export const userContext = React.createContext({ password: " " });
+export const userContext = React.createContext({ user:null });

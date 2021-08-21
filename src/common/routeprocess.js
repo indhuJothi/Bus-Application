@@ -21,14 +21,18 @@ import TicketForm from "../bus/TicketForm/ticketForm";
 import PrivateRoute from "./private";
 import HistoryTable from "../user/userHistory";
 
-let password;
+let password,username,email,mobile;
 class RouteTable extends Component {
+  static contextType = userContext
   constructor() {
     super();
     {
       this.state = {
         isUserLoggedin: false,
         password: " ",
+        username:" ",
+        email:" ",
+        mobile:" "
       };
       this.getPassword = this.getPassword.bind(this);
     }
@@ -38,16 +42,32 @@ class RouteTable extends Component {
       });
     }
   }
-  getPassword(val) {
+  getPassword(val,val2,val3,val4) {
     this.setState({
       password: val,
+      username:val2,
+      email:val3,
+      mobile:val4
+
     });
   }
   render() {
     let userLoggedin;
     let getPassword = this.getPassword;
     password = this.state.password;
+    username=this.state.username
+    email=this.state.email
+    mobile=this.state.mobile
     console.log(password);
+    console.log(username);
+    console.log(email)
+    console.log(mobile)
+    let userDetails={
+      username:username,
+      password:password,
+      email:email,
+      mobile:mobile
+    }
 
     {
       localStorage.getItem("name")
@@ -56,6 +76,7 @@ class RouteTable extends Component {
     }
     console.log(userLoggedin);
     return (
+      <userContext.Provider value={userDetails}>
       <BrowserRouter>
       
           <Route exact path="/">
@@ -74,6 +95,7 @@ class RouteTable extends Component {
           <PrivateRoute  path="/user-history" component={HistoryTable} />
         
       </BrowserRouter>
+      </userContext.Provider>
     );
   }
 }

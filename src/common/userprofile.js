@@ -6,6 +6,7 @@ import "./userprofile.css";
 import { Redirect } from "react-router-dom";
 import Menu from "./route";
 import Main from "./main";
+import context from "react-bootstrap/esm/AccordionContext";
 
 let datsJson = data;
 let contextValue;
@@ -26,7 +27,8 @@ class Profile extends React.Component {
         mobile: " ",
         isupdatedata: true,
         isinputshow: false,
-        isclose: true,
+        isclose:false,
+        isopen:false
       };
     }
     this.getForm = this.getForm.bind(this);
@@ -62,27 +64,50 @@ class Profile extends React.Component {
     console.log(this.state.name);
   }
   close() {
+    if(((this.state.name!==contextValue.username) &&(this.state.name===" "))&&
+    ((this.state.email!==contextValue.email) &&(this.state.email===" "))&&
+    ((this.state.mobile!==contextValue.mobile) &&(this.state.mobile===" "))&&
+    ((this.state.pass!==contextValue.password) &&(this.state.pass===" ")))
+    {
     this.setState({
-      isclose: false,
+      isclose: true,
+      isopen:false
     });
+  }
+ 
+  else{
+    this.setState({
+      isclose:false,
+      isopen:true
+    })
+  }
+  console.log(contextValue.username)
   }
   render() {
     contextValue = this.context;
     console.log(contextValue);
-    userName = localStorage.getItem("name");
-    userEmail = localStorage.email;
-    userMobile = localStorage.mobile;
-    userPass = this.props.password;
+    userName = contextValue.username;
+    userEmail = contextValue.email;
+    userMobile = contextValue.mobile;
+    userPass = contextValue.password;
+    console.log(userPass)
     let isinputShow = this.state.isinputshow;
     let isupdateData = this.state.isupdatedata;
     let isClose = this.state.isclose;
+    let isopen =this.state.isopen
     let isUpdate = this.state.isupdate;
+    let userDetails={
+      username:this.state.name,
+      password:this.state.pass,
+      email:this.state.email,
+      mobile:this.state.mobile
+    }
     return (
       <div>
         <Menu />
         <Main />
         <div class="profile">
-          {isClose ? (
+          
             <>
               <div class="profilepic">
                 <img class="profilelogo" src={logo}></img>
@@ -94,7 +119,7 @@ class Profile extends React.Component {
                   <div class="profileinfo">
                     <span>Name: {userName}</span>
                   </div>
-                ) : this.state.name === " " ? (
+                ) : this.state.name ===" " ? (
                   <div class="profileinfo">
                     <span>Name: {userName}</span>
                   </div>
@@ -173,7 +198,7 @@ class Profile extends React.Component {
                         this.state.pass !== " "
                       ) {
                         element.password = this.state.pass;
-                        localStorage.password = btoa(this.state.password);
+                        contextValue = this.state.pass;
                       }
                       changedData = element;
                     }
@@ -232,8 +257,14 @@ class Profile extends React.Component {
                 ) : null}
               </div>
             </>
-          ) : null}
-          {isClose ? null : <Redirect to="/search" />}
+          
+          {isopen ?<userContext.Provider value={userDetails}>
+                  <Redirect to="/"></Redirect>
+                </userContext.Provider> : null}
+          
+          
+          {isClose ?<Redirect to="/search" /> :null}
+       
         </div>
       </div>
     );
