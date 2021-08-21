@@ -1,3 +1,4 @@
-import React from "react"
+import React from "react";
 
-export const userContext = React.createContext({user:" "})
+export const userContext = React.createContext({ password: " " });
+s
