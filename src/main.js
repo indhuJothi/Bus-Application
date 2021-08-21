@@ -1,35 +1,32 @@
-import React from 'react'
-import RouteTable from './common/routeprocess'
+import React from "react";
+import RouteTable from "./common/routeprocess";
 
-let userloggedin 
-class Page extends React.Component{
-    constructor(props)
+let userloggedin;
+class Page extends React.Component {
+  constructor(props) {
+    super(props);
     {
-        super(props)
-        {
-           this.state={
-                userloggedin: false
-           }
-        }
-        this.isuserlogin = this.isuserlogin.bind(this)
-        
+      this.state = {
+        userloggedin: false,
+      };
     }
-    isuserlogin(value){
-        userloggedin = value
-        
-        console.log(value)
-    }
- 
-    render(){
+    this.isuserlogin = this.isuserlogin.bind(this);
+  }
+  isuserlogin(value) {
+    userloggedin = value;
 
-        let isuserlogin = this.isuserlogin
-     
-        return(
-            <>
-             <RouteTable isuserlogin={isuserlogin.bind(this)} />
-            </>
-        )
-    }
+    console.log(value);
+  }
+
+  render() {
+    let isuserlogin = this.isuserlogin;
+
+    return (
+      <>
+        <RouteTable isuserlogin={isuserlogin.bind(this)} />
+      </>
+    );
+  }
 }
 
-export default Page
+export default Page;

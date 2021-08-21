@@ -1,61 +1,59 @@
- .booktable{
-    width :350px;
-    margin-top: 120px;
-    margin-left:  500px;
-    display: block;
-    background-color:white;
-    text-align: center;
-    justify-content: center;
-    position:absolute;
+.booktable {
+  width: 300px;
+  margin-top: 120px;
+  margin-left: 500px;
+  display: block;
+  background-color: white;
+  text-align: center;
+  justify-content: center;
+  position: absolute;
 }
-.number{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 15px;
+.number {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 15px;
 }
 
+.main {
+  display: inline-block;
+  position: relative;
+  margin: 1px 30px;
+  width: 10%;
+  padding-left: 6px;
+  cursor: pointer;
+  font-size: 10px;
+  text-align: center;
+  justify-content: center;
+}
 
- .main {
-    display: inline-block;
-    position: relative;
-    margin: 1px 30px;
-    width: 10%;
-    padding-left: 6px;
-    cursor: pointer;
-    font-size: 10px;
-    text-align: center;
-    justify-content: center;
+input[type="checkbox"] {
+  visibility: hidden;
 }
- 
-input[type=checkbox] {
-    visibility: hidden;
-}
-  
-.seat{
-    font-size: 3px;
+
+.seat {
+  font-size: 3px;
 }
 .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    display: flex;
-    flex-direction:row;
-    background-color:green;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  flex-direction: row;
+  background-color: green;
 }
-  
-
 
 .main input:checked ~ .checkmark {
-    background-color:red;
-}
-  
-.seatbutton{
-    display: block;
-    margin: auto 35%;
+  background-color: red;
 }
 
-.err{
-    color: red;
-    font-size: 20px;
+.seatbutton {
+  display: block;
+  margin: auto 35%;
+}
+
+.err {
+  color: red;
+  font-size: 20px;
 }

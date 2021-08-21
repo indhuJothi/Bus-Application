@@ -1,36 +1,49 @@
-.finalticket{
-    width: 380px;
-    background-color:thistle;
-    margin: 100px 490px;
-
+.finalticket {
+  width: 400px;
+  background-color:transparent;
+  margin: 100px 490px;
 }
-.passengerform{
-    
-    border: 1px solid grey;
-    padding: 2px;
+.passengerform {
+  border: 1px solid grey;
+  padding: 28px;
 }
 
-.radio{
-    font-size:0px;
+.radio {
+  font-size: 0px;
 }
-.inputname{
-    margin: 10px 15px;
-    width: 20px;
-    text-align: center;
-    justify-content: center;
-
+.inputname {
+  margin: 10px 15px;
+  width: 20px;
+  text-align: center;
+  justify-content: center;
 }
-.seatno{
-    font-size: large;
-    color: black;
-    font-weight: bold;
-    margin-left: 60%;
-    
+.seatno {
+  font-size: large;
+  color: black;
+  font-weight: bold;
+  margin-left: 50%;
 }
 
-.submit{
-    margin:6px 50px;
-    width:2%;
-    padding: 0px 2px;
-    background-color:grey;
+.submit {
+  margin: 6px 20px;
+  width: 2%;
+  padding: 0px 1px;
+  background-color:antiquewhite;
+  font-weight: bold;
+  font-size: large;
+}
+
+
+.form-input{
+  padding: 10px;
+  justify-content: center;
+  background-color: white;
+  text-align: center;
+  margin-bottom: 7px;
+}
+
+.amount{
+  font-weight: bold;
+  font-size: large;
+  background-color: whitesmoke;
 }
