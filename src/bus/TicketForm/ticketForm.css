@@ -7,14 +7,15 @@
   border: 1px solid grey;
   padding: 28px;
 }
-
 .radio {
   font-size: 0px;
+  margin-top: 0px;
 }
 .inputname {
   margin: 10px 15px;
   width: 20px;
   text-align: center;
+  display: inline-block;
   justify-content: center;
 }
 .seatno {
@@ -24,6 +25,9 @@
   margin-left: 50%;
 }
 
+.passengerNo{
+  font-weight: bold;
+}
 .submit {
   margin: 6px 20px;
   width: 2%;
@@ -35,15 +39,34 @@
 
 
 .form-input{
-  padding: 10px;
+  /* padding: 6px; */
   justify-content: center;
   background-color: white;
   text-align: center;
-  margin-bottom: 7px;
+  display: flex;
+  flex-direction: column;
+  margin: 1px;
 }
 
 .amount{
   font-weight: bold;
   font-size: large;
   background-color: whitesmoke;
+}
+
+.goback{
+  display: block;
+  margin:20px 176px;
+  width: 79px;
+}
+
+
+.pInfo{
+  color:black;
+  display: flex;
+  flex-direction: row;
+  font-size:medium;
+  margin:5px 5px;
+  
+  
 }

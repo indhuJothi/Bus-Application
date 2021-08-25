@@ -5,6 +5,8 @@ import { getPassword } from "../service/service";
 import { getMobile } from "../service/service";
 import { getUsername } from "../service/service";
 import { getUseremail } from "../service/service";
+
+
 let userName, userEmail;
 export class Login extends React.Component {
   constructor(props) {

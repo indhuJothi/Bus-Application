@@ -1,14 +1,13 @@
 import React from "react";
-import Menu from "./route";
-import Main from "./main";
+import Menu from "./menu";
 import Search from "../bus/Search/search";
-import { busContext } from "../busContext";
-let from, to, date, id, userId;
+import Header from "./header/header";
+
 class Common extends React.Component {
   render() {
     return (
       <>
-        <Main />
+        <Header />
         <Menu />
         <Search />
       </>

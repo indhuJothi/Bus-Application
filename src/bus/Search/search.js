@@ -3,26 +3,16 @@ import Item from "./listitems";
 import To from "./to";
 import "./search.css";
 import TableData from "../busPage/buslistTable";
-import bushistoryjson from "../../busHistory.json";
+import bushistoryjson from "../../resources/busHistory.json";
 import { getBusdetails } from "../../common/service/service";
 import Swal from "sweetalert2";
-import { useHistory } from "react-router";
+import { userContext } from "../../context/context";
 import { withRouter } from "react-router";
-import bus from "../../bus.json";
-// import {userContext} from '../../context'
-import { busContext } from "../../busContext";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-} from "react-router-dom";
-import { userContext } from "../../context";
-import context from "react-bootstrap/esm/AccordionContext";
-// let date
-let bushistorydata = bushistoryjson;
+import bus from "../../resources/bus.json";
 
+
+let bushistorydata = bushistoryjson;
+let storedDetails;
 class Search extends React.Component {
   static contextType = userContext;
   constructor() {
@@ -30,9 +20,9 @@ class Search extends React.Component {
 
     this.state = {
       visible: false,
-      value: " ",
+      value: "",
       tovalue: "",
-      dateVal: " ",
+      dateVal: "",
       button: false,
       showsearch: true,
     };
@@ -42,19 +32,30 @@ class Search extends React.Component {
     this.showTable = this.showTable.bind(this);
   }
   showSource(e) {
-    this.setState({
-      value: e.target.value,
-    });
+    {
+      this.setState({
+        value: e.target.value,
+      });
+    }
   }
 
   ShowtoValue(e) {
-    this.setState({
-      tovalue: e.target.value,
-    });
+    if (e.target.value !== this.state.value) {
+      this.setState({
+        tovalue: e.target.value,
+      });
+    } else {
+      Swal.fire({
+        icon: "info",
+        title: "ohh!!",
+        text: "source and destination should not be same...",
+      });
+    }
   }
-
   dateChange(e) {
-    this.setState({ dateVal: e.target.value });
+    {
+      this.setState({ dateVal: e.target.value });
+    }
   }
 
   showTable(e) {
@@ -62,11 +63,11 @@ class Search extends React.Component {
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = today.getFullYear();
-    //  console.log(dateVal)
     today = yyyy + "-" + mm + "-" + dd;
+
     if (this.state.dateVal < today) {
       e.preventDefault();
-      // alert("Hi")
+
       this.setState({ button: false });
       Swal.fire({
         icon: "warning",
@@ -89,7 +90,7 @@ class Search extends React.Component {
     const value = this.state.value;
     const toValue = this.state.tovalue;
     const dateVal = this.state.dateVal;
-    let previd, prevuserid;
+    let previd, prevuserid, searchdet, busdetails;
     bushistorydata.userbusbooking.filter((element) => {
       previd = parseInt(element.id);
       prevuserid = element.userid;
@@ -98,16 +99,19 @@ class Search extends React.Component {
     const userid = prevuserid + 1;
     console.log(value);
     console.log(id, userid);
-    let searchdet = {
+    let datas;
+
+    searchdet = {
       from: value,
       to: toValue,
       date: dateVal,
       id: id,
       userid: userid,
     };
+
     let getBusdata;
     getBusdata = [getBusdetails(value, toValue)];
-    let seats, busNo, fare, busname, from, to, type;
+    let seats, busNo, fare, busname, from, to, type, button;
     var busdata = getBusdata.filter(function (element) {
       seats = element.NoOfSeats;
       busNo = element.busno;
@@ -116,9 +120,12 @@ class Search extends React.Component {
       type = element.type;
       from = element.from;
       to = element.to;
+      button = element.button;
       return getBusdata;
     });
-    let busdetails = {
+    let busdatas;
+
+    busdetails = {
       NoOfSeats: seats,
       busno: busNo,
       fare: fare,
@@ -127,11 +134,20 @@ class Search extends React.Component {
       to: to,
       date: dateVal,
       type: type,
+      button: button,
     };
-   
+
+    let showtable;
 
     console.log(getBusdata);
     console.log(searchdet);
+    console.log(contextType.username);
+    console.log(contextType.password);
+    console.log(contextType.mobile);
+    console.log(contextType.password);
+    if (localStorage.getItem("searchdetails")) {
+      storedDetails = JSON.parse(localStorage.getItem("searchdetails"));
+    }
 
     return (
       <div>
@@ -142,18 +158,22 @@ class Search extends React.Component {
               From{" "}
               <select
                 class="From"
-                value={this.state.value}
+                value={
+                  this.state.value
+                }
                 onChange={this.showSource}
               >
                 <Item />
               </select>
             </label>
             <label>
-              {" "}
-              To{" "}
+              {""}
+              To{""}
               <select
                 class="From"
-                value={this.state.tovalue}
+                value={
+                  this.state.tovalue
+                }
                 onChange={this.ShowtoValue}
               >
                 <To />
@@ -172,11 +192,14 @@ class Search extends React.Component {
               Search
             </button>
           </div>
+          {localStorage.getItem("searchdetails") ? (showtable = true) : null}
         </div>
-        {this.state.button ? <TableData /> : null}
+        )
+        {this.state.button && <TableData />}
         {this.state.button
-          ? localStorage.setItem("searchdetails", JSON.stringify(searchdet))
-          : null}
+          && localStorage.setItem("searchdetails", JSON.stringify(searchdet))
+          }
+        {showtable ? <TableData /> : null}
         {this.state.button
           ? localStorage.setItem("busdetails", JSON.stringify(busdetails))
           : null}

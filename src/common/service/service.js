@@ -1,7 +1,7 @@
-import data from "../../user.json";
-import busdata from "../../bus.json";
-import bushistory from "../../busHistory.json";
-import userhistory from "../../userHistory.json";
+import data from '../../resources/user.json'
+import busdata from '../../resources/bus.json'
+import bushistory from '../../resources/busHistory.json'
+import userhistory from '../../resources/userHistory.json'
 let jsondata = data;
 let busjson = busdata;
 let bushistoryjson = bushistory;
@@ -83,11 +83,11 @@ export function getUseremail(mobilenum) {
 
 export function getBusdetails(from, to) {
   let busdatas = [];
-  busjson.bus.filter((element) => {
+  busjson.bus.forEach((element) => {
     if (element.from === from && element.to === to) {
       console.log(element.from);
       console.log(element.to);
-      busdatas = element;
+      busdatas=element;
     }
     console.log(element);
   });
@@ -95,23 +95,24 @@ export function getBusdetails(from, to) {
   return busdatas;
 }
 
-// export function get
 
 export function getBushistory() {
   let bushistory;
   return (bushistory = bushistoryjson.userbusbooking);
+  
 }
 
 export function getFinaldata() {
   let finaldata;
-  return (finaldata = userhistory.buspassanger);
+  return (finaldata = userhistory.buspassanger,
+    console.log(finaldata));
 }
 
 export function seatCount(busno, selectedseat) {
   let busseatcount;
   busjson.bus.map((element) => {
     if (element.busno == busno) {
-      element.NoOfSeats = element.NoOfSeats - selectedseat;
+      // element.NoOfSeats = element.NoOfSeats - selectedseat;
       busseatcount = element.NoOfSeats;
     }
     console.log(element);

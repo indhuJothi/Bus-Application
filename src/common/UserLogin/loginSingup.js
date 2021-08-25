@@ -2,21 +2,15 @@ import React from "react";
 import "./logreg.css";
 import { SignUp } from "./index";
 import { Login } from "./login";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-  withRouter,
-} from "react-router-dom";
-import logo from "../../signlogo.jpg";
-import "../main.css";
+import { BrowserRouter as Router, Redirect } from "react-router-dom";
+import "../../common/header/header.css";
 import SweetAlert from "react-bootstrap-sweetalert";
-import Main from "../main";
+import { userContext } from "../../context/context";
+import { withRouter } from "react-router";
 
 let mobileNo, pass, userName;
 class App extends React.Component {
+  static contextType = userContext
   constructor(props) {
     super(props);
     {
@@ -27,14 +21,14 @@ class App extends React.Component {
         pass: " ",
         username: " ",
         useremail: " ",
-        alert:null
+        alert: null,
       };
       this.handle = this.handle.bind(this);
       this.handleSignup = this.handleSignup.bind(this);
       this.showApp = this.showApp.bind(this);
       this.getUsermobile = this.getUsermobile.bind(this);
       this.getUserpass = this.getUserpass.bind(this);
-      this.redirectLogin =this.redirectLogin.bind(this)
+      this.redirectLogin = this.redirectLogin.bind(this);
     }
   }
 
@@ -50,12 +44,12 @@ class App extends React.Component {
       useremail: val3,
     });
   }
-  getUserpass(val,val1,val2,val3) {
+  getUserpass(val, val1, val2, val3) {
     this.setState({
       pass: val,
-      userName:val1,
-      useremail:val2,
-      mobileNo:val3
+      userName: val1,
+      useremail: val2,
+      mobileNo: val3,
     });
   }
   handle() {
@@ -69,30 +63,25 @@ class App extends React.Component {
       isLogin: false,
     });
   }
-  redirectLogin(val){
+  redirectLogin(val) {
     const getAlert = () => (
-      <SweetAlert
-        success
-        title="!"
-        onConfirm={() => this.hideAlert()}
-      >
+      <SweetAlert success title="!" onConfirm={() => this.hideAlert()}>
         You are signed in successfully
         <p>You can now Login</p>
       </SweetAlert>
     );
-    
-    if(val)
-    {
+
+    if (val) {
       this.setState({
-        isLogin:true,
-        alert:getAlert()
-      })
+        isLogin: true,
+        alert: getAlert(),
+      });
     }
   }
   hideAlert() {
     console.log("Hiding alert...");
     this.setState({
-      alert: null
+      alert: null,
     });
   }
   componentDidMount() {
@@ -111,6 +100,8 @@ class App extends React.Component {
     const isuserpass = this.props.isuserpass;
     const isusername = this.props.isusername;
     const isuseremail = this.props.isuseremail;
+    const contextValue = this.context
+    console.log(contextValue.username)
     const getUsermobile = this.getUsermobile;
     const getUserpass = this.getUserpass;
     const redirectLogin = this.redirectLogin;
@@ -137,20 +128,17 @@ class App extends React.Component {
                 getuserpass={this.getUserpass.bind(this)}
               />
             ) : (
-              <SignUp redirectLogin={redirectLogin.bind(this)}  />
+              <SignUp redirectLogin={redirectLogin.bind(this)} />
             )}
           </div>
         </div>
-        {/* {hideapp? null:isuserlogin(mobileNo)}
-    //  {hideapp? null:isuserpass(pass)}
-     {hideapp? null:isusername(userName)}
-     {hideapp? null:isuseremail(useremail)} */}
-        {hideapp? null:isuserpass(pass,userName,useremail,mobileNo)}
+
+        {hideapp ? null : isuserpass(pass, userName, useremail, mobileNo)}
         {this.state.alert}
-        {hideapp ? null : <Redirect to="/search"></Redirect>}
+        {hideapp ? null : this.props.history.push('/search')}
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

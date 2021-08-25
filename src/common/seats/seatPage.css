@@ -8,10 +8,12 @@
   justify-content: center;
   position: absolute;
 }
+
 .number {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  font-size: 15px;
+  font-size: 19px;
+  font-weight: bold;
 }
 
 .main {
@@ -32,13 +34,17 @@ input[type="checkbox"] {
 
 .seat {
   font-size: 3px;
+  
+  
 }
 .checkmark {
   position: absolute;
   top: 0;
   left: 0;
   height: 20px;
-  width: 20px;
+  width: 35px;
+  border-radius: 4px;
+  padding: 3px 3px;
   display: flex;
   flex-direction: row;
   background-color: green;
@@ -47,13 +53,24 @@ input[type="checkbox"] {
 .main input:checked ~ .checkmark {
   background-color: red;
 }
-
+.main input:checked~.check{
+  background-color: blue;
+}
 .seatbutton {
-  display: block;
+  display:block;
   margin: auto 35%;
+  position: relative;
+  padding: 3px;
 }
 
 .err {
   color: red;
   font-size: 20px;
+}
+
+
+.back{
+  display: block;
+  margin:20px 120px;
+  width: 79px;
 }

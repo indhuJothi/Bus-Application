@@ -1,6 +1,7 @@
 .profilelogo {
   width: 40px;
   position: relative;
+
 }
 
 .profile {
@@ -15,7 +16,7 @@
 
 .profiledetails {
   position: relative;
-  width: 300px;
+  width: 350px;
   margin: 10px 100px;
   text-align: center;
   justify-self: center;
@@ -23,9 +24,12 @@
 
 .profileinfo {
   position: relative;
+  display: block;
+  padding-left: 10px;
 }
 .updatedetails {
   position: relative;
+  padding-top: 30px;
   width: 300px;
   margin-top: 10px;
   margin-left: 50px;

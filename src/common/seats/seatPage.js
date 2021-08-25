@@ -1,18 +1,9 @@
 import React from "react";
 import "./seatPage.css";
-import TicketForm from "../../bus/TicketForm/ticketForm";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-} from "react-router-dom";
-import { busContext } from "../../busContext";
-import { getBusdetails } from "../service/service";
-import Menu from "../route";
-import Main from "../main";
-import seat from "../../seat.jpg";
+import { busContext } from "../../context/busContext";
+import Menu from "../menu";
+import Header from "../header/header";
+import seat from   "../../resources/seat.jpg";
 import { withRouter } from "react-router";
 
 class SeatList extends React.Component {
@@ -21,16 +12,17 @@ class SeatList extends React.Component {
     super();
     {
       this.state = {
-        values: [],
+        values:localStorage.getItem("arr")?JSON.parse(localStorage.getItem("arr")):[],
         showTicket: false,
         letsShow: true,
         error: " ",
       };
       this.getValue = this.getValue.bind(this);
       this.validate = this.validate.bind(this);
+      this.goBack = this.goBack.bind(this);
     }
   }
-  getValue(e) {
+  getValue(i, e) {
     const values = this.state.values;
     let index;
     if (e.target.checked) {
@@ -41,6 +33,7 @@ class SeatList extends React.Component {
     }
     this.setState({ values: values });
     console.log(values);
+    localStorage.setItem("arr", JSON.stringify(this.state.values));
   }
   validate(e) {
     let seatcount = this.state.values.length;
@@ -55,7 +48,6 @@ class SeatList extends React.Component {
         letsShow: false,
         error: " ",
       });
-      localStorage.setItem("arr", JSON.stringify(this.state.values));
       localStorage.setItem("seatcount", seatcount);
       console.log(seatcount);
       const { history } = this.props;
@@ -63,73 +55,75 @@ class SeatList extends React.Component {
     }
   }
 
+  goBack() {
+    this.props.history.push("/search");
+  }
+
   render() {
     let fare;
     let busNo;
     let busdocument = JSON.parse(localStorage.getItem("busdetails"));
     let seats = busdocument.NoOfSeats;
-    console.log(seats);
-    console.log(busdocument.busno);
-
-    console.log(busNo);
-
     let seatsLength = [];
     for (let i = 0; i < seats; i++) {
       seatsLength.push(i);
     }
-    console.log(seatsLength);
-    console.log(fare);
-    // const arr= [this.state.values
-    // console.log(arr)
+    let seatVal;
+    if (localStorage.getItem("arr")) {
+      seatVal = JSON.parse(localStorage.getItem("arr"));
+    }
     return (
       <div>
-        <Main />
+        <Header />
         <Menu />
-        <div class="booktable">
-          {seatsLength.map((element, index) => {
-            console.log("hi");
 
-            if (element % 2 == 0)
+        <div class="booktable">
+          <button class="back" onClick={this.goBack}>
+            GO BACK
+          </button>
+          {seatsLength.map((element, index) => {
+            let seatVal;
+            console.log("hi");
+            if (localStorage.getItem("arr")) {
+              let seatVal = JSON.parse(localStorage.getItem("arr"));
+
+              {
+                return (
+                  <label class="main">
+                    <input
+                      type="checkbox"
+                      checked={seatVal.includes(element + 1) ? "checked" : null}
+                      value={element + 1}
+                      onClick={this.getValue.bind(this, index)}
+                    />
+                    <span class="checkmark check">
+                      <span class="number">{element + 1}</span>
+                      <img src={seat} class="seat"></img>
+                    </span>
+                  </label>
+                );
+              }
+            } else {
               return (
                 <label class="main">
                   <input
                     type="checkbox"
                     value={element + 1}
-                    onClick={this.getValue}
+                    onClick={this.getValue.bind(this, index)}
                   />
-                  <span class="checkmark">
+                  <span class="checkmark check">
                     <span class="number">{element + 1}</span>
                     <img src={seat} class="seat"></img>
                   </span>
                 </label>
               );
-            else
-              return (
-                <label class="main">
-                  <input
-                    type="checkbox"
-                    checked="checked"
-                    value={element + 1}
-                    onClick={this.getValue}
-                  />
-                  <span class="checkmark">
-                    <span class="number">{element + 1}</span>
-                    <img src={seat} class="seat"></img>
-                  </span>
-                </label>
-              );
+            }
           })}
           <p class="err">{this.state.error}</p>
           <button type="submit" class="seatbutton" onClick={this.validate}>
             Book Seats
           </button>
         </div>
-
-        {/* {this.state.showticket ? (
-          <Redirect to="/ticket-form">
-            <TicketForm />
-          </Redirect>
-        ) : null} */}
       </div>
     );
   }

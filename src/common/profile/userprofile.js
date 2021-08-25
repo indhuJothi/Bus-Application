@@ -1,40 +1,44 @@
 import React from "react";
-import { userContext } from "../context";
-import data from "../user.json";
-import logo from "../signlogo.jpg";
+import { userContext } from "../../context/context";
+import data from   '../../resources/user.json'; 
+import logo from  "../../resources/signlogo.jpg";
 import "./userprofile.css";
-import { Redirect } from "react-router-dom";
-import Menu from "./route";
-import Main from "./main";
-import context from "react-bootstrap/esm/AccordionContext";
+import Menu from "../menu";
+import Header from "../header/header";
+import { withRouter } from "react-router";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 let datsJson = data;
 let contextValue;
 let userName, userMobile, userPass, userEmail;
+let userDetails;
 let changedData;
 class Profile extends React.Component {
   static contextType = userContext;
-
   constructor(props) {
     super(props);
     {
       this.state = {
-        updatename: " ",
+        updatename: "",
         isupdate: true,
-        name: " ",
-        email: " ",
-        pass: " ",
-        mobile: " ",
+        name: "",
+        email: "",
+        pass: "",
+        mobile: "",
+        changePassword: false,
         isupdatedata: true,
         isinputshow: false,
-        isclose:false,
-        isopen:false
+        isclose: false,
+        isopen: false,
+        dataChanged: true,
+        alert: null,
       };
     }
     this.getForm = this.getForm.bind(this);
     this.getName = this.getName.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.close = this.close.bind(this);
+    this.changePassword = this.changePassword.bind(this);
   }
   getName(e) {
     const name = e.target.name;
@@ -52,9 +56,18 @@ class Profile extends React.Component {
     this.setState({
       isupdatedata: false,
       isinputshow: false,
+      changePassword:false
     });
     console.log(this.state.isupdatedata);
-    console.log(userName);
+    console.log(this.props.userName);
+  }
+
+  changePassword() {
+    this.setState({
+      changePassword: true,
+      isupdatedata: false,
+      isinputshow: false,
+    });
   }
   getForm() {
     this.setState({
@@ -64,141 +77,188 @@ class Profile extends React.Component {
     console.log(this.state.name);
   }
   close() {
-    if(((this.state.name!==contextValue.username) &&(this.state.name===" "))&&
-    ((this.state.email!==contextValue.email) &&(this.state.email===" "))&&
-    ((this.state.mobile!==contextValue.mobile) &&(this.state.mobile===" "))&&
-    ((this.state.pass!==contextValue.password) &&(this.state.pass===" ")))
-    {
+   
+    const getAlert = () => (
+      <SweetAlert success title="!" onConfirm={() => this.hideAlert()}>
+        As you changed your password, you are redirected to login page for
+        security purpose
+        <p>You have to login again</p>
+      </SweetAlert>
+    );
+    const checkPassword = contextValue.password
+    
+       if(this.state.pass!=="")
+      {
+        this.setState({
+        isclose: true,
+        isopen: false,
+        dataChanged: false,
+        alert: getAlert(),
+      });
+      console.log(this.state.pass)
+      console.log(contextValue.password)
+       }
+      
+    
+   
+    else
+  {    
+      this.props.history.goBack();
+  }
+    console.log(contextValue.password)
+
+    console.log(contextValue.username);
+  }
+  hideAlert() {
+    console.log("Hiding alert...");
     this.setState({
-      isclose: true,
-      isopen:false
+      alert: null,
     });
-  }
- 
-  else{
-    this.setState({
-      isclose:false,
-      isopen:true
-    })
-  }
-  console.log(contextValue.username)
+
+    this.props.history.push("/");
   }
   render() {
     contextValue = this.context;
-    console.log(contextValue);
-    userName = contextValue.username;
-    userEmail = contextValue.email;
-    userMobile = contextValue.mobile;
+    userName = localStorage.getItem("name");
+    userEmail = localStorage.getItem("email");
+    userMobile = localStorage.getItem("mobile");
     userPass = contextValue.password;
-    console.log(userPass)
+    console.log(userName);
     let isinputShow = this.state.isinputshow;
     let isupdateData = this.state.isupdatedata;
     let isClose = this.state.isclose;
-    let isopen =this.state.isopen
+    let isopen = this.state.isopen;
     let isUpdate = this.state.isupdate;
-    let userDetails={
-      username:this.state.name,
-      password:this.state.pass,
-      email:this.state.email,
-      mobile:this.state.mobile
-    }
+    let dataChanged = this.state.dataChanged;
+    let changePassword = this.state.changePassword;
+    userDetails = {
+      username: contextValue.username,
+      password: contextValue.password,
+      email: contextValue.email,
+      mobile: contextValue.mobile,
+    };
+    console.log(userDetails);
     return (
       <div>
-        <Menu />
-        <Main />
-        <div class="profile">
-          
+        <div>
+          <Menu />
+          <Header />
+          <div class="profile">
             <>
               <div class="profilepic">
                 <img class="profilelogo" src={logo}></img>
               </div>
               <button onClick={this.getForm}>Edit</button>
               <button onClick={this.close}>Close</button>
+              <button onClick={this.changePassword}>ChangePassword</button>
               <div class="profiledetails">
                 {isUpdate ? (
                   <div class="profileinfo">
-                    <span>Name: {userName}</span>
+                    <span class="info">
+                      Name: <span class="info1">{userName}</span>
+                    </span>
                   </div>
-                ) : this.state.name ===" " ? (
+                ) : this.state.name === "" ? (
                   <div class="profileinfo">
-                    <span>Name: {userName}</span>
+                    <span class="info">
+                      Name:<span class="info1">{userName}</span>
+                    </span>
                   </div>
                 ) : (
                   <div>
-                    <span>Name:{this.state.name}</span>
+                    <span class="info">
+                      Name:<span class="info1">{this.state.name}</span>
+                    </span>
                   </div>
                 )}
                 {isUpdate ? (
                   <div class="profileinfo">
-                    <span>Email:{userEmail}</span>
+                    <span class="info">
+                      Email:<span class="info1">{userEmail}</span>
+                    </span>
                   </div>
-                ) : this.state.email === " " ? (
+                ) : this.state.email === "" ? (
                   <div class="profileinfo">
-                    <span>Email: {userEmail}</span>
+                    <span class="info">
+                      Email:<span class="info1">{userEmail}</span>{" "}
+                    </span>
                   </div>
                 ) : (
                   <div>
-                    <span>Email: {this.state.email}</span>
+                    <span class="info">
+                      Email:<span class="info1">{this.state.email}</span>
+                    </span>
                   </div>
                 )}
                 {isUpdate ? (
                   <div class="profileinfo">
-                    <span>Mobile:{userMobile}</span>
+                    <span class="info">
+                      Mobile:<span class="info1">{userMobile}</span>
+                    </span>
                   </div>
-                ) : this.state.mobile === " " ? (
+                ) : this.state.mobile === "" ? (
                   <div class="profileinfo">
-                    <span>Mobile: {userMobile}</span>
+                    <span class="info">
+                      Mobile:<span class="info1">{userMobile}</span>{" "}
+                    </span>
                   </div>
                 ) : (
                   <div>
-                    <span>Mobile: {this.state.mobile}</span>
+                    <span class="info">
+                      Mobile:<span class="info1">{this.state.mobile}</span>
+                    </span>
                   </div>
                 )}
-                {isUpdate ? (
-                  <div class="profileinfo">
-                    <span>Password:{userPass}</span>
-                  </div>
-                ) : this.state.pass === " " ? (
-                  <div class="profileinfo">
-                    <span>password: {userPass}</span>
-                  </div>
-                ) : (
-                  <div>
-                    <span>Password: {this.state.pass}</span>
-                  </div>
-                )}
+                {changePassword? (
+                  this.state.pass === "" ? (
+                    <div class="profileinfo">
+                      <span class="info">
+                        password:<span class="info1">{contextValue.password}</span>
+                      </span>
+                    </div>
+                  ) : (
+                    <div>
+                      <span class="info">
+                        Password: <span class="info1">{this.state.pass}</span>
+                      </span>
+                    </div>
+                  )
+                ) : null}
               </div>
               {isupdateData
                 ? null
                 : datsJson.user.filter((element) => {
                     if (element.name === userName) {
                       if (
-                        this.state.name !== " " &&
+                        this.state.name !== "" &&
                         this.state.name !== userName
                       ) {
                         element.name = this.state.name;
                         localStorage.name = this.state.name;
+                        contextValue.username = this.state.name;
                       }
                       if (
-                        this.state.email !== " " &&
+                        this.state.email !== "" &&
                         this.state.email !== userEmail
                       ) {
                         element.email = this.state.email;
                         localStorage.email = this.state.email;
+                        contextValue.email = this.state.email;
                       }
                       if (
                         this.state.mobile !== userMobile &&
-                        this.state.mobile !== " "
+                        this.state.mobile !== ""
                       ) {
                         element.mobile = this.state.mobile;
                         localStorage.mobile = this.state.mobile;
+                        contextValue.mobile = this.state.mobile;
                       }
                       if (
                         this.state.pass !== userPass &&
-                        this.state.pass !== " "
+                        this.state.pass !== ""
                       ) {
                         element.password = this.state.pass;
-                        contextValue = this.state.pass;
+                        // contextValue.password = this.state.pass;
                       }
                       changedData = element;
                     }
@@ -239,10 +299,10 @@ class Profile extends React.Component {
                   />
                 ) : null}
                 <br></br>
-                {isinputShow ? (
+                {changePassword ? (
                   <input
                     class="inputdetail"
-                    defaultValue={userPass}
+                    value={this.state.password}
                     type="text"
                     name="pass"
                     placeholder="Password to Update"
@@ -255,20 +315,20 @@ class Profile extends React.Component {
                     Save
                   </button>
                 ) : null}
+                {changePassword ? (
+                  <button class="inputbutton" onClick={this.updateUser}>
+                    Save
+                  </button>
+                ) : null}
               </div>
             </>
-          
-          {isopen ?<userContext.Provider value={userDetails}>
-                  <Redirect to="/"></Redirect>
-                </userContext.Provider> : null}
-          
-          
-          {isClose ?<Redirect to="/search" /> :null}
-       
+          </div>
         </div>
+
+        {this.state.alert}
       </div>
     );
   }
 }
 
-export default Profile;
+export default withRouter(Profile);

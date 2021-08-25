@@ -2,6 +2,16 @@
   "bus": [
     {
       "busno": "TN543",
+      "busname": "Blue Bus",
+      "from": "Chennai",
+      "to": "Madurai",
+      "fare": 150,
+      "type": "2s",
+      "NoOfSeats": 16,
+      "button" :true
+    },
+    {
+      "busno": "TN540",
       "busname": "Red Bus",
       "from": "Chennai",
       "to": "Madurai",

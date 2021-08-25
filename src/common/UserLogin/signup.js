@@ -1,28 +1,18 @@
 import React from "react";
 import "./logreg.css";
-import data from "../../user.json";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-} from "react-router-dom";
-import SweetAlert from "react-bootstrap-sweetalert";
-import { withRouter } from "react-router";
-import PrivateRoute from "../private";
+import data from  "../../resources/user.json";
 
 let pushData;
 export class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username:" ",
+      username: " ",
       email: "",
       mobile: "",
       password: " ",
       confirmpassword: " ",
-      usernameErr:" ",
+      usernameErr: " ",
       emailerr: "",
       passerr: "",
       mobileerr: "",
@@ -35,13 +25,13 @@ export class SignUp extends React.Component {
   }
 
   handleChange(event) {
-    const username=event.target.username
+    const username = event.target.username;
     const mobile = event.target.name;
     const password = event.target.password;
     const email = event.target.email;
     const confirmpassword = event.target.confirmpassword;
     this.setState({
-      [username]:event.target.value,
+      [username]: event.target.value,
       [email]: event.target.value,
       [mobile]: event.target.value,
       [password]: event.target.value,
@@ -56,39 +46,35 @@ export class SignUp extends React.Component {
     let mobileres = true;
     let passwordres = true;
     let confirmpassres = true;
-    let usernameres=true
-    let nameregex = /^[a-zA-Z\s]{3,15}$/
+    let usernameres = true;
+    let nameregex = /^[a-zA-Z\s]{3,15}$/;
     let emailregex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z.]+$/;
     let mobileregex = /^[6-9]\d{9}$/;
     let passregex = /^[A-Za-z0-9@\s]{3,15}$/;
-    if(this.state.username===" ")
-    {
-      usernameres = true
+    if (this.state.username === " ") {
+      usernameres = true;
       this.setState({
-        usernameErr:"Please Enter Your User Name"
-      })
+        usernameErr: "Please Enter Your User Name",
+      });
+    } else {
+      if (nameregex.test(this.state.name)) {
+        usernameres = false;
+        this.setState({
+          usernameErr: " ",
+        });
+      } else {
+        usernameres = true;
+        this.setState({
+          usernameErr: "User Name Must Be between 3-15 Charachters",
+        });
+      }
     }
-    else
-    { if(nameregex.test(this.state.name))
-    {
-      usernameres=false
-      this.setState({
-        usernameErr:" "
-      })
-    }
-    else{
-      usernameres=true
-      this.setState({
-        usernameErr:"User Name Must Be between 3-15 Charachters"
-      })
-    }
-  }
 
     if (emailregex.test(this.state.email)) {
       emailres = false;
       this.setState({
-        emailerr:" "
-      })
+        emailerr: " ",
+      });
     } else {
       emailres = true;
       this.setState({
@@ -98,8 +84,8 @@ export class SignUp extends React.Component {
     if (mobileregex.test(this.state.mobile)) {
       mobileres = false;
       this.setState({
-        mobileerr:" "
-      })
+        mobileerr: " ",
+      });
     } else {
       mobileres = true;
       this.setState({
@@ -109,42 +95,41 @@ export class SignUp extends React.Component {
     if (passregex.test(this.state.password)) {
       passwordres = false;
       this.setState({
-        passerr:" "
-      })
+        passerr: " ",
+      });
     } else {
       passwordres = true;
       this.setState({
         passerr: "Enter a valid password",
       });
     }
-    if(this.state.confirmpassword===" ")
-    {
-      confirmpassres=true
+    if (this.state.confirmpassword === " ") {
+      confirmpassres = true;
       this.setState({
-        confirmpasserr:"Please Enter Your Password"
-      })
-    }
-    else if (this.state.password === this.state.confirmpassword) {
+        confirmpasserr: "Please Enter Your Password",
+      });
+    } else if (this.state.password === this.state.confirmpassword) {
       confirmpassres = false;
       this.setState({
-        confirmpasserr:" "
-      })
-    }
-   
-    else{
+        confirmpasserr: " ",
+      });
+    } else {
       confirmpassres = true;
       this.setState({
         confirmpasserr: "password are not same",
       });
-    } 
-    
-    
-    if((usernameres||emailres||mobileres||passwordres||confirmpassres) ===false) {
-    this.setState({
-        res: false
+    }
+
+    if (
+      (usernameres ||
+        emailres ||
+        mobileres ||
+        passwordres ||
+        confirmpassres) === false
+    ) {
+      this.setState({
+        res: false,
       });
-     
-      
     }
   }
 
@@ -161,8 +146,8 @@ export class SignUp extends React.Component {
 
   render() {
     let res = this.state.res;
-    let redirectLogin=this.props.redirectLogin
-    
+    let redirectLogin = this.props.redirectLogin;
+
     console.log(data);
     return (
       <div>
@@ -170,7 +155,7 @@ export class SignUp extends React.Component {
           <div className="base-container">
             <div className="formheader">Signup</div>
             <div className="form">
-            <div>
+              <div>
                 <label htmlFor="email">User Name</label>
                 <input
                   type="text"
@@ -227,7 +212,7 @@ export class SignUp extends React.Component {
           </div>
         </form>
         {this.state.alert}
-        {res?null:redirectLogin(true)}
+        {res ? null : redirectLogin(true)}
       </div>
     );
   }

@@ -1,15 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Main from "./common/main";
-import Menu from "./common/route";
+import Header from "./common/header/header";
 import RouteTable from "./common/routeprocess";
 import "./index.css";
-import Page from "./main";
+import page from './common/main'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Main />
-    <Page />
+    <Header />
+    <RouteTable/>
   </React.StrictMode>,
   document.getElementById("root")
 );

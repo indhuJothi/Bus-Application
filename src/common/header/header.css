@@ -37,7 +37,7 @@
 .signuplogo {
   width: auto;
   margin: 5px 2px;
-  border-radius: 19px;
+  border-radius: 15px;
   position: relative;
   height: auto;
 }
@@ -52,8 +52,9 @@
   margin: 30px;
 }
 .pro {
-  color: cadetblue;
-  background-color: cornsilk;
+  color:black;
+  font-size: large;
+  font-weight: bold;
   padding-left: 2px;
   cursor: pointer;
 }

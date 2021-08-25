@@ -3,9 +3,8 @@ import Table from "../common/Table/newtable";
 import "../common/Table/newtable.css";
 import "./userHistory.css";
 import { getBushistory } from "../common/service/service";
-import Menu from "../common/route";
-import Main from "../common/main";
-import { Redirect } from "react-router-dom";
+import Header from "../common/header/header";
+import Menu from "../common/menu";
 
 let columns = [
   {
@@ -48,6 +47,7 @@ let columns = [
 
 let data = getBushistory();
 console.log(data);
+
 class HistoryTable extends React.Component {
   constructor(props) {
     super(props);
@@ -56,7 +56,6 @@ class HistoryTable extends React.Component {
         go: false,
       };
     }
-    this.gotoSearch = this.gotoSearch.bind(this);
   }
   gotoSearch() {
     this.setState({
@@ -66,18 +65,18 @@ class HistoryTable extends React.Component {
 
   render() {
     let go = this.state.go;
-    let gotoSearch = this.gotoSearch;
+    let datalist = [...data].reverse();
     return (
       <>
-        <Main />
-
-        <Menu />
-        <Table columns={columns} data={data} />
-        <button class="searchbtn" onClick={gotoSearch}>
+        <Header />
+        <Table columns={columns} data={datalist} />
+        <button class="searchbtn" onClick={() => this.gotoSearch()}>
           Search
         </button>
-
-        {go ? <Redirect to="/search"></Redirect> : null}
+        <Menu />
+        {go ? this.props.history.push("/search") : null}
+        {go && localStorage.removeItem("busdetails")}
+        {go && localStorage.removeItem("searchdetails")}
       </>
     );
   }

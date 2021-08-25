@@ -1,12 +1,12 @@
 import React from "react";
-import userhistory from "../userHistory.json";
-import Main from "./main";
-import Menu from "./route";
+import userhistory from  "../resources/userHistory.json";
+import Menu from "./menu";
 import { getBushistory } from "./service/service";
 import "./ticket.css";
-import bus from "../bus.json";
+import bus from  '../resources/bus.json';
 import { seatCount } from "./service/service";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
+import Header from "./header/header";
 let busdata = bus;
 let userHistoryjson = userhistory;
 let userBookingid, name, mobile, stno;
@@ -31,6 +31,10 @@ class Ticket extends React.Component {
       isbool: false,
     });
   }
+  goBack(){
+    this.props.history.goBack()
+  }
+
   render() {
     let busdetails = JSON.parse(localStorage.getItem("busdetails"));
     let searchdetails = JSON.parse(localStorage.getItem("searchdetails"));
@@ -40,8 +44,8 @@ class Ticket extends React.Component {
     let to = busdetails.to;
     let busno = busdetails.busno;
     let busname = busdetails.busname;
-    // busdetails.seats=busdetails.seats-seatcount
-    // getBushistory
+    let passengerName = JSON.parse(localStorage.getItem("PassengerName"));
+
     console.log(seatcount);
     let fare = busdetails.fare;
     console.log(fare);
@@ -49,43 +53,51 @@ class Ticket extends React.Component {
     let date = searchdetails.date;
     console.log(amnt);
     let userId = searchdetails.userid;
-    let selectSeats = localStorage.getItem("arr");
+    let selectSeats =localStorage.getItem("arr");
+    let passenger;
     return (
       <div>
-        <Main />
+        <Header />
         <Menu />
+       
         <div class="ticket">
+        <button class="goBack" onClick={() => this.goBack()}>BACK</button>
           <h1>Booking Details</h1>
-          <span class="info">Userbookingid:</span>
-          {userId}
+          <label class="info">Userbookingid:<span class="info1"> {userId}</span></label>
+         
           <br></br>
-          <span class="info">Name:</span> {localStorage.getItem("name")}
+          <label class="info">Name:<span class="info1">
+          {
+            (passenger = passengerName.map((elem, i) => {
+              return i + 1 + "." + elem + " ";
+            }))
+          }</span></label>
           <br></br>
-          <span class="info">Mobile:</span> {localStorage.mobile}
+          <label class="info">Mobile:<span class="info1">{userMobile}</span></label>
           <br></br>
-          <span class="info">Seatno:</span> {selectSeats}
+          <label class="info">Seatno:<span class="info1">{selectSeats}</span> </label>
           <br></br>
-          <span class="info">Fare:</span> {amnt}
+          <label class="info">Fare:<span class="info1">{amnt}</span> </label>
           <br></br>
-          <span class="info">From:</span>
-          {from}
+          <label class="info">From:<span class="info1">{from}</span></label>
+          
           <br></br>
-          <span class="info">To: </span>
-          {to}
+          <label class="info">To:<span class="info1">{to}</span></label>
+      
           <br></br>
-          <span class="info">Bus No:</span>
-          {busno}
+          <label class="info">Bus No:<span class="info1"> {busno}</span></label>
+        
           <br></br>
-          <span class="info">Bus name:</span>
-          {busname}
+          <label class="info">Bus name:<span class="info1"> {busname}</span></label>
+         
           <br></br>
           <button onClick={this.submit}> proceed to pay</button>
         </div>
-        {this.state.isbool ? null : <Redirect to="/search"></Redirect>}
-        {this.state.isbool ? null : <Redirect to="/user-history"></Redirect>}
+
+        {this.state.isbool ? null : this.props.history.push('/user-history')} 
       </div>
     );
   }
 }
 
-export default Ticket;
+export default withRouter(Ticket);
