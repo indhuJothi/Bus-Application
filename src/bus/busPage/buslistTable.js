@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Table from "../../common/Table/newtable";
 import "./buslistTable.css";
-import { busContext } from "../../context/busContext";
 import Menu from "../../common/menu";
 import { withRouter } from "react-router";
 let storedBusdata
@@ -42,45 +41,23 @@ let columns = [
 ];
 
 class TableData extends Component {
-  static contextType = busContext;
+
   constructor(props) {
     super(props);
     {
-      this.state = {
-        isbookticket: false,
-        showtable: true,
-      };
       this.bookTicket = this.bookTicket.bind(this);
     }
   }
   bookTicket(isTrue) {
     if (isTrue) {
-      this.setState({
-        isbookticket: true,
-        showtable: false,
-      });
       const { history } = this.props;
       if (history) history.push("/book-seat");
     }
   }
 
   render() {
-    const { history } = this.props;
-    context = this.context;
-    console.log(context);
-    let document = JSON.parse(localStorage.getItem("searchdetails"));
-    let source = document.from;
-    let destination = document.to;
-    const date = document.date;
-    let userid = document.userid;
-    let id = document.id;
-    console.log(userid);
-    let seats, busno, fare, busname, from, to, type,button;
     let busdatas = JSON.parse(localStorage.getItem("busdetails"));
-    console.log(busdatas);
-    console.log(busdatas.from);
     let bookTicket = this.bookTicket;
-  
     if(localStorage.getItem('busdetails'))
     { 
       storedBusdata = JSON.parse(localStorage.getItem("busdetails"))
@@ -111,24 +88,7 @@ class TableData extends Component {
       },
     ];
   }
-    console.log(getBusdata);
-
-    var busdata = getBusdata.filter(function (element) {
-      seats = element.NoOfSeats;
-      busno = element.busno;
-      fare = element.fare;
-      busname = element.busname;
-      type = element.type;
-      from = element.from;
-      to = element.to;
-      button=element.to
-
-      return getBusdata;
-    });
-    console.log(busdata);
-    console.log(from);
-    console.log(to);
-    console.log(getBusdata);
+ 
     return (
       <>
         <Menu />

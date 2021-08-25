@@ -49,7 +49,6 @@ export class Login extends React.Component {
     email = getUseremail(this.state.mobile);
     localStorage.setItem("mobile", this.state.mobile);
     localStorage.setItem("name", name);
-    // localStorage.setItem('password',btoa(this.state.password))
     localStorage.setItem("email", email);
 
     if (password != this.state.password) {
@@ -64,34 +63,14 @@ export class Login extends React.Component {
       });
     }
   }
-  componentDidMount() {
-    this.documentData = [
-      localStorage.getItem("mobile"),
-      localStorage.getItem("password"),
-    ];
 
-    if (localStorage.getItem("document")) {
-      this.setState({
-        mobile: this.documentData.mobile,
-        password: this.documentData.password,
-      });
-    } else {
-      this.setState({
-        title: "",
-        description: "",
-        price: "",
-      });
-    }
-  }
   render() {
-    let hideapp = this.props.prop;
-    let getuser = this.props.getuser;
     let getuserpass = this.props.getuserpass;
+    let res = this.state.res;
+    let hideapp = this.props.prop;
     userName = getUsername(this.state.mobile);
     userEmail = getUseremail(this.state.mobile);
-
-    let res = this.state.res;
-
+     console.log(userName)
     return (
       <div>
         <form onSubmit={this.submit}>
@@ -125,7 +104,6 @@ export class Login extends React.Component {
           </div>
         </form>
         {res ? hideapp(false) : null}
-        {res ? getuser(this.state.mobile, userName, userEmail) : null}
         {res ? getuserpass(this.state.password,userName,userEmail,this.state.mobile) : null}
       </div>
     );

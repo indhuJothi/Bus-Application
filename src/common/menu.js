@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Switch,
   NavLink
 } from "react-router-dom";
-import Search from "../bus/Search/search";
 import "./route.css";
 
 
@@ -28,6 +25,7 @@ render() {
                   >
                     Search
                   </NavLink>
+                  
                 </li>
                 <li class="li">
                   <NavLink
@@ -39,9 +37,6 @@ render() {
                   </NavLink>
                 </li>
               </ul>
-              <Switch>
-                <Route exact path="/search-box" component={Search} />
-              </Switch>
             </Router>
           </div>
         </div>

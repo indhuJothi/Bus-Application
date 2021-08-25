@@ -7,26 +7,24 @@ import "../../common/header/header.css";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { userContext } from "../../context/context";
 import { withRouter } from "react-router";
+import Header from "../header/header";
 
-let mobileNo, pass, userName;
 class App extends React.Component {
-  static contextType = userContext
   constructor(props) {
     super(props);
     {
       this.state = {
         isLogin: true,
         hideapp: true,
-        mobileno: " ",
+        mobileNo: " ",
         pass: " ",
-        username: " ",
+        userName: " ",
         useremail: " ",
         alert: null,
       };
       this.handle = this.handle.bind(this);
       this.handleSignup = this.handleSignup.bind(this);
       this.showApp = this.showApp.bind(this);
-      this.getUsermobile = this.getUsermobile.bind(this);
       this.getUserpass = this.getUserpass.bind(this);
       this.redirectLogin = this.redirectLogin.bind(this);
     }
@@ -37,20 +35,15 @@ class App extends React.Component {
       hideapp: value,
     });
   }
-  getUsermobile(val, val1, val3) {
+
+  getUserpass(pass,name,useremail,mobile) {
     this.setState({
-      mobileno: val,
-      username: val1,
-      useremail: val3,
+      pass: pass,
+      userName:name,
+      useremail:useremail,
+      mobileNo: mobile,
     });
-  }
-  getUserpass(val, val1, val2, val3) {
-    this.setState({
-      pass: val,
-      userName: val1,
-      useremail: val2,
-      mobileNo: val3,
-    });
+    console.log(this.state.username)
   }
   handle() {
     this.setState({
@@ -84,35 +77,25 @@ class App extends React.Component {
       alert: null,
     });
   }
-  componentDidMount() {
-    this.setState({
-      user: {
-        userid: this.state.mobile,
-        pass: this.state.pass,
-      },
-    });
-  }
+
   render() {
     const isLogin = this.state.isLogin;
     const showApp = this.showApp;
     const hideapp = this.state.hideapp;
-    const isuserlogin = this.props.isuserlogin;
     const isuserpass = this.props.isuserpass;
-    const isusername = this.props.isusername;
-    const isuseremail = this.props.isuseremail;
-    const contextValue = this.context
-    console.log(contextValue.username)
-    const getUsermobile = this.getUsermobile;
+    const useremail = this.state.useremail;
     const getUserpass = this.getUserpass;
     const redirectLogin = this.redirectLogin;
-    userName = this.state.username;
-    mobileNo = this.state.mobileno;
-    pass = this.state.pass;
-    console.log(pass);
-    let useremail = this.state.useremail;
-
+    let userName = this.state.userName;
+    let mobileNo = this.state.mobileNo;
+    let pass = this.state.pass;
+   console.log(userName)
+   console.log(useremail)
+   console.log(mobileNo)
+   console.log(pass)
     return (
       <div>
+        <Header/>
         <div class="MainContainer center">
           <button onClick={this.handle} class="button">
             Login
@@ -124,8 +107,7 @@ class App extends React.Component {
             {isLogin ? (
               <Login
                 prop={showApp.bind(this)}
-                getuser={getUsermobile.bind(this)}
-                getuserpass={this.getUserpass.bind(this)}
+                getuserpass={getUserpass.bind(this)}
               />
             ) : (
               <SignUp redirectLogin={redirectLogin.bind(this)} />

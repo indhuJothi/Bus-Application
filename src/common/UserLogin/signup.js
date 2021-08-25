@@ -3,6 +3,8 @@ import "./logreg.css";
 import data from  "../../resources/user.json";
 
 let pushData;
+
+
 export class SignUp extends React.Component {
   constructor(props) {
     super(props);
@@ -141,14 +143,13 @@ export class SignUp extends React.Component {
       name: this.state.username,
     };
     data.user.push(pushData);
-    console.log(data);
+    
   }
 
   render() {
     let res = this.state.res;
     let redirectLogin = this.props.redirectLogin;
-
-    console.log(data);
+    
     return (
       <div>
         <form onSubmit={this.handleSubmit}>

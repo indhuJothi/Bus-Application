@@ -1,7 +1,7 @@
 import React from "react";
 import { userContext } from "../../context/context";
-import data from   '../../resources/user.json'; 
-import logo from  "../../resources/signlogo.jpg";
+import data from "../../resources/user.json";
+import logo from "../../resources/signlogo.jpg";
 import "./userprofile.css";
 import Menu from "../menu";
 import Header from "../header/header";
@@ -13,6 +13,9 @@ let contextValue;
 let userName, userMobile, userPass, userEmail;
 let userDetails;
 let changedData;
+
+
+
 class Profile extends React.Component {
   static contextType = userContext;
   constructor(props) {
@@ -28,8 +31,6 @@ class Profile extends React.Component {
         changePassword: false,
         isupdatedata: true,
         isinputshow: false,
-        isclose: false,
-        isopen: false,
         dataChanged: true,
         alert: null,
       };
@@ -56,10 +57,8 @@ class Profile extends React.Component {
     this.setState({
       isupdatedata: false,
       isinputshow: false,
-      changePassword:false
+      changePassword: false,
     });
-    console.log(this.state.isupdatedata);
-    console.log(this.props.userName);
   }
 
   changePassword() {
@@ -74,10 +73,8 @@ class Profile extends React.Component {
       isupdate: false,
       isinputshow: true,
     });
-    console.log(this.state.name);
   }
   close() {
-   
     const getAlert = () => (
       <SweetAlert success title="!" onConfirm={() => this.hideAlert()}>
         As you changed your password, you are redirected to login page for
@@ -85,37 +82,28 @@ class Profile extends React.Component {
         <p>You have to login again</p>
       </SweetAlert>
     );
-    const checkPassword = contextValue.password
-    
-       if(this.state.pass!=="")
-      {
-        this.setState({
-        isclose: true,
-        isopen: false,
+
+    if (this.state.pass !== "") {
+      this.setState({
         dataChanged: false,
         alert: getAlert(),
       });
-      console.log(this.state.pass)
-      console.log(contextValue.password)
-       }
-      
-    
-   
-    else
-  {    
+     
+    } else {
       this.props.history.goBack();
+      // window.location.reload(false)
+    
+    }
   }
-    console.log(contextValue.password)
 
-    console.log(contextValue.username);
-  }
   hideAlert() {
     console.log("Hiding alert...");
     this.setState({
       alert: null,
     });
-
+   
     this.props.history.push("/");
+   
   }
   render() {
     contextValue = this.context;
@@ -126,10 +114,7 @@ class Profile extends React.Component {
     console.log(userName);
     let isinputShow = this.state.isinputshow;
     let isupdateData = this.state.isupdatedata;
-    let isClose = this.state.isclose;
-    let isopen = this.state.isopen;
     let isUpdate = this.state.isupdate;
-    let dataChanged = this.state.dataChanged;
     let changePassword = this.state.changePassword;
     userDetails = {
       username: contextValue.username,
@@ -209,11 +194,12 @@ class Profile extends React.Component {
                     </span>
                   </div>
                 )}
-                {changePassword? (
+                {changePassword ? (
                   this.state.pass === "" ? (
                     <div class="profileinfo">
                       <span class="info">
-                        password:<span class="info1">{contextValue.password}</span>
+                        password:
+                        <span class="info1">{contextValue.password}</span>
                       </span>
                     </div>
                   ) : (
@@ -258,7 +244,6 @@ class Profile extends React.Component {
                         this.state.pass !== ""
                       ) {
                         element.password = this.state.pass;
-                        // contextValue.password = this.state.pass;
                       }
                       changedData = element;
                     }

@@ -1,16 +1,18 @@
 import React from "react";
-import userhistory from  "../resources/userHistory.json";
+import userhistory from "../resources/userHistory.json";
 import Menu from "./menu";
-import { getBushistory } from "./service/service";
 import "./ticket.css";
-import bus from  '../resources/bus.json';
 import { seatCount } from "./service/service";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Header from "./header/header";
-let busdata = bus;
+import { userContext } from "../context/context";
+
 let userHistoryjson = userhistory;
-let userBookingid, name, mobile, stno;
+
+
+
 class Ticket extends React.Component {
+  static contextType = userContext
   constructor() {
     super();
     {
@@ -31,11 +33,12 @@ class Ticket extends React.Component {
       isbool: false,
     });
   }
-  goBack(){
-    this.props.history.goBack()
+  goBack() {
+    this.props.history.goBack();
   }
 
   render() {
+    let context = this.context
     let busdetails = JSON.parse(localStorage.getItem("busdetails"));
     let searchdetails = JSON.parse(localStorage.getItem("searchdetails"));
     let userMobile = localStorage.getItem("mobile");
@@ -45,56 +48,73 @@ class Ticket extends React.Component {
     let busno = busdetails.busno;
     let busname = busdetails.busname;
     let passengerName = JSON.parse(localStorage.getItem("PassengerName"));
-
-    console.log(seatcount);
     let fare = busdetails.fare;
-    console.log(fare);
     let amnt = seatcount * fare;
     let date = searchdetails.date;
-    console.log(amnt);
     let userId = searchdetails.userid;
-    let selectSeats =localStorage.getItem("arr");
-    let passenger;
+    let selectSeats = localStorage.getItem("seats");
+    let passenger
     return (
       <div>
         <Header />
         <Menu />
-       
+
         <div class="ticket">
-        <button class="goBack" onClick={() => this.goBack()}>BACK</button>
+          <button class="goBack" onClick={() => this.goBack()}>
+            BACK
+          </button>
           <h1>Booking Details</h1>
-          <label class="info">Userbookingid:<span class="info1"> {userId}</span></label>
-         
+          <label class="info">
+            Userbookingid:<span class="info1"> {userId}</span>
+          </label>
+
           <br></br>
-          <label class="info">Name:<span class="info1">
-          {
-            (passenger = passengerName.map((elem, i) => {
-              return i + 1 + "." + elem + " ";
-            }))
-          }</span></label>
+          <label class="info">
+            Name:
+            <span class="info1">
+              {
+                (passenger = passengerName.map((elem, i) => {
+                  return i + 1 + "." + elem + " ";
+                }))
+              }
+            </span>
+          </label>
           <br></br>
-          <label class="info">Mobile:<span class="info1">{userMobile}</span></label>
+          <label class="info">
+            Mobile:<span class="info1">{this.context.mobile}</span>
+          </label>
           <br></br>
-          <label class="info">Seatno:<span class="info1">{selectSeats}</span> </label>
+          <label class="info">
+            Seatno:<span class="info1">{selectSeats}</span>{" "}
+          </label>
           <br></br>
-          <label class="info">Fare:<span class="info1">{amnt}</span> </label>
+          <label class="info">
+            Date:<span class="info1">{date}</span>{" "}
+          </label>
           <br></br>
-          <label class="info">From:<span class="info1">{from}</span></label>
-          
+          <label class="info">
+            Fare:<span class="info1">{amnt}</span>{" "}
+          </label>
           <br></br>
-          <label class="info">To:<span class="info1">{to}</span></label>
-      
+          <label class="info">
+            From:<span class="info1">{from}</span>
+          </label>
           <br></br>
-          <label class="info">Bus No:<span class="info1"> {busno}</span></label>
-        
+          <label class="info">
+            To:<span class="info1">{to}</span>
+          </label>
           <br></br>
-          <label class="info">Bus name:<span class="info1"> {busname}</span></label>
-         
+          <label class="info">
+            Bus No:<span class="info1"> {busno}</span>
+          </label>
+          <br></br>
+          <label class="info">
+            Bus name:<span class="info1"> {busname}</span>
+          </label>
           <br></br>
           <button onClick={this.submit}> proceed to pay</button>
         </div>
-
-        {this.state.isbool ? null : this.props.history.push('/user-history')} 
+        {this.state.isbool ? null : this.props.history.push("/user-history")}
       </div>
     );
   }

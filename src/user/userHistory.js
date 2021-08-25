@@ -70,6 +70,7 @@ class HistoryTable extends React.Component {
       <>
         <Header />
         <Table columns={columns} data={datalist} />
+        <button class="historyback" onClick={()=>this.props.history.goBack()}>Back</button>
         <button class="searchbtn" onClick={() => this.gotoSearch()}>
           Search
         </button>

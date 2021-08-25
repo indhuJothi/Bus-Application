@@ -7,7 +7,6 @@ import page from './common/main'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Header />
     <RouteTable/>
   </React.StrictMode>,
   document.getElementById("root")

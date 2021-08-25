@@ -12,8 +12,8 @@ import Swal from "sweetalert2";
 let userhistoryjson = userhistory;
 let bushistoryjson = bushistory;
 let userpushdetails, bushistorypushdetails;
-console.log(userhistoryjson);
-let value;
+
+
 class TicketForm extends React.Component {
   static contextType = userContext;
   constructor(props) {
@@ -72,9 +72,6 @@ class TicketForm extends React.Component {
     this.setState({
       isbool: true,
     });
-    console.log(this.state.name);
-    console.log(this.state.selectedOption);
-    console.log(this.state.age);
     const PassengerName = this.state.name;
     localStorage.setItem("PassengerName", JSON.stringify(PassengerName));
     userhistoryjson.buspassanger.push(userpushdetails);
@@ -84,29 +81,20 @@ class TicketForm extends React.Component {
   }
   }
   render() {
-    let contextValue = this.context
-    let values = [{ name: this.state.name }];
     let busdetails = JSON.parse(localStorage.getItem("busdetails"));
     let searchdetails = JSON.parse(localStorage.getItem("searchdetails"));
     let userMobile = localStorage.getItem("mobile");
     let seatcount = localStorage.getItem("seatcount");
-    // console.log(userMobile);
-    console.log(contextValue.mobile)
-    console.log(this.state.name);
-    console.log(this.state.age);
-    console.log(this.state.selectedoption);
-    console.log(seatcount);
     let fare = busdetails.fare;
     console.log(fare);
     let amnt = seatcount * fare;
     let date = searchdetails.date;
-    console.log(amnt);
     let value = this.state.value;
     let userId = searchdetails.userid;
     let id = searchdetails.id;
     let busno = busdetails.busno;
-    let selectSeats = localStorage.getItem("arr");
-    console.log(userId);
+    let seatss = JSON.parse(localStorage.getItem("seats"));
+
 
     userpushdetails = {
       userbusbookingid: id,
@@ -125,12 +113,7 @@ class TicketForm extends React.Component {
       from: searchdetails.from,
       to: searchdetails.to,
     };
-    let seatss = JSON.parse(localStorage.getItem("arr"));
-    console.log(seatss);
-    console.log(seatss.length);
-    console.log(bushistorypushdetails);
-    console.log(values);
-    console.log(contextValue.password)
+  
     return (
       <div>
         <Header />

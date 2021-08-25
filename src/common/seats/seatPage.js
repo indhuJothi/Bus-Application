@@ -1,18 +1,16 @@
 import React from "react";
 import "./seatPage.css";
-import { busContext } from "../../context/busContext";
 import Menu from "../menu";
 import Header from "../header/header";
 import seat from   "../../resources/seat.jpg";
 import { withRouter } from "react-router";
 
 class SeatList extends React.Component {
-  static contextType = busContext;
   constructor() {
     super();
     {
       this.state = {
-        values:localStorage.getItem("arr")?JSON.parse(localStorage.getItem("arr")):[],
+        values:localStorage.getItem("seats")?JSON.parse(localStorage.getItem("seats")):[],
         showTicket: false,
         letsShow: true,
         error: " ",
@@ -33,7 +31,7 @@ class SeatList extends React.Component {
     }
     this.setState({ values: values });
     console.log(values);
-    localStorage.setItem("arr", JSON.stringify(this.state.values));
+    localStorage.setItem("seats", JSON.stringify(this.state.values));
   }
   validate(e) {
     let seatcount = this.state.values.length;
@@ -49,7 +47,6 @@ class SeatList extends React.Component {
         error: " ",
       });
       localStorage.setItem("seatcount", seatcount);
-      console.log(seatcount);
       const { history } = this.props;
       if (history) history.push("/ticket-form");
     }
@@ -60,8 +57,6 @@ class SeatList extends React.Component {
   }
 
   render() {
-    let fare;
-    let busNo;
     let busdocument = JSON.parse(localStorage.getItem("busdetails"));
     let seats = busdocument.NoOfSeats;
     let seatsLength = [];
@@ -69,34 +64,30 @@ class SeatList extends React.Component {
       seatsLength.push(i);
     }
     let seatVal;
-    if (localStorage.getItem("arr")) {
-      seatVal = JSON.parse(localStorage.getItem("arr"));
+    if (localStorage.getItem("seats")) {
+      seatVal = JSON.parse(localStorage.getItem("seats"));
     }
     return (
       <div>
         <Header />
         <Menu />
-
         <div class="booktable">
           <button class="back" onClick={this.goBack}>
             GO BACK
           </button>
           {seatsLength.map((element, index) => {
-            let seatVal;
-            console.log("hi");
-            if (localStorage.getItem("arr")) {
-              let seatVal = JSON.parse(localStorage.getItem("arr"));
-
+            if (localStorage.getItem("seats")) {
+              let seatVal = JSON.parse(localStorage.getItem("seats"));
               {
                 return (
                   <label class="main">
                     <input
                       type="checkbox"
-                      checked={seatVal.includes(element + 1) ? "checked" : null}
+                      checked={seatVal.includes(element + 1) && "checked" }
                       value={element + 1}
                       onClick={this.getValue.bind(this, index)}
                     />
-                    <span class="checkmark check">
+                    <span class="checkmark">
                       <span class="number">{element + 1}</span>
                       <img src={seat} class="seat"></img>
                     </span>

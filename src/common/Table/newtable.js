@@ -22,10 +22,7 @@ class Table extends Component {
     let headerRow = [];
     let dataRows = [];
     let length = this.props.data.length;
-    console.log(length);
-    console.log(columns);
-    console.log(data);
-  
+ 
     columns.forEach((col) => {
       headerRow.push(<th class="heading">{col.heading}</th>);
     });
@@ -46,7 +43,7 @@ class Table extends Component {
           else
           dataRows.push(
           <td>{item[col.property]}</td>);
-           console.log(dataCells);
+          
       }
        });
    
@@ -66,10 +63,6 @@ class Table extends Component {
   render() {
     const { columns, data } = this.props;
     const bookticket=this.props.bookticket;
-
-    
-    console.log(data);
-    console.log(data);
     return (
       <div>
         <table className="table">{this.buildTable(columns, data)}</table>

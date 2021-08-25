@@ -7,18 +7,18 @@ import bushistoryjson from "../../resources/busHistory.json";
 import { getBusdetails } from "../../common/service/service";
 import Swal from "sweetalert2";
 import { userContext } from "../../context/context";
-import { withRouter } from "react-router";
-import bus from "../../resources/bus.json";
+
 
 
 let bushistorydata = bushistoryjson;
-let storedDetails;
+
+
 class Search extends React.Component {
   static contextType = userContext;
   constructor() {
     super();
 
-    this.state = {
+      this.state = {
       visible: false,
       value: "",
       tovalue: "",
@@ -31,27 +31,29 @@ class Search extends React.Component {
     this.dateChange = this.dateChange.bind(this);
     this.showTable = this.showTable.bind(this);
   }
-  showSource(e) {
+showSource(e) {
     {
-      this.setState({
-        value: e.target.value,
-      });
-    }
+    this.setState
+    ({
+       value: e.target.value,
+     });
   }
+}
 
-  ShowtoValue(e) {
+ShowtoValue(e) {
     if (e.target.value !== this.state.value) {
       this.setState({
         tovalue: e.target.value,
       });
-    } else {
+    } 
+    else {
       Swal.fire({
         icon: "info",
         title: "ohh!!",
         text: "source and destination should not be same...",
-      });
-    }
-  }
+     });
+   }
+}
   dateChange(e) {
     {
       this.setState({ dateVal: e.target.value });
@@ -65,7 +67,19 @@ class Search extends React.Component {
     var yyyy = today.getFullYear();
     today = yyyy + "-" + mm + "-" + dd;
 
-    if (this.state.dateVal < today) {
+    if(((this.state.value)&&(this.state.tovalue)&&(this.state.dateVal))==="")
+    {
+      e.preventDefault();
+
+      this.setState({ button: false });
+      Swal.fire({
+        icon: "warning",
+        title: "Oops...",
+        text: "You haven't entered any values to search",
+      });
+    }
+    
+    else if (this.state.dateVal < today) {
       e.preventDefault();
 
       this.setState({ button: false });
@@ -83,10 +97,6 @@ class Search extends React.Component {
   }
 
   render() {
-    const contextType = this.context;
-    console.log(contextType);
-    console.log(contextType.password);
-    console.log(contextType.username);
     const value = this.state.value;
     const toValue = this.state.tovalue;
     const dateVal = this.state.dateVal;
@@ -97,11 +107,7 @@ class Search extends React.Component {
     });
     const id = previd + 1;
     const userid = prevuserid + 1;
-    console.log(value);
-    console.log(id, userid);
-    let datas;
-
-    searchdet = {
+   searchdet = {
       from: value,
       to: toValue,
       date: dateVal,
@@ -112,7 +118,8 @@ class Search extends React.Component {
     let getBusdata;
     getBusdata = [getBusdetails(value, toValue)];
     let seats, busNo, fare, busname, from, to, type, button;
-    var busdata = getBusdata.filter(function (element) {
+    let showtable;
+    getBusdata.filter(function (element) {
       seats = element.NoOfSeats;
       busNo = element.busno;
       fare = element.fare;
@@ -123,8 +130,6 @@ class Search extends React.Component {
       button = element.button;
       return getBusdata;
     });
-    let busdatas;
-
     busdetails = {
       NoOfSeats: seats,
       busno: busNo,
@@ -136,15 +141,7 @@ class Search extends React.Component {
       type: type,
       button: button,
     };
-
-    let showtable;
-
-    console.log(getBusdata);
-    console.log(searchdet);
-    console.log(contextType.username);
-    console.log(contextType.password);
-    console.log(contextType.mobile);
-    console.log(contextType.password);
+    let storedDetails
     if (localStorage.getItem("searchdetails")) {
       storedDetails = JSON.parse(localStorage.getItem("searchdetails"));
     }
@@ -194,15 +191,13 @@ class Search extends React.Component {
           </div>
           {localStorage.getItem("searchdetails") ? (showtable = true) : null}
         </div>
-        )
+        
         {this.state.button && <TableData />}
         {this.state.button
           && localStorage.setItem("searchdetails", JSON.stringify(searchdet))
           }
+        {this.state.button && localStorage.setItem("busdetails", JSON.stringify(busdetails))}
         {showtable ? <TableData /> : null}
-        {this.state.button
-          ? localStorage.setItem("busdetails", JSON.stringify(busdetails))
-          : null}
       </div>
     );
   }
