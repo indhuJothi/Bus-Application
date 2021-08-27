@@ -6,8 +6,7 @@ let jsondata = data;
 let busjson = busdata;
 let bushistoryjson = bushistory;
 let userhistoryjson = userhistory;
-console.log(jsondata);
-console.log(busjson);
+
 export default function validateLogin(mobilenum, valpassword) {
   let returnval;
   jsondata.user.filter((element) => {
@@ -67,7 +66,7 @@ export function getUsername(mobilenum) {
     if (element.mobile === parseInt(mobilenum)) {
       username = element.name;
     }
-    console.log(username)
+   
   });
   return username;
 }
@@ -86,8 +85,6 @@ export function getBusdetails(from, to) {
   let busdatas = [];
   busjson.bus.forEach((element) => {
     if (element.from === from && element.to === to) {
-      console.log(element.from);
-      console.log(element.to);
       busdatas = element;
     }
   });

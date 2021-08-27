@@ -1,5 +1,5 @@
 import React from "react";
-import userhistory from "../resources/userHistory.json";
+import bushistory from "../resources/busHistory.json";
 import Menu from "./menu";
 import "./ticket.css";
 import { seatCount } from "./service/service";
@@ -7,8 +7,9 @@ import { withRouter } from "react-router-dom";
 import Header from "./header/header";
 import { userContext } from "../context/context";
 
-let userHistoryjson = userhistory;
 
+let userpushdetails, bushistorypushdetails;
+let bushistoryjson = bushistory;
 
 
 class Ticket extends React.Component {
@@ -19,6 +20,7 @@ class Ticket extends React.Component {
       this.state = { isbool: true };
     }
     this.submit = this.submit.bind(this);
+    this.goBack=this.goBack.bind(this)
   }
   submit() {
     let busdetails = JSON.parse(localStorage.getItem("busdetails"));
@@ -26,9 +28,7 @@ class Ticket extends React.Component {
     let busno = busdetails.busno;
     let res = seatCount(busno, seatcount);
     busdetails.NoOfSeats = busdetails.NoOfSeats - seatcount;
-    console.log(res);
-    console.log(busno);
-    console.log(seatcount);
+    bushistoryjson.userbusbooking.push(bushistorypushdetails);
     this.setState({
       isbool: false,
     });
@@ -52,7 +52,22 @@ class Ticket extends React.Component {
     let amnt = seatcount * fare;
     let date = searchdetails.date;
     let userId = searchdetails.userid;
+    let id = searchdetails.id;
     let selectSeats = localStorage.getItem("seats");
+    let goBack = this.goBack
+    bushistorypushdetails = {
+      id: id,
+      mobile: localStorage.getItem("mobile"),
+      userId: userId,
+      busno: busno,
+      busname: busdetails.busname,
+      totalfare: amnt,
+      numberofseats: seatcount,
+      date: date,
+      from: searchdetails.from,
+      to: searchdetails.to,
+    };
+    console.log(context.mobile)
     let passenger
     return (
       <div>
@@ -60,7 +75,7 @@ class Ticket extends React.Component {
         <Menu />
 
         <div class="ticket">
-          <button class="goBack" onClick={() => this.goBack()}>
+          <button class="goBack" onClick={goBack}>
             BACK
           </button>
           <h1>Booking Details</h1>
@@ -81,7 +96,7 @@ class Ticket extends React.Component {
           </label>
           <br></br>
           <label class="info">
-            Mobile:<span class="info1">{this.context.mobile}</span>
+            Mobile:<span class="info1">{userMobile}</span>
           </label>
           <br></br>
           <label class="info">

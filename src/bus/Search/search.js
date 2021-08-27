@@ -97,6 +97,7 @@ ShowtoValue(e) {
   }
 
   render() {
+    console.log("Search")
     const value = this.state.value;
     const toValue = this.state.tovalue;
     const dateVal = this.state.dateVal;
@@ -119,6 +120,7 @@ ShowtoValue(e) {
     getBusdata = [getBusdetails(value, toValue)];
     let seats, busNo, fare, busname, from, to, type, button;
     let showtable;
+    let toval
     getBusdata.filter(function (element) {
       seats = element.NoOfSeats;
       busNo = element.busno;
@@ -145,7 +147,9 @@ ShowtoValue(e) {
     if (localStorage.getItem("searchdetails")) {
       storedDetails = JSON.parse(localStorage.getItem("searchdetails"));
     }
-
+    const Tolist = [" ", "Chennai", "Madurai", "Trichy"];
+    toval = Tolist.filter((value)=> {return value!=this.state.value })
+    console.log(toval)
     return (
       <div>
         <div class="searchContainer">
@@ -160,7 +164,11 @@ ShowtoValue(e) {
                 }
                 onChange={this.showSource}
               >
-                <Item />
+                {/* <Item /> */}
+                <option value="">{""}</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Madurai">Madurai</option>
+                <option value="Trichy">Trichy</option>
               </select>
             </label>
             <label>
@@ -173,7 +181,11 @@ ShowtoValue(e) {
                 }
                 onChange={this.ShowtoValue}
               >
-                <To />
+                {/* <To/> */}
+                {toval.map((to) => (
+          <option value={to.value}> {to === "" ? "" : to}</option>
+        ))}
+                 
               </select>
             </label>
             <label>
@@ -197,7 +209,7 @@ ShowtoValue(e) {
           && localStorage.setItem("searchdetails", JSON.stringify(searchdet))
           }
         {this.state.button && localStorage.setItem("busdetails", JSON.stringify(busdetails))}
-        {showtable ? <TableData /> : null}
+        {showtable ? <TableData />   : null}
       </div>
     );
   }

@@ -43,8 +43,9 @@ class App extends React.Component {
       useremail:useremail,
       mobileNo: mobile,
     });
-    console.log(this.state.username)
+    
   }
+
   handle() {
     this.setState({
       isLogin: true,
@@ -72,11 +73,20 @@ class App extends React.Component {
     }
   }
   hideAlert() {
-    console.log("Hiding alert...");
     this.setState({
       alert: null,
     });
   }
+
+// componentDidMount()
+// {
+//   if(this.props.history.action ==="POP" && localStorage.getItem("name"))
+//   {
+//     this.props.history.push('/search')
+//   }
+//   sessionStorage.setItem("password",this.state.pass)
+// }
+
 
   render() {
     const isLogin = this.state.isLogin;
@@ -89,13 +99,14 @@ class App extends React.Component {
     let userName = this.state.userName;
     let mobileNo = this.state.mobileNo;
     let pass = this.state.pass;
-   console.log(userName)
-   console.log(useremail)
-   console.log(mobileNo)
-   console.log(pass)
     return (
       <div>
-        <Header/>
+        
+      <div class="body">
+        <div class="header">
+          <span class="apptitle">Bus Booking App</span>
+        </div>
+        </div>
         <div class="MainContainer center">
           <button onClick={this.handle} class="button">
             Login
@@ -117,7 +128,7 @@ class App extends React.Component {
 
         {hideapp ? null : isuserpass(pass, userName, useremail, mobileNo)}
         {this.state.alert}
-        {hideapp ? null : this.props.history.push('/search')}
+        {hideapp ? null : <Redirect to="/search"></Redirect>}
       </div>
     );
   }

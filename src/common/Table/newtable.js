@@ -31,7 +31,7 @@ class Table extends Component {
       let dataCells = [];
 
       columns.forEach((col) => {
-        console.log(item);
+    
         if(item[col.property]===undefined)
         {
           dataRows.push(<td>-</td>)

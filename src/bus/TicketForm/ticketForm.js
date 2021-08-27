@@ -13,37 +13,49 @@ let userhistoryjson = userhistory;
 let bushistoryjson = bushistory;
 let userpushdetails, bushistorypushdetails;
 
-
+let passenger = false,
+  named,
+  age,
+  gender;
+if (localStorage.getItem("passengerDetails")) {
+  passenger = true;
+  let values = JSON.parse(localStorage.getItem("passengerDetails"));
+  named = values.name;
+  age = values.age;
+  gender = values.gender;
+  console.log(named);
+}
 class TicketForm extends React.Component {
   static contextType = userContext;
+
   constructor(props) {
     super(props);
     {
       this.state = {
-        name: [],
-        selectedOption: [],
-        age: [],
+        name: passenger ? named : [],
+        selectedOption: passenger ? gender : [],
+        age: passenger ? age : [],
         isbool: false,
         value: [],
-        error:""
+        error: "",
       };
     }
     this.booked = this.booked.bind(this);
     this.onValueChange = this.onValueChange.bind(this);
-    this.goBack=this.goBack.bind(this)
+    this.goBack = this.goBack.bind(this);
   }
   handleChange(index, event) {
     let names = this.state.name.slice();
     names[index] = event.target.value;
     this.setState({ name: names });
-    console.log(this.state.name);
+    localStorage.setItem("passengerName", this.state.name);
+    console.log(localStorage.getItem("passengerName"));
   }
 
   handleAge(index, event) {
     let ages = this.state.age.slice();
     ages[index] = event.target.value;
     this.setState({ age: ages });
-    console.log(this.state.age);
   }
   onValueChange(index, event) {
     let genders = this.state.selectedOption.slice();
@@ -51,34 +63,42 @@ class TicketForm extends React.Component {
     this.setState({
       selectedOption: genders,
     });
-    console.log(this.state.selectedOption);
   }
 
-  goBack(){
-    this.props.history.goBack()
+  goBack() {
+    this.props.history.goBack();
   }
 
   booked(event, index) {
     event.preventDefault();
-    if(this.state.name=="")
-    {  Swal.fire({
-      icon: "error",
-      title: "!",
-      text: "please enter your name",
-    });
-  }
-    else{
-    
-    this.setState({
-      isbool: true,
-    });
-    const PassengerName = this.state.name;
-    localStorage.setItem("PassengerName", JSON.stringify(PassengerName));
-    userhistoryjson.buspassanger.push(userpushdetails);
-    console.log(userhistoryjson);
-    bushistoryjson.userbusbooking.push(bushistorypushdetails);
-    console.log(bushistoryjson);
-  }
+    if (this.state.name == "") {
+      Swal.fire({
+        icon: "error",
+        title: "!",
+        text: "please enter your name",
+      });
+    } else {
+      let passengerDetails = {
+        name: this.state.name,
+        age: this.state.age,
+        gender: this.state.selectedOption,
+      };
+
+      localStorage.setItem(
+        "passengerDetails",
+        JSON.stringify(passengerDetails)
+      );
+
+      this.setState({
+        isbool: true,
+      });
+      const PassengerName = this.state.name;
+      localStorage.setItem("PassengerName", JSON.stringify(PassengerName));
+      userhistoryjson.buspassanger.push(userpushdetails);
+      // bushistoryjson.userbusbooking.push(bushistorypushdetails);
+      this.props.history.push("/ticket");
+      window.location.reload(true);
+    }
   }
   render() {
     let busdetails = JSON.parse(localStorage.getItem("busdetails"));
@@ -86,7 +106,6 @@ class TicketForm extends React.Component {
     let userMobile = localStorage.getItem("mobile");
     let seatcount = localStorage.getItem("seatcount");
     let fare = busdetails.fare;
-    console.log(fare);
     let amnt = seatcount * fare;
     let date = searchdetails.date;
     let value = this.state.value;
@@ -94,7 +113,6 @@ class TicketForm extends React.Component {
     let id = searchdetails.id;
     let busno = busdetails.busno;
     let seatss = JSON.parse(localStorage.getItem("seats"));
-
 
     userpushdetails = {
       userbusbookingid: id,
@@ -113,13 +131,15 @@ class TicketForm extends React.Component {
       from: searchdetails.from,
       to: searchdetails.to,
     };
-  
+
     return (
       <div>
         <Header />
         <Menu />
         <div class="finalticket">
-          <button class="goback" onClick={this.goBack}>GO BACK</button>
+          <button class="goback" onClick={this.goBack}>
+            GO BACK
+          </button>
           <form class="passengerform" onSubmit={this.booked}>
             {seatss.map((element, index) => {
               return (
@@ -130,17 +150,20 @@ class TicketForm extends React.Component {
                       <span class="seatno">SeatNo:{element}</span>
                     </div>
                     <br />
-                    <label for="name" class="pInfo"> Passenger Name:  </label>
-                     
-                      <input
-                        class="inputname"
-                        type="text"
-                        name="name"
-                        value={this.state.name[index]}
-                        onChange={this.handleChange.bind(this, index)}
-                      />
-                     <span>{this.state.error}</span>
-                  
+                    <label for="name" class="pInfo">
+                      {" "}
+                      Passenger Name:{" "}
+                    </label>
+
+                    <input
+                      class="inputname"
+                      type="text"
+                      name="name"
+                      value={this.state.name[index]}
+                      onChange={this.handleChange.bind(this, index)}
+                    />
+                    <span>{this.state.error}</span>
+
                     <div className="radio">
                       <label class="pInfo">
                         {" "}
@@ -185,7 +208,7 @@ class TicketForm extends React.Component {
             <input type="submit" class="submit" />
           </form>
         </div>
-        {this.state.isbool ?this.props.history.push('/ticket'): null}
+        {/* {this.state.isbool ?this.props.history.push('/ticket'): null} */}
       </div>
     );
   }

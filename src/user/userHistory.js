@@ -4,6 +4,7 @@ import "../common/Table/newtable.css";
 import "./userHistory.css";
 import { getBushistory } from "../common/service/service";
 import Header from "../common/header/header";
+import { withRouter } from "react-router";
 import Menu from "../common/menu";
 
 let columns = [
@@ -56,28 +57,39 @@ class HistoryTable extends React.Component {
         go: false,
       };
     }
+    this.gooBack = this.gooBack.bind(this);
   }
   gotoSearch() {
     this.setState({
       go: true,
     });
   }
+  gooBack() {
+    this.props.history.goBack();
+  }
 
   render() {
     let go = this.state.go;
     let datalist = [...data].reverse();
+    let gooback = this.gooBack;
     return (
       <>
         <Header />
         <Table columns={columns} data={datalist} />
-        <button class="historyback" onClick={()=>this.props.history.goBack()}>Back</button>
+        <button class="historyback" onClick={gooback}>
+          Back
+        </button>
         <button class="searchbtn" onClick={() => this.gotoSearch()}>
           Search
         </button>
         <Menu />
+
         {go ? this.props.history.push("/search") : null}
-        {go && localStorage.removeItem("busdetails")}
-        {go && localStorage.removeItem("searchdetails")}
+        {go ? localStorage.removeItem("busdetails") : null}
+        {go ? localStorage.removeItem("searchdetails") : null}
+        {go ? localStorage.removeItem("passengerDetails") : null}
+        {go ? localStorage.removeItem("seats") : null}
+        {go ? localStorage.removeItem("seatcount") : null}
       </>
     );
   }

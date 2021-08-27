@@ -7,6 +7,7 @@ import Menu from "../menu";
 import Header from "../header/header";
 import { withRouter } from "react-router";
 import SweetAlert from "react-bootstrap-sweetalert";
+import { Redirect } from "react-router-dom";
 
 let datsJson = data;
 let contextValue;
@@ -59,6 +60,7 @@ class Profile extends React.Component {
       isinputshow: false,
       changePassword: false,
     });
+     
   }
 
   changePassword() {
@@ -67,6 +69,7 @@ class Profile extends React.Component {
       isupdatedata: false,
       isinputshow: false,
     });
+   
   }
   getForm() {
     this.setState({
@@ -88,22 +91,24 @@ class Profile extends React.Component {
         dataChanged: false,
         alert: getAlert(),
       });
+        
+    }
+     else {
      
-    } else {
-      this.props.history.goBack();
-      // window.location.reload(false)
+    //  window.location.reload(true)
+      
+      this.props.history.goBack()
     
     }
   }
 
   hideAlert() {
-    console.log("Hiding alert...");
+   
+      this.props.history.push('/login')
+    
     this.setState({
       alert: null,
     });
-   
-    this.props.history.push("/");
-   
   }
   render() {
     contextValue = this.context;
@@ -111,7 +116,6 @@ class Profile extends React.Component {
     userEmail = localStorage.getItem("email");
     userMobile = localStorage.getItem("mobile");
     userPass = contextValue.password;
-    console.log(userName);
     let isinputShow = this.state.isinputshow;
     let isupdateData = this.state.isupdatedata;
     let isUpdate = this.state.isupdate;
@@ -122,7 +126,7 @@ class Profile extends React.Component {
       email: contextValue.email,
       mobile: contextValue.mobile,
     };
-    console.log(userDetails);
+   
     return (
       <div>
         <div>
@@ -288,7 +292,7 @@ class Profile extends React.Component {
                   <input
                     class="inputdetail"
                     value={this.state.password}
-                    type="text"
+                    type="password"
                     name="pass"
                     placeholder="Password to Update"
                     onChange={this.getName}

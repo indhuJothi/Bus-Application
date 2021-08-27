@@ -32,11 +32,11 @@ export default function Header() {
         </div>
         {localStorage.getItem("name") ? (
           <a class="logobut">
-            <span class="username">{context.username}</span>
+            <span class="username">{localStorage.name}</span>
             <span class="pro" onClick={() => setprofile(true)}>
               Profile
             </span>
-            {profile ? <Redirect to="/profile"></Redirect> : null}
+            {profile ? history.push("/profile") : null}
             <button
               onClick={() => setlogin(localStorage.clear(), history.push("/"))}
               class="signuplogo"

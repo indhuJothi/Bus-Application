@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Link, Switch, Redirect } from "react-router-dom";
 import App from "./UserLogin/loginSingup";
 import Ticket from "./ticket";
 import Menu from "./menu";
@@ -11,6 +10,7 @@ import TicketForm from "../bus/TicketForm/ticketForm";
 import PrivateRoute from "./private";
 import HistoryTable from "../user/userHistory";
 import Search from "../bus/Search/search";
+import { BrowserRouter, Route, Redirect, Switch} from "react-router-dom";
 
 class RouteTable extends Component {
   static contextType = userContext;
@@ -26,18 +26,16 @@ class RouteTable extends Component {
       };
       this.getPassword = this.getPassword.bind(this);
     }
-    
   }
   getPassword(password, username, email, mobile) {
     this.setState({
       password: password,
       username: username,
       email: email,
-      mobile: mobile
+      mobile: mobile,
     });
   }
   render() {
-   
     let password, username, email, mobile;
     let getPassword = this.getPassword;
     password = this.state.password;
@@ -48,30 +46,33 @@ class RouteTable extends Component {
       username: username,
       email: email,
       mobile: mobile,
-      password:password
+      password: password,
     };
-  
-    console.log(userDetails)
+
+    console.log(userDetails);
     return (
       <userContext.Provider value={userDetails}>
         <BrowserRouter>
+        <Switch>
           <Route exact path="/">
-            <Redirect to="/login"></Redirect>
+            {localStorage.getItem("name")?<Redirect to="/search"></Redirect>:
+            <Redirect to="/login"></Redirect>}
           </Route>
           <Route
             path="/login"
             render={() => <App isuserpass={getPassword.bind(this)} />}
           />
-          <PrivateRoute path="/menu" component={Menu}/>
+          <PrivateRoute path="/menu" component={Menu} />
           <PrivateRoute path="/search" component={Common} />
           <PrivateRoute path="/book-seat" component={SeatList} />
-          <PrivateRoute path="/search-box" component={Search}/>
+          <Route exact path="/search-box" component={Search} />
           <PrivateRoute path="/ticket-form" component={TicketForm} />
           <PrivateRoute path="/ticket" component={Ticket} />
-          <PrivateRoute path="/user-history" component={HistoryTable} />
+          <Route exact path="/user-history" component={HistoryTable}/>
           <PrivateRoute path="/profile" component={Profile} />
+          </Switch>
         </BrowserRouter>
-      </userContext.Provider>
+       </userContext.Provider>
     );
   }
 }

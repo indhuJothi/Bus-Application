@@ -30,7 +30,6 @@ class SeatList extends React.Component {
       values.splice(index, 1);
     }
     this.setState({ values: values });
-    console.log(values);
     localStorage.setItem("seats", JSON.stringify(this.state.values));
   }
   validate(e) {
@@ -87,14 +86,17 @@ class SeatList extends React.Component {
                       value={element + 1}
                       onClick={this.getValue.bind(this, index)}
                     />
-                    <span class="checkmark">
+                    <span class="checkmark check">
                       <span class="number">{element + 1}</span>
                       <img src={seat} class="seat"></img>
                     </span>
                   </label>
                 );
               }
-            } else {
+            } 
+            else
+            {
+       
               return (
                 <label class="main">
                   <input
@@ -108,8 +110,12 @@ class SeatList extends React.Component {
                   </span>
                 </label>
               );
-            }
+            
+          
+          }
           })}
+        
+        
           <p class="err">{this.state.error}</p>
           <button type="submit" class="seatbutton" onClick={this.validate}>
             Book Seats
