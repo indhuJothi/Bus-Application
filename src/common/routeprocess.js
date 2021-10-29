@@ -55,17 +55,21 @@ class RouteTable extends Component {
         <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            {localStorage.getItem("name")?<Redirect to="/search"></Redirect>:
-            <Redirect to="/login"></Redirect>}
+            
+            <Redirect to="/login"></Redirect>
           </Route>
-          <Route
-            path="/login"
-            render={() => <App isuserpass={getPassword.bind(this)} />}
-          />
+          <Route path="/login">
+            
+            {
+             localStorage.getItem("name")? <Redirect to="/search"></Redirect>
+            : <App isuserpass={getPassword.bind(this)} />
+
+            }
+          </Route>
           <PrivateRoute path="/menu" component={Menu} />
-          <PrivateRoute path="/search" component={Common} />
+          <PrivateRoute path="/search" component={Search} />
           <PrivateRoute path="/book-seat" component={SeatList} />
-          <Route exact path="/search-box" component={Search} />
+          {/* <Route exact path="/search-box" component={Search} /> */}
           <PrivateRoute path="/ticket-form" component={TicketForm} />
           <PrivateRoute path="/ticket" component={Ticket} />
           <Route exact path="/user-history" component={HistoryTable}/>

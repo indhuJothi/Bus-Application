@@ -103,7 +103,7 @@ class Profile extends React.Component {
   }
 
   hideAlert() {
-   
+
       this.props.history.push('/login')
     
     this.setState({
@@ -126,7 +126,7 @@ class Profile extends React.Component {
       email: contextValue.email,
       mobile: contextValue.mobile,
     };
-   
+    console.log(contextValue)
     return (
       <div>
         <div>

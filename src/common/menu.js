@@ -22,7 +22,7 @@ class Menu extends Component {
                 <NavLink
                   class="link"
                   activeStyle={{ color: "red" }}
-                  to="/search-box"
+                  to="/search"
                 >
                   Search
                 </NavLink>
@@ -37,12 +37,6 @@ class Menu extends Component {
                 </NavLink>
               </li>
             </ul>
-            {/* <Route path="/search" component={Common}> */}
-              
-            {/* </Route> */}
-            <Route to="/user-history">
-              
-            </Route>
           </Router>
         </div>
       </div>

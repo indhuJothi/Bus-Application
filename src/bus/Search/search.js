@@ -1,17 +1,32 @@
 import React from "react";
 import Item from "./listitems";
 import To from "./to";
+import Header from "../../common/header/header";
 import "./search.css";
 import TableData from "../busPage/buslistTable";
 import bushistoryjson from "../../resources/busHistory.json";
 import { getBusdetails } from "../../common/service/service";
 import Swal from "sweetalert2";
 import { userContext } from "../../context/context";
+import Menu from "../../common/menu";
 
 
 
 let bushistorydata = bushistoryjson;
-
+let storedSearchdetails,from,to,dateval,year,month,date
+if(localStorage.getItem("searchdetails"))
+{
+  storedSearchdetails = JSON.parse(localStorage.getItem("searchdetails"))
+  from=storedSearchdetails.from
+  to=storedSearchdetails.to
+  dateval=storedSearchdetails.date
+  year=dateval[0]+dateval[1]+dateval[2]+dateval[3]
+  month=dateval[5]+dateval[6]
+  date=dateval[8]+dateval[9]
+  console.log(month)
+  console.log(date)
+  console.log(from,to,dateval[0]+dateval[1]+dateval[2]+dateval[3])
+}
 
 class Search extends React.Component {
   static contextType = userContext;
@@ -20,9 +35,9 @@ class Search extends React.Component {
 
       this.state = {
       visible: false,
-      value: "",
-      tovalue: "",
-      dateVal: "",
+      value:localStorage.getItem("searchdetails")?from:"",
+      tovalue:localStorage.getItem("searchdetails")?to:"",
+      dateVal:localStorage.getItem("searchdetails")?dateval:"",
       button: false,
       showsearch: true,
     };
@@ -55,15 +70,16 @@ ShowtoValue(e) {
    }
 }
   dateChange(e) {
-    {
-      this.setState({ dateVal: e.target.value });
-    }
+    
+    
+      this.setState( { dateVal:localStorage.getItem("searchdetails")? dateval:e.target.value} );
+    
   }
 
   showTable(e) {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var mm = String(today.getMonth() + 1).padStart(2, "0");
     var yyyy = today.getFullYear();
     today = yyyy + "-" + mm + "-" + dd;
 
@@ -94,6 +110,7 @@ ShowtoValue(e) {
         showsearch: false,
       });
     }
+   
   }
 
   render() {
@@ -152,6 +169,8 @@ ShowtoValue(e) {
     console.log(toval)
     return (
       <div>
+        <Header/>
+        <Menu/>
         <div class="searchContainer">
           <div class="FromCol">
             <label>
@@ -201,15 +220,18 @@ ShowtoValue(e) {
               Search
             </button>
           </div>
-          {localStorage.getItem("searchdetails") ? (showtable = true) : null}
+          {/* {localStorage.getItem("searchdetails") ? (showtable = true) : null} */}
         </div>
         
-        {this.state.button && <TableData />}
+       
         {this.state.button
           && localStorage.setItem("searchdetails", JSON.stringify(searchdet))
           }
+          {this.state.button && window.location.reload('true') }
+          {this.state.button && <TableData />}
         {this.state.button && localStorage.setItem("busdetails", JSON.stringify(busdetails))}
-        {showtable ? <TableData />   : null}
+        
+        {localStorage.getItem("searchdetails") ? <TableData />   : null}
       </div>
     );
   }

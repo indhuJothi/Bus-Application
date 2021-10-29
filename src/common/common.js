@@ -7,8 +7,8 @@ class Common extends React.Component {
   render() {
     return (
       <>
-        <Header />
-        <Menu />
+        {/* <Header /> */}
+        {/* <Menu /> */}
         <Search />
       </>
     );
